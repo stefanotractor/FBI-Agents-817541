@@ -1,6 +1,7 @@
 pandas
 numpy
 scipy
+seaborn
 scikit-learn
 matplotlib
 langchain
@@ -12,3 +13,4 @@ openai
 duckduckgo-search
 ddgs
 greenlet
+jinja2
