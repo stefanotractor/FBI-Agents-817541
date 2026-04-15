@@ -1,16 +1,7 @@
 pandas
 numpy
-scipy
-seaborn
 scikit-learn
-matplotlib
 langchain
-langchain-openai
-langchain-community
-langchain-experimental
+langchain-core
 langgraph
 openai
-duckduckgo-search
-ddgs
-greenlet
-jinja2
