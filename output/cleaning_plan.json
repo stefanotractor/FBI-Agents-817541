@@ -1,0 +1,889 @@
+{
+  "allarmi_raw": {
+    "occorrenze": {
+      "column_name": "occorrenze",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase free text",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all text to lowercase to ensure consistent formatting."
+      }
+    },
+    "areoporto_arrivo": {
+      "column_name": "areoporto_arrivo",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase 3-letter IATA code",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Convert all values to uppercase to standardize the airport code format."
+      }
+    },
+    "areoporto_partenza": {
+      "column_name": "areoporto_partenza",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase 3-letter IATA code",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Convert all values to uppercase to standardize the airport code format."
+      }
+    },
+    "anno_partenza": {
+      "column_name": "anno_partenza",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "extract_pattern",
+        "target_format": "4-digit year",
+        "params": {
+          "regex": "-?\\d+"
+        },
+        "description": "Removes non-numeric characters (e.g., 'anno 2024', '2024.') and converts to integer."
+      }
+    },
+    "mese_partenza": {
+      "column_name": "mese_partenza",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "numeric month (1-12)",
+        "params": {
+          "mapping": {
+            "GEN": 1
+          },
+          "canonical_values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        },
+        "description": "Maps non-conforming month names (e.g., 'GEN') to their numeric equivalents (e.g., '1' for January)."
+      }
+    },
+    "data_partenza": {
+      "column_name": "data_partenza",
+      "expected_dtype": "datetime64[ns]",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "parse_date",
+        "target_format": "YYYY-MM-DD HH:MM:SS",
+        "params": {
+          "input_formats": [
+            "%Y-%m-%d %H:%M:%S",
+            "%b %d %Y",
+            "%Y-%m-%dT%H:%M:%S"
+          ]
+        },
+        "description": "Parse dates in various formats (ISO, abbreviated month, ISO with 'T') into a standardized datetime format."
+      }
+    },
+    "descr_aereoporto_arr": {
+      "column_name": "descr_aereoporto_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "standardized airport code (e.g., 'FCO' for 'Fiumicino')",
+        "params": {
+          "mapping": {
+            "Fiumicino": "FCO",
+            "Ciampino": "CIA",
+            "Malpensa": "MXP",
+            "Galileo Galilei": "PSA",
+            "Venezia Marco Polo": "VCE",
+            "Orio al Serio": "BGY",
+            "Guglielmo Marconi": "BLQ",
+            "Verona Villafranca": "VRN",
+            "Napoli Capodichino": "NAP",
+            "Cristoforo Colombo": "GOA",
+            "Sandro Pertini": "PEQ",
+            "Punta Raisi": "PMO",
+            "Treviso-Sant'Angelo": "TSF"
+          },
+          "canonical_values": [
+            "FCO",
+            "CIA",
+            "MXP",
+            "PSA",
+            "VCE",
+            "BGY",
+            "BLQ",
+            "VRN",
+            "NAP",
+            "GOA",
+            "PEQ",
+            "PMO",
+            "TSF"
+          ]
+        },
+        "description": "Maps full airport names to their standard 3-letter IATA codes."
+      }
+    },
+    "descr_aereoporto_part": {
+      "column_name": "descr_aereoporto_part",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase airport code",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all airport names to lowercase to standardize the format."
+      }
+    },
+    "citta_arr": {
+      "column_name": "citta_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase city names",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all city names to lowercase to ensure consistent formatting."
+      }
+    },
+    "citta_partenza": {
+      "column_name": "citta_partenza",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase city names",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all city names to lowercase to ensure consistent formatting."
+      }
+    },
+    "codice_paese_arr": {
+      "column_name": "codice_paese_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "3-letter ISO country code (uppercase)",
+        "params": {
+          "mapping": {
+            "IT": "ITA"
+          },
+          "canonical_values": [
+            "ITA"
+          ]
+        },
+        "description": "Maps non-standard country codes (e.g., 'IT') to the canonical 3-letter ISO format (e.g., 'ITA')."
+      }
+    },
+    "codice_paese_part": {
+      "column_name": "codice_paese_part",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "3-letter ISO country code (uppercase)",
+        "params": {
+          "mapping": {
+            "GB": "GBR"
+          },
+          "canonical_values": [
+            "TUR",
+            "GBR",
+            "ITA",
+            "FRA",
+            "DEU",
+            "ESP",
+            "USA",
+            "CAN",
+            "JPN",
+            "AUS"
+          ]
+        },
+        "description": "Maps non-standard country codes (e.g., 'GB') to their canonical 3-letter ISO format (e.g., 'GBR')."
+      }
+    },
+    "paese_arr": {
+      "column_name": "paese_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "country name in Italian (e.g., 'Italia')",
+        "params": {},
+        "description": "No transformation needed as all values are already in the dominant format."
+      }
+    },
+    "paese_part": {
+      "column_name": "paese_part",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "title case country names",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all country names to title case to standardize formatting."
+      }
+    },
+    "zona": {
+      "column_name": "zona",
+      "expected_dtype": "string",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "numeric string (e.g., '5', '2')",
+        "params": {},
+        "description": "No transformation needed as all values are already in the dominant numeric string format."
+      }
+    },
+    "tot": {
+      "column_name": "tot",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "extract_pattern",
+        "target_format": "integer",
+        "params": {
+          "regex": "-?\\d+"
+        },
+        "description": "Convert numeric strings and remove non-numeric prefixes/suffixes to extract valid integers."
+      }
+    },
+    "motivo_allarme": {
+      "column_name": "motivo_allarme",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase alphabetic codes",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all values to lowercase to standardize the text format."
+      }
+    },
+    "note_operatore": {
+      "column_name": "note_operatore",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase free text",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Converts all non-null values to lowercase to ensure consistent formatting."
+      }
+    },
+    "flag_rischio": {
+      "column_name": "flag_rischio",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "binary flag in lowercase ('alto' or 'medio')",
+        "params": {
+          "mapping": {
+            "ALTO": "alto",
+            "MEDIO": "medio"
+          },
+          "canonical_values": [
+            "alto",
+            "medio"
+          ]
+        },
+        "description": "Maps non-conforming uppercase values to lowercase canonical forms for consistency."
+      }
+    },
+    "paese_partenza": {
+      "column_name": "paese_partenza",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase country names",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Converts all country names to lowercase to ensure consistent formatting."
+      }
+    },
+    "codice_paese_arr__1": {
+      "column_name": "codice_paese_arr__1",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "3-letter ISO country code (uppercase)",
+        "params": {},
+        "description": "No transformation needed as all values are already in the dominant format (ITA)."
+      }
+    },
+    "col_3zona": {
+      "column_name": "col_3zona",
+      "expected_dtype": "string",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "single-digit numeric code as string",
+        "params": {},
+        "description": "No transformation needed as all values are already in the dominant format (single-digit numeric codes)."
+      }
+    },
+    "paese_arr__1": {
+      "column_name": "paese_arr__1",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "country name in native language",
+        "params": {},
+        "description": "No transformation needed as all values are already in the dominant format 'Italia'."
+      }
+    },
+    "tot_voli": {
+      "column_name": "tot_voli",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "extract_pattern",
+        "target_format": "integer",
+        "params": {
+          "regex": "-?\\d+"
+        },
+        "description": "Converts non-conforming values (e.g., '?', '~181', '1 voli') to integers by extracting numeric parts or setting to null."
+      }
+    }
+  },
+  "tipologia_raw": {
+    "nazionalita": {
+      "column_name": "nazionalita",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "3-letter uppercase ISO country code",
+        "params": {
+          "mapping": {
+            "//": null,
+            "?": null
+          },
+          "canonical_values": [
+            "ALB",
+            "AFG",
+            "ALB",
+            "ALB"
+          ]
+        },
+        "description": "Maps non-conforming values (e.g., '//', '?') to null and ensures all valid values are 3-letter uppercase ISO country codes."
+      }
+    },
+    "areoporto_arrivo": {
+      "column_name": "areoporto_arrivo",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase 3-letter IATA code",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Convert all values to uppercase to standardize the airport code format."
+      }
+    },
+    "areoporto_partenza": {
+      "column_name": "areoporto_partenza",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase 3-letter IATA airport codes",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Convert all values to uppercase to standardize airport codes."
+      }
+    },
+    "anno_partenza": {
+      "column_name": "anno_partenza",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "4-digit year",
+        "params": {
+          "mapping": {
+            "anno 2024": 2024
+          },
+          "canonical_values": [
+            "2024"
+          ]
+        },
+        "description": "Removes the 'anno' prefix from values like 'anno 2024' to extract the 4-digit year."
+      }
+    },
+    "mese_partenza": {
+      "column_name": "mese_partenza",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "numeric month (1-12)",
+        "params": {
+          "mapping": {
+            "GEN": 1,
+            "FEB": 2
+          },
+          "canonical_values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ]
+        },
+        "description": "Maps non-conforming month names (e.g., 'GEN', 'FEB') to their numeric equivalents (1, 2)."
+      }
+    },
+    "giorno_partenza": {
+      "column_name": "giorno_partenza",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "integer between 1 and 31",
+        "params": {},
+        "description": "No transformation needed as all values are valid day numbers (1-31) in integer format."
+      }
+    },
+    "data_partenza": {
+      "column_name": "data_partenza",
+      "expected_dtype": "datetime64[ns]",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "parse_date",
+        "target_format": "YYYY-MM-DD HH:MM:SS",
+        "params": {
+          "input_formats": [
+            "%Y-%m-%d %H:%M:%S",
+            "%b %d %Y",
+            "%Y-%m-%dT%H:%M:%S"
+          ]
+        },
+        "description": "Parses dates in multiple formats (e.g., '2024-02-13 07:30:00', 'FEB 13 2024', '2024-01-05T07:50:00') into a standardized datetime format."
+      }
+    },
+    "descr_aereoporto_arr": {
+      "column_name": "descr_aereoporto_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase with spaces and hyphens",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all airport names to lowercase to standardize the format."
+      }
+    },
+    "descr_aereoporto_part": {
+      "column_name": "descr_aereoporto_part",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all airport names to lowercase to standardize the format."
+      }
+    },
+    "citta_arr": {
+      "column_name": "citta_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase city names",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all city names to lowercase to ensure consistent formatting."
+      }
+    },
+    "citta_partenza": {
+      "column_name": "citta_partenza",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase city names",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all city names to lowercase to ensure consistent formatting."
+      }
+    },
+    "codice_paese_arr": {
+      "column_name": "codice_paese_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "3-letter ISO country code (uppercase)",
+        "params": {
+          "mapping": {
+            "IT": "ITA"
+          },
+          "canonical_values": [
+            "ITA"
+          ]
+        },
+        "description": "Maps 2-letter country codes to their 3-letter ISO uppercase equivalents (e.g., 'IT' → 'ITA')."
+      }
+    },
+    "codice_paese_part": {
+      "column_name": "codice_paese_part",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase 3-letter ISO country code",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Converts all values to uppercase to standardize the country code format."
+      }
+    },
+    "paese_arr": {
+      "column_name": "paese_arr",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase country name",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Converts country names to lowercase to ensure consistent formatting."
+      }
+    },
+    "paese_part": {
+      "column_name": "paese_part",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase country names",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all country names to lowercase to ensure consistent formatting."
+      }
+    },
+    "zona": {
+      "column_name": "zona",
+      "expected_dtype": "string",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "numeric string (e.g., '6')",
+        "params": {},
+        "description": "No transformation needed as all values are already in the dominant numeric string format."
+      }
+    },
+    "entrati": {
+      "column_name": "entrati",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "extract_pattern",
+        "target_format": "integer",
+        "params": {
+          "regex": "-?\\d+"
+        },
+        "description": "Converts numeric strings with comma separators to integers and drops non-conforming values."
+      }
+    },
+    "investigati": {
+      "column_name": "investigati",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "extract_pattern",
+        "target_format": "integer",
+        "params": {
+          "regex": "-?\\d+"
+        },
+        "description": "Convert numeric strings with comma decimal separators to integers, dropping non-numeric characters."
+      }
+    },
+    "allarmati": {
+      "column_name": "allarmati",
+      "expected_dtype": "Int64",
+      "dominant_format": "digit",
+      "transformation_rule": {
+        "action": "extract_pattern",
+        "target_format": "integer",
+        "params": {
+          "regex": "-?\\d+"
+        },
+        "description": "Convert numeric strings with commas to integers and drop non-conforming values (e.g., '17 pax', '?', '0 pax')."
+      }
+    },
+    "tipo_documento": {
+      "column_name": "tipo_documento",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "standardized document type labels in Italian",
+        "params": {
+          "mapping": {
+            "Passaporto": "Passaporto",
+            "Carta d'identità": "Carta d'identità",
+            "Permesso di soggiorno": "Permesso di soggiorno",
+            "Visto": "Visto"
+          },
+          "canonical_values": [
+            "Passaporto",
+            "Carta d'identità",
+            "Permesso di soggiorno",
+            "Visto"
+          ]
+        },
+        "description": "Maps non-standard document type labels to a canonical set of Italian document types."
+      }
+    },
+    "genere": {
+      "column_name": "genere",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase single letter (M/F)",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Normalize all gender codes to uppercase single letters (M or F)."
+      }
+    },
+    "fascia_eta": {
+      "column_name": "fascia_eta",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "standardized age range format (e.g., '18-30', '31-45', '46-60', '61+')",
+        "params": {
+          "mapping": {},
+          "canonical_values": [
+            "18-30",
+            "31-45",
+            "46-60",
+            "61+"
+          ]
+        },
+        "description": "Standardizes age range values to a consistent format by mapping all variations to the canonical set."
+      }
+    },
+    "flag_transito": {
+      "column_name": "flag_transito",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "binary flag in lowercase ('yes' or 'no')",
+        "params": {
+          "mapping": {
+            "Singola Tratta": "yes",
+            "Doppia Tratta": "yes",
+            "Multipla Tratta": "yes",
+            "Transito": "yes",
+            "Altro": "no"
+          },
+          "canonical_values": [
+            "yes",
+            "no"
+          ]
+        },
+        "description": "Maps Italian transit-related terms to a binary flag ('yes' for transit-related, 'no' otherwise)."
+      }
+    },
+    "compagnia_aerea": {
+      "column_name": "compagnia_aerea",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "title case",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all values to title case to standardize the format of airline names."
+      }
+    },
+    "numero_volo": {
+      "column_name": "numero_volo",
+      "expected_dtype": "string",
+      "dominant_format": "alphanumeric",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase alphanumeric code",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Convert all values to uppercase to standardize the alphanumeric flight code format."
+      }
+    },
+    "esito_controllo": {
+      "column_name": "esito_controllo",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "uppercase categorical code",
+        "params": {
+          "mapping": {
+            "IN ATTESA": "ATTESA"
+          },
+          "canonical_values": [
+            "RESPINTO",
+            "SEGNALATO",
+            "FERMATO",
+            "ATTESA"
+          ]
+        },
+        "description": "Maps non-conforming values like 'IN ATTESA' to the canonical category 'ATTESA' and ensures all values are uppercase."
+      }
+    },
+    "note_operatore": {
+      "column_name": "note_operatore",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "lowercase free text",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all non-null values to lowercase to standardize free text entries."
+      }
+    },
+    "codice_rischio": {
+      "column_name": "codice_rischio",
+      "expected_dtype": "string",
+      "dominant_format": "alphanumeric",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase alphanumeric code",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Convert all values to uppercase to standardize the alphanumeric risk code format."
+      }
+    },
+    "tipo_documento__1": {
+      "column_name": "tipo_documento__1",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "map_to_canonical",
+        "target_format": "standardized document type names in Italian",
+        "params": {
+          "mapping": {
+            "Passaporto": "Passaporto",
+            "Carta d'identità": "Carta d'identità",
+            "Permesso di soggiorno": "Permesso di soggiorno",
+            "Visto": "Permesso di soggiorno"
+          },
+          "canonical_values": [
+            "Passaporto",
+            "Carta d'identità",
+            "Permesso di soggiorno"
+          ]
+        },
+        "description": "Maps non-conforming document types (e.g., 'Visto') to the dominant canonical format 'Permesso di soggiorno'."
+      }
+    },
+    "fascia_eta__1": {
+      "column_name": "fascia_eta__1",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "XX-XX or X+ format (e.g., '18-30', '61+')",
+        "params": {},
+        "description": "No transformation needed as all values already conform to the dominant format."
+      }
+    },
+    "col_3nazionalita": {
+      "column_name": "col_3nazionalita",
+      "expected_dtype": "string",
+      "dominant_format": "alpha",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "uppercase 3-letter ISO country code",
+        "params": {
+          "case": "upper"
+        },
+        "description": "Convert all values to uppercase to standardize the 3-letter country code format."
+      }
+    },
+    "compagnia_aerea__1": {
+      "column_name": "compagnia_aerea__1",
+      "expected_dtype": "string",
+      "dominant_format": "generic",
+      "transformation_rule": {
+        "action": "normalize_case",
+        "target_format": "title case",
+        "params": {
+          "case": "lower"
+        },
+        "description": "Convert all values to title case to standardize the format of airline names."
+      }
+    },
+    "num_volo": {
+      "column_name": "num_volo",
+      "expected_dtype": "string",
+      "dominant_format": "alphanumeric",
+      "transformation_rule": {
+        "action": "none",
+        "target_format": "alphanumeric code (e.g., FZ1681)",
+        "params": {},
+        "description": "No transformation needed as all values already conform to the alphanumeric code format."
+      }
+    }
+  }
+}
