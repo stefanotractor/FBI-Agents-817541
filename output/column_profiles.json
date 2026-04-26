@@ -45,11 +45,11 @@
           "n_unique_non_null": 30,
           "unique_ratio_non_null": 0.0059,
           "sample_values": [
-            "Voli con Allarmi",
-            "Viaggiatori con Allarmi",
-            "Viaggiatori entrati nel Sistema",
-            "Voli con Allarmi",
-            "Viaggiatori con Allarmi"
+            "voli con allarmi",
+            "viaggiatori con allarmi",
+            "viaggiatori entrati nel sistema",
+            "voli con allarmi",
+            "viaggiatori con allarmi"
           ],
           "dominant_format": {
             "label": "generic",
@@ -60,18 +60,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "free_text",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase free text",
-            "params": {
-              "case": "lower"
-            },
-            "description": "Convert all text to lowercase to ensure consistent formatting."
+            "action": "none",
+            "target_format": "string",
+            "params": {},
+            "description": "No transformation needed as all values conform to the dominant string format."
           },
-          "description": "Column contains descriptive text labels likely representing event types or categories. No numeric or categorical structure is evident, so it is treated as free text."
+          "description": "Column contains categorical labels describing occurrences, such as 'voli con allarmi' or 'viaggiatori con allarmi', with no numeric or structural anomalies."
         },
         "areoporto_arrivo": {
           "column_name": "areoporto_arrivo",
@@ -80,14 +78,14 @@
           "null_count": 0,
           "non_null_count": 5080,
           "missing_percentage": 0.0,
-          "n_unique_non_null": 77,
-          "unique_ratio_non_null": 0.0152,
+          "n_unique_non_null": 31,
+          "unique_ratio_non_null": 0.0061,
           "sample_values": [
-            "FCO",
-            "CIA",
-            "FCO",
-            "MXP",
-            "PSA"
+            "fco",
+            "cia",
+            "fco",
+            "mxp",
+            "psa"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -98,18 +96,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase 3-letter IATA code",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Convert all values to uppercase to standardize the airport code format."
+            "action": "none",
+            "target_format": "3-letter IATA airport code in lowercase",
+            "params": {},
+            "description": "No transformation needed as all values are already in the expected 3-letter lowercase IATA airport code format."
           },
-          "description": "Column contains standardized 3-letter IATA airport codes, likely representing arrival airports. The dominant format is purely alphabetic with no non-conforming samples."
+          "description": "Column contains standardized 3-letter IATA airport codes representing arrival airports, with no formatting issues or missing values."
         },
         "areoporto_partenza": {
           "column_name": "areoporto_partenza",
@@ -118,14 +114,14 @@
           "null_count": 0,
           "non_null_count": 5080,
           "missing_percentage": 0.0,
-          "n_unique_non_null": 208,
-          "unique_ratio_non_null": 0.0409,
+          "n_unique_non_null": 112,
+          "unique_ratio_non_null": 0.022,
           "sample_values": [
-            "IST",
-            "STN",
-            "LHR",
-            "LHR",
-            "BRS"
+            "ist",
+            "stn",
+            "lhr",
+            "lhr",
+            "brs"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -136,18 +132,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase 3-letter IATA code",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Convert all airport codes to uppercase to standardize the format."
+            "action": "none",
+            "target_format": "3-letter IATA airport code in lowercase",
+            "params": {},
+            "description": "No transformation needed as all values are already in the expected 3-letter lowercase IATA airport code format."
           },
-          "description": "Column contains airport codes in IATA format (3-letter uppercase codes). No cleaning needed beyond case normalization."
+          "description": "Column contains airport departure codes in IATA format (3-letter lowercase codes). All values conform to the expected format with no non-conforming samples detected."
         },
         "anno_partenza": {
           "column_name": "anno_partenza",
@@ -178,8 +172,8 @@
             ]
           },
           "numeric_summary": {
-            "min": 24,
-            "max": 2024,
+            "min": 24.0,
+            "max": 2024.0,
             "mean": 2003.2647,
             "median": 2024.0,
             "std": 202.3526
@@ -188,17 +182,14 @@
           "role_source": "llm",
           "expected_dtype": "Int64",
           "transformation_rule": {
-            "action": "extract_pattern",
+            "action": "extract",
             "target_format": "4-digit year",
             "params": {
-              "regex": "-?\\d+"
+              "regex": "\\d{4}"
             },
-            "description": "Extracts 4-digit year from strings, handling cases like 'anno 2024' or '2024.' by converting to integer."
+            "description": "Extracts the 4-digit year from values like 'anno 2024' or '2024.' by removing non-digit characters."
           },
-          "description": "Column represents a year, with dominant values being 4-digit years (e.g., 2024). A small number of entries include extra text or punctuation that must be cleaned to extract the year.",
-          "validator_fixes": [
-            "dominant is 'digit' with noisy non-conforming values → action switched from 'coerce_numeric' to 'extract_pattern'"
-          ]
+          "description": "Represents the year of departure, with values predominantly in 4-digit format (97% of data). Non-conforming samples include textual prefixes or trailing dots."
         },
         "mese_partenza": {
           "column_name": "mese_partenza",
@@ -224,7 +215,7 @@
           "non_conforming": {
             "share_pct": 1.0,
             "samples": [
-              "GEN"
+              "gen"
             ]
           },
           "numeric_summary": {
@@ -238,33 +229,30 @@
           "role_source": "llm",
           "expected_dtype": "Int64",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "numeric month (1-12)",
+            "action": "map",
+            "target_format": "two-digit month number (01-12)",
             "params": {
               "mapping": {
-                "GEN": 1
+                "gen": "01"
               },
               "canonical_values": [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
                 "10",
                 "11",
                 "12"
               ]
             },
-            "description": "Maps non-numeric month abbreviations (e.g., 'GEN') to their numeric equivalents (e.g., '1' for January)."
+            "description": "Maps the non-conforming value 'gen' to the canonical month '01' and ensures all values are two-digit month numbers."
           },
-          "description": "Represents the month number (1-12) of departure. Non-conforming values like 'GEN' are corrected to their numeric equivalents.",
-          "validator_fixes": [
-            "map_to_canonical values converted from strings to integers to match expected_dtype 'Int64'"
-          ]
+          "description": "Represents the month of departure as a two-digit numeric identifier (01-12), with 'gen' mapped to January (01)."
         },
         "data_partenza": {
           "column_name": "data_partenza",
@@ -290,33 +278,44 @@
           "non_conforming": {
             "share_pct": 4.5,
             "samples": [
-              "FEB 22 2024",
-              "2024-02-25T14:25:00",
-              "GEN 06 2024",
-              "FEB 17 2024",
-              "2024-01-01T17:55:00",
-              "FEB 18 2024",
-              "2024-01-05T12:35:00",
-              "FEB 10 2024",
-              "FEB 07 2024"
+              "feb 22 2024",
+              "2024-02-25t14:25:00",
+              "gen 06 2024",
+              "feb 17 2024",
+              "2024-01-01t17:55:00",
+              "feb 18 2024",
+              "2024-01-05t12:35:00",
+              "feb 10 2024",
+              "feb 07 2024"
             ]
           },
           "role": "datetime",
           "role_source": "llm",
           "expected_dtype": "datetime64[ns]",
           "transformation_rule": {
-            "action": "parse_date",
+            "action": "map",
             "target_format": "YYYY-MM-DD HH:MM:SS",
             "params": {
-              "input_formats": [
-                "%Y-%m-%d %H:%M:%S",
-                "%b %d %Y",
-                "%Y-%m-%dT%H:%M:%S"
+              "mapping": {
+                "feb 22 2024": "2024-02-22 00:00:00",
+                "gen 06 2024": "2024-01-06 00:00:00",
+                "feb 17 2024": "2024-02-17 00:00:00",
+                "feb 18 2024": "2024-02-18 00:00:00",
+                "feb 10 2024": "2024-02-10 00:00:00",
+                "feb 07 2024": "2024-02-07 00:00:00"
+              },
+              "canonical_values": [
+                "2024-02-22 00:00:00",
+                "2024-01-06 00:00:00",
+                "2024-02-17 00:00:00",
+                "2024-02-18 00:00:00",
+                "2024-02-10 00:00:00",
+                "2024-02-07 00:00:00"
               ]
             },
-            "description": "Parses dates in multiple formats (ISO, 'FEB 22 2024', '2024-02-25T14:25:00') into a standardized datetime format."
+            "description": "Converts non-standard month abbreviations and missing time components to the dominant datetime format."
           },
-          "description": "Column represents timestamps of departures in various date formats. The dominant format is ISO-like, but non-conforming samples include abbreviated month names and ISO with 'T' separator."
+          "description": "Represents timestamps of departures with a standard datetime format. Non-conforming values include month abbreviations in different languages and missing time components."
         },
         "descr_aereoporto_arr": {
           "column_name": "descr_aereoporto_arr",
@@ -328,11 +327,11 @@
           "n_unique_non_null": 31,
           "unique_ratio_non_null": 0.0061,
           "sample_values": [
-            "Fiumicino",
-            "Ciampino",
-            "Fiumicino",
-            "Malpensa",
-            "Galileo Galilei"
+            "fiumicino",
+            "ciampino",
+            "fiumicino",
+            "malpensa",
+            "galileo galilei"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -342,61 +341,59 @@
           "non_conforming": {
             "share_pct": 40.0,
             "samples": [
-              "Galileo Galilei",
-              "Venezia Marco Polo",
-              "Orio al Serio",
-              "Guglielmo Marconi",
-              "Verona Villafranca",
-              "Napoli Capodichino",
-              "Cristoforo Colombo",
-              "Sandro Pertini",
-              "Punta Raisi",
-              "Treviso-Sant'Angelo",
-              "Sant Egidio"
+              "galileo galilei",
+              "venezia marco polo",
+              "orio al serio",
+              "guglielmo marconi",
+              "verona villafranca",
+              "napoli capodichino",
+              "cristoforo colombo",
+              "sandro pertini",
+              "punta raisi",
+              "treviso-sant'angelo",
+              "sant egidio"
             ]
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "standardized airport code format (e.g., 'FCO' for 'Fiumicino')",
+            "action": "map",
+            "target_format": "lowercase_underscore",
             "params": {
               "mapping": {
-                "Fiumicino": "FCO",
-                "Ciampino": "CIA",
-                "Malpensa": "MXP",
-                "Galileo Galilei": "PSA",
-                "Venezia Marco Polo": "VCE",
-                "Orio al Serio": "BGY",
-                "Guglielmo Marconi": "BLQ",
-                "Verona Villafranca": "VRN",
-                "Napoli Capodichino": "NAP",
-                "Cristoforo Colombo": "PMO",
-                "Sandro Pertini": "PSR",
-                "Punta Raisi": "PMO",
-                "Treviso-Sant'Angelo": "TSF",
-                "Sant Egidio": "PEG"
+                "galileo galilei": "galileo_galilei",
+                "venezia marco polo": "venezia_marco_polo",
+                "orio al serio": "orio_al_serio",
+                "guglielmo marconi": "guglielmo_marconi",
+                "verona villafranca": "verona_villafranca",
+                "napoli capodichino": "napoli_capodichino",
+                "cristoforo colombo": "cristoforo_colombo",
+                "sandro pertini": "sandro_pertini",
+                "punta raisi": "punta_raisi",
+                "treviso-sant'angelo": "treviso_sant_angelo",
+                "sant egidio": "sant_egidio"
               },
               "canonical_values": [
-                "FCO",
-                "CIA",
-                "MXP",
-                "PSA",
-                "VCE",
-                "BGY",
-                "BLQ",
-                "VRN",
-                "NAP",
-                "PMO",
-                "PSR",
-                "TSF",
-                "PEG"
+                "fiumicino",
+                "ciampino",
+                "malpensa",
+                "galileo_galilei",
+                "venezia_marco_polo",
+                "orio_al_serio",
+                "guglielmo_marconi",
+                "verona_villafranca",
+                "napoli_capodichino",
+                "cristoforo_colombo",
+                "sandro_pertini",
+                "punta_raisi",
+                "treviso_sant_angelo",
+                "sant_egidio"
               ]
             },
-            "description": "Maps full airport names to their standard 3-letter IATA codes to ensure consistency and enable categorical analysis."
+            "description": "Converts multi-word airport names to a consistent lowercase_underscore format by replacing spaces and hyphens."
           },
-          "description": "Column contains airport names in free text format. The dominant format is alphabetic airport names, but non-conforming values include full names and variations. Standardizing to IATA codes improves data quality for analysis."
+          "description": "Column contains airport names in Italian, with some entries formatted as multi-word strings. The role is 'category' as it represents a fixed set of airport identifiers."
         },
         "descr_aereoporto_part": {
           "column_name": "descr_aereoporto_part",
@@ -405,14 +402,14 @@
           "null_count": 248,
           "non_null_count": 4832,
           "missing_percentage": 4.88,
-          "n_unique_non_null": 127,
-          "unique_ratio_non_null": 0.0263,
+          "n_unique_non_null": 112,
+          "unique_ratio_non_null": 0.0232,
           "sample_values": [
-            "Havalimani",
-            "Stansted",
-            "London Heathrow",
-            "London Heathrow",
-            "Bristol"
+            "havalimani",
+            "stansted",
+            "london heathrow",
+            "london heathrow",
+            "bristol"
           ],
           "dominant_format": {
             "label": "generic",
@@ -422,36 +419,33 @@
           "non_conforming": {
             "share_pct": 33.51,
             "samples": [
-              "Havalimani",
-              "Stansted",
-              "Bristol",
-              "Petrovec",
-              "Changi",
-              "Carthage",
-              "Carthage ",
-              "Manchester",
-              "Seeb",
-              "Menara",
-              "Saiss",
-              "Hangzhou",
-              "Wenzhou",
-              "Zhengzhou",
-              "Edinburgh",
-              "Shenzhen"
+              "havalimani",
+              "stansted",
+              "bristol",
+              "petrovec",
+              "changi",
+              "carthage",
+              "manchester",
+              "seeb",
+              "menara",
+              "saiss",
+              "hangzhou",
+              "wenzhou",
+              "zhengzhou",
+              "edinburgh",
+              "shenzhen"
             ]
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase alphanumeric with spaces",
-            "params": {
-              "case": "lower"
-            },
-            "description": "Converts all airport names to lowercase to ensure consistent formatting."
+            "action": "none",
+            "target_format": "generic",
+            "params": {},
+            "description": "No transformation needed as all values are valid airport names in a consistent format."
           },
-          "description": "Column contains airport names in various formats, including some with trailing spaces. The dominant format is generic airport names, and normalization to lowercase improves consistency for analysis."
+          "description": "This column contains airport names in various languages, representing categorical data for airport locations. The dominant format is generic airport names, and all non-conforming samples are valid airport names."
         },
         "citta_arr": {
           "column_name": "citta_arr",
@@ -463,11 +457,11 @@
           "n_unique_non_null": 29,
           "unique_ratio_non_null": 0.0057,
           "sample_values": [
-            "Roma",
-            "Roma",
-            "Roma",
-            "Milano",
-            "Pisa"
+            "roma",
+            "roma",
+            "roma",
+            "milano",
+            "pisa"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -478,18 +472,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "city_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase city names",
-            "params": {
-              "case": "lower"
-            },
-            "description": "Converts all city names to lowercase to ensure consistent formatting."
+            "action": "none",
+            "target_format": "lowercase alphabetic city names",
+            "params": {},
+            "description": "No transformation needed as all values are already in the dominant lowercase alphabetic format."
           },
-          "description": "Column contains city names with consistent alphabetic format. Normalizing case improves comparability and reduces variability."
+          "description": "This column contains city names in lowercase alphabetic format, representing categorical data with 29 unique values."
         },
         "citta_partenza": {
           "column_name": "citta_partenza",
@@ -501,11 +493,11 @@
           "n_unique_non_null": 105,
           "unique_ratio_non_null": 0.0216,
           "sample_values": [
-            "Istanbul",
-            "Londra",
-            "Londra",
-            "Londra",
-            "Bristol"
+            "istanbul",
+            "londra",
+            "londra",
+            "londra",
+            "bristol"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -515,29 +507,47 @@
           "non_conforming": {
             "share_pct": 11.28,
             "samples": [
-              "Sharm El Sheikh",
-              "Hong Kong",
-              "Tel Aviv Yafo",
-              "Abu Dhabi",
-              "San Paolo",
+              "sharm el sheikh",
+              "hong kong",
+              "tel aviv yafo",
+              "abu dhabi",
+              "san paolo",
               "?",
-              "Addis Ababa",
-              "Buenos Aires",
-              "La Romana"
+              "addis ababa",
+              "buenos aires",
+              "la romana"
             ]
           },
-          "role": "city_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase city names",
+            "action": "map",
+            "target_format": "lowercase alphabetic city names without special characters",
             "params": {
-              "case": "lower"
+              "mapping": {
+                "sharm el sheikh": "sharm el-sheikh",
+                "tel aviv yafo": "tel aviv",
+                "san paolo": "são paulo",
+                "la romana": "la romana"
+              },
+              "canonical_values": [
+                "istanbul",
+                "londra",
+                "bristol",
+                "sharm el-sheikh",
+                "hong kong",
+                "tel aviv",
+                "abu dhabi",
+                "são paulo",
+                "addis ababa",
+                "buenos aires",
+                "la romana"
+              ]
             },
-            "description": "Convert all city names to lowercase to ensure consistent formatting."
+            "description": "Maps non-conforming city names to their canonical lowercase alphabetic format, handling common variations and special characters."
           },
-          "description": "Column contains city names with some variations in case and minor formatting issues (e.g., spaces, special characters). The dominant format is alphabetic with 88.72% consistency."
+          "description": "This column represents the departure city for trips, containing categorical values of city names in alphabetic format. Non-conforming values include multi-word names, special characters, or abbreviations that need standardization."
         },
         "codice_paese_arr": {
           "column_name": "codice_paese_arr",
@@ -549,11 +559,11 @@
           "n_unique_non_null": 8,
           "unique_ratio_non_null": 0.0016,
           "sample_values": [
-            "ITA",
-            "ITA",
-            "ITA",
-            "IT",
-            "ITA"
+            "ita",
+            "ita",
+            "ita",
+            "it",
+            "ita"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -564,30 +574,30 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "3-letter ISO country code in uppercase",
+            "action": "map",
+            "target_format": "3-letter lowercase ISO 3166-1 alpha-3 country code",
             "params": {
               "mapping": {
-                "IT": "ITA"
+                "it": "ita"
               },
               "canonical_values": [
-                "ITA",
-                "ESP",
-                "FRA",
-                "DEU",
-                "GBR",
-                "USA",
-                "CAN",
-                "MEX"
+                "ita",
+                "fra",
+                "deu",
+                "esp",
+                "gbr",
+                "usa",
+                "chn",
+                "jpn"
               ]
             },
-            "description": "Standardizes 2-letter country codes to their 3-letter ISO uppercase equivalents."
+            "description": "Maps the non-standard 2-letter code 'it' to the canonical 3-letter code 'ita' while preserving all other values."
           },
-          "description": "Column contains country codes, predominantly in 3-letter ISO format (e.g., 'ITA'), with occasional 2-letter variants (e.g., 'IT')."
+          "description": "Column contains standardized 3-letter country codes (ISO 3166-1 alpha-3) with a minor deviation of 2-letter codes that need correction to the dominant format."
         },
         "codice_paese_part": {
           "column_name": "codice_paese_part",
@@ -599,11 +609,11 @@
           "n_unique_non_null": 62,
           "unique_ratio_non_null": 0.0125,
           "sample_values": [
-            "TUR",
-            "GBR",
-            "GBR",
-            "GB",
-            "GBR"
+            "tur",
+            "gbr",
+            "gbr",
+            "gb",
+            "gbr"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -614,32 +624,24 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "3-letter ISO country code (uppercase)",
+            "action": "map",
+            "target_format": "3-letter lowercase ISO 3166-1 alpha-3 country code",
             "params": {
               "mapping": {
-                "GB": "GBR"
+                "gb": "gbr"
               },
               "canonical_values": [
-                "TUR",
-                "GBR",
-                "ITA",
-                "FRA",
-                "DEU",
-                "ESP",
-                "USA",
-                "CAN",
-                "AUS",
-                "JPN"
+                "gbr",
+                "tur"
               ]
             },
-            "description": "Maps 2-letter country codes (e.g., 'GB') to their 3-letter ISO equivalents (e.g., 'GBR') to standardize the format."
+            "description": "Maps non-standard 2-letter country codes (e.g., 'gb') to their 3-letter ISO 3166-1 alpha-3 equivalents."
           },
-          "description": "Column contains country codes, primarily in 3-letter ISO format (e.g., 'TUR', 'GBR'). Some values are 2-letter codes (e.g., 'GB') that need conversion to the canonical 3-letter format."
+          "description": "Column contains standardized country codes, primarily in 3-letter ISO 3166-1 alpha-3 format, with occasional 2-letter variants requiring normalization."
         },
         "paese_arr": {
           "column_name": "paese_arr",
@@ -651,11 +653,11 @@
           "n_unique_non_null": 1,
           "unique_ratio_non_null": 0.0002,
           "sample_values": [
-            "Italia",
-            "Italia",
-            "Italia",
-            "Italia",
-            "Italia"
+            "italia",
+            "italia",
+            "italia",
+            "italia",
+            "italia"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -666,16 +668,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "country name in native language",
+            "target_format": "lowercase alphabetic country names",
             "params": {},
-            "description": "No transformation needed as all values are already in the dominant format ('Italia')."
+            "description": "No transformation needed as all values are already in the dominant format (lowercase alphabetic country names)."
           },
-          "description": "Column contains a single country name ('Italia') repeated for all rows, representing the country of arrival."
+          "description": "This column represents a categorical variable containing the country name 'italia' repeated for all records, indicating it is likely a static or reference field."
         },
         "paese_part": {
           "column_name": "paese_part",
@@ -687,11 +689,11 @@
           "n_unique_non_null": 52,
           "unique_ratio_non_null": 0.0106,
           "sample_values": [
-            "Turchia",
-            "Regno Unito",
-            "Regno Unito",
-            "Regno Unito",
-            "Regno Unito"
+            "turchia",
+            "regno unito",
+            "regno unito",
+            "regno unito",
+            "regno unito"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -701,25 +703,25 @@
           "non_conforming": {
             "share_pct": 36.27,
             "samples": [
-              "Regno Unito",
-              "Arabia Saudita",
-              "Hong Kong",
-              "Emirati Arabi Uniti",
-              "Corea del Sud",
-              "Stati Uniti",
-              "Repubblica Dominicana"
+              "regno unito",
+              "arabia saudita",
+              "hong kong",
+              "emirati arabi uniti",
+              "corea del sud",
+              "stati uniti",
+              "repubblica dominicana"
             ]
           },
-          "role": "country_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "country names in Italian",
+            "target_format": "lowercase alphabetic country names",
             "params": {},
-            "description": "No transformation needed as all values are already in the expected format for country names."
+            "description": "No transformation needed as all values are already in the expected lowercase alphabetic format."
           },
-          "description": "Column contains country names in Italian, with a high uniqueness ratio indicating diverse country representations. Nulls are minimal and can be preserved."
+          "description": "Column represents country names in Italian, with 52 unique values. The dominant format is lowercase alphabetic strings, and non-conforming samples are also valid country names in the same format."
         },
         "zona": {
           "column_name": "zona",
@@ -753,16 +755,16 @@
             "median": 4.0,
             "std": 2.5431
           },
-          "role": "unknown",
-          "role_source": "fallback",
+          "role": "category",
+          "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "digit",
+            "target_format": "digit (1-99)",
             "params": {},
-            "description": "Fallback: no transformation applied (LLM enrichment failed)."
+            "description": "No non-conforming values detected; all values are single digits representing categories."
           },
-          "description": "LLM enrichment failed: Unterminated string starting at: line 1 column 1038 (char 1037)"
+          "description": "Column represents categorical zones encoded as single-digit numbers (1-99). Values are already in the expected digit format with no missing or invalid entries."
         },
         "tot": {
           "column_name": "tot",
@@ -796,27 +798,36 @@
             ]
           },
           "numeric_summary": {
-            "min": -500,
-            "max": 99999,
-            "mean": 85.106,
+            "min": -500.0,
+            "max": 99999.0,
+            "mean": 85.1042,
             "median": 2.0,
-            "std": 2025.657
+            "std": 2025.6571
           },
-          "role": "count",
+          "role": "measure",
           "role_source": "llm",
-          "expected_dtype": "Int64",
+          "expected_dtype": "Float64",
           "transformation_rule": {
-            "action": "extract_pattern",
+            "action": "map",
             "target_format": "positive integer",
             "params": {
-              "regex": "-?\\d+"
+              "mapping": {
+                "-500": "500",
+                "?": null,
+                "~181": "181",
+                "1 voli": "1",
+                "~1": "1"
+              },
+              "canonical_values": [
+                "1",
+                "2",
+                "5",
+                "110"
+              ]
             },
-            "description": "Convert all values to positive integers, treating non-numeric or negative values as missing."
+            "description": "Maps non-conforming values to their canonical positive integer form or sets invalid entries to null."
           },
-          "description": "Column represents a count of items or occurrences, with most values being small positive integers but some containing non-conforming characters or negative signs.",
-          "validator_fixes": [
-            "dominant is 'digit' with noisy non-conforming values → action switched from 'coerce_numeric' to 'extract_pattern'"
-          ]
+          "description": "Numeric measure representing a count or quantity, with most values being positive integers. Non-conforming entries include negative values, symbols, and text fragments."
         },
         "motivo_allarme": {
           "column_name": "motivo_allarme",
@@ -828,11 +839,11 @@
           "n_unique_non_null": 5,
           "unique_ratio_non_null": 0.0013,
           "sample_values": [
-            "Manuale",
-            "Manuale",
-            "TSC",
-            "SDI",
-            "INTERPOL"
+            "manuale",
+            "manuale",
+            "tsc",
+            "sdi",
+            "interpol"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -843,16 +854,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "uppercase alphabetic code",
+            "target_format": "lowercase alphabetic string",
             "params": {},
-            "description": "No transformation needed as all values are already in the dominant alphabetic format."
+            "description": "No transformation needed as all non-null values are already in lowercase alphabetic format."
           },
-          "description": "Column represents categorical codes for alarm reasons, with a small set of unique values (5) and no formatting issues."
+          "description": "Column represents categorical labels for alarm reasons, with 5 unique values and no formatting issues. Nulls represent missing data."
         },
         "note_operatore": {
           "column_name": "note_operatore",
@@ -864,11 +875,11 @@
           "n_unique_non_null": 4,
           "unique_ratio_non_null": 0.0519,
           "sample_values": [
-            "Doppio controllo",
-            "Alert manuale",
-            "Passeggero noto",
-            "Alert manuale",
-            "Passeggero noto"
+            "doppio controllo",
+            "alert manuale",
+            "passeggero noto",
+            "alert manuale",
+            "passeggero noto"
           ],
           "dominant_format": {
             "label": "generic",
@@ -886,9 +897,9 @@
             "action": "none",
             "target_format": "free text",
             "params": {},
-            "description": "No transformation needed as the column contains free text notes with no dominant format issues."
+            "description": "No transformation needed as all non-null values are already in a consistent free-text format."
           },
-          "description": "The column contains free-text operator notes with no consistent pattern, likely describing manual alerts or passenger statuses. The high null count suggests these are optional annotations."
+          "description": "This column contains free-text notes from operators, likely describing manual checks or passenger observations. The high null percentage (98.48%) suggests it is sparsely populated."
         },
         "flag_rischio": {
           "column_name": "flag_rischio",
@@ -900,11 +911,11 @@
           "n_unique_non_null": 2,
           "unique_ratio_non_null": 0.0392,
           "sample_values": [
-            "ALTO",
-            "MEDIO",
-            "ALTO",
-            "MEDIO",
-            "ALTO"
+            "alto",
+            "medio",
+            "alto",
+            "medio",
+            "alto"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -915,25 +926,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "flag_binary",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "binary flag in lowercase ('alto' or 'medio')",
-            "params": {
-              "mapping": {
-                "ALTO": "alto",
-                "MEDIO": "medio"
-              },
-              "canonical_values": [
-                "alto",
-                "medio"
-              ]
-            },
-            "description": "Normalizes case-insensitive binary flag values to lowercase canonical forms ('alto' or 'medio')."
+            "action": "none",
+            "target_format": "lowercase string in ['alto', 'medio']",
+            "params": {},
+            "description": "No transformation needed as all non-null values are already in the expected format."
           },
-          "description": "Binary risk flag column with two possible values ('alto' or 'medio'), predominantly missing (99%). The non-null values are case-insensitive and should be standardized to lowercase."
+          "description": "A categorical column indicating risk levels with two possible values: 'alto' (high) and 'medio' (medium). The vast majority of values are missing (99%), but the non-null values are consistently formatted."
         },
         "paese_partenza": {
           "column_name": "paese_partenza",
@@ -945,11 +947,11 @@
           "n_unique_non_null": 50,
           "unique_ratio_non_null": 0.0098,
           "sample_values": [
-            "Turchia",
-            "Regno Unito",
-            "Regno Unito",
-            "Regno Unito",
-            "Regno Unito"
+            "turchia",
+            "regno unito",
+            "regno unito",
+            "regno unito",
+            "regno unito"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -959,27 +961,25 @@
           "non_conforming": {
             "share_pct": 35.0,
             "samples": [
-              "Regno Unito",
-              "Arabia Saudita",
-              "Hong Kong",
-              "Emirati Arabi Uniti",
-              "Corea del Sud",
-              "Stati Uniti",
-              "Repubblica Dominicana"
+              "regno unito",
+              "arabia saudita",
+              "hong kong",
+              "emirati arabi uniti",
+              "corea del sud",
+              "stati uniti",
+              "repubblica dominicana"
             ]
           },
-          "role": "country_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase country names",
-            "params": {
-              "case": "lower"
-            },
-            "description": "Converts all country names to lowercase to ensure consistent formatting."
+            "action": "none",
+            "target_format": "lowercase alphabetic country names",
+            "params": {},
+            "description": "No transformation needed as all values are already in lowercase alphabetic format."
           },
-          "description": "Column contains country names in Italian, with some variations in case and formatting. The dominant format is alphabetic country names."
+          "description": "This column represents the country of departure, containing standardized lowercase country names with no missing values."
         },
         "codice_paese_arr__1": {
           "column_name": "codice_paese_arr__1",
@@ -991,11 +991,11 @@
           "n_unique_non_null": 1,
           "unique_ratio_non_null": 0.0002,
           "sample_values": [
-            "ITA",
-            "ITA",
-            "ITA",
-            "ITA",
-            "ITA"
+            "ita",
+            "ita",
+            "ita",
+            "ita",
+            "ita"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1006,16 +1006,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "3-letter ISO country code in uppercase",
+            "target_format": "3-letter lowercase ISO country code (e.g., 'ita')",
             "params": {},
-            "description": "No transformation needed as all values are already in the expected format (3-letter uppercase ISO country codes)."
+            "description": "No transformation needed as all values are already in the expected format."
           },
-          "description": "Column contains 3-letter ISO country codes (e.g., 'ITA') representing the country of arrival. All values are consistent and conform to the expected format."
+          "description": "Column contains a single 3-letter lowercase ISO country code ('ita') representing Italy, used as a categorical identifier for the country of arrival."
         },
         "col_3zona": {
           "column_name": "col_3zona",
@@ -1049,16 +1049,16 @@
             "median": 4.0,
             "std": 2.1621
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "single-digit numeric code as string",
+            "target_format": "single-digit integer (1-9)",
             "params": {},
-            "description": "No transformation needed as all values are already in the dominant digit format."
+            "description": "No transformation needed as all values are already in the expected single-digit integer format."
           },
-          "description": "Column contains single-digit numeric codes (1-9) representing categorical zones, likely as identifiers for geographic or administrative divisions."
+          "description": "Column represents categorical zones encoded as single-digit integers (1-9). Values are consistently formatted and within the expected range."
         },
         "paese_arr__1": {
           "column_name": "paese_arr__1",
@@ -1070,11 +1070,11 @@
           "n_unique_non_null": 1,
           "unique_ratio_non_null": 0.0002,
           "sample_values": [
-            "Italia",
-            "Italia",
-            "Italia",
-            "Italia",
-            "Italia"
+            "italia",
+            "italia",
+            "italia",
+            "italia",
+            "italia"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1085,16 +1085,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "country name in native language",
+            "target_format": "lowercase alpha string",
             "params": {},
-            "description": "No transformation needed as all values are already in the expected format."
+            "description": "No transformation needed as all values are already in the dominant lowercase alpha format."
           },
-          "description": "This column consistently contains the country name 'Italia' in Italian, representing the country Italy. It is a categorical identifier for the country."
+          "description": "This column represents a categorical variable with a single unique value ('italia') across all records, indicating it likely denotes a fixed attribute such as a country or region."
         },
         "tot_voli": {
           "column_name": "tot_voli",
@@ -1133,21 +1133,30 @@
             "median": 2.0,
             "std": 75.3112
           },
-          "role": "count",
+          "role": "measure",
           "role_source": "llm",
-          "expected_dtype": "Int64",
+          "expected_dtype": "Float64",
           "transformation_rule": {
-            "action": "extract_pattern",
+            "action": "map",
             "target_format": "integer",
             "params": {
-              "regex": "-?\\d+"
+              "mapping": {
+                "?": null,
+                "~181": "181",
+                "1 voli": "1",
+                "~1": "1"
+              },
+              "canonical_values": [
+                "0",
+                "1",
+                "2",
+                "5",
+                "110"
+              ]
             },
-            "description": "Convert all values to integers, handling non-numeric characters and decimal separators."
+            "description": "Maps non-conforming string values (e.g., '?', '~181', '1 voli') to their canonical integer equivalents or null."
           },
-          "description": "Column represents a count of flights (voli), with most values being small integers. Non-conforming samples include symbols and text that need cleaning to extract numeric values.",
-          "validator_fixes": [
-            "dominant is 'digit' with noisy non-conforming values → action switched from 'coerce_numeric' to 'extract_pattern'"
-          ]
+          "description": "Numeric measure representing the total volume, typically an integer between 0 and 544. Non-conforming values include symbols or text prefixes that should be standardized to integers."
         }
       }
     },
@@ -1205,11 +1214,11 @@
           "n_unique_non_null": 14,
           "unique_ratio_non_null": 0.0029,
           "sample_values": [
-            "ALB",
-            "ALB",
-            "AFG",
-            "ALB",
-            "ALB"
+            "alb",
+            "alb",
+            "afg",
+            "alb",
+            "alb"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1223,28 +1232,222 @@
               "?"
             ]
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "3-letter uppercase country code",
+            "action": "map",
+            "target_format": "3-letter lowercase ISO 3166-1 alpha-3 country code",
             "params": {
               "mapping": {
                 "//": null,
                 "?": null
               },
               "canonical_values": [
-                "ALB",
-                "AFG",
-                "ALB",
-                "ALB",
-                "ALB"
+                "alb",
+                "afg",
+                "and",
+                "ago",
+                "arg",
+                "arm",
+                "aus",
+                "aut",
+                "aze",
+                "bdi",
+                "bel",
+                "ben",
+                "bfa",
+                "bgd",
+                "bgr",
+                "bhr",
+                "bhs",
+                "blr",
+                "blz",
+                "bmu",
+                "bol",
+                "bra",
+                "brb",
+                "brn",
+                "btn",
+                "bwa",
+                "caf",
+                "can",
+                "che",
+                "chl",
+                "chn",
+                "civ",
+                "cmr",
+                "cod",
+                "cog",
+                "col",
+                "com",
+                "cpv",
+                "cri",
+                "cub",
+                "cyp",
+                "cze",
+                "deu",
+                "dji",
+                "dma",
+                "dnk",
+                "dom",
+                "dza",
+                "ecu",
+                "egy",
+                "eri",
+                "esp",
+                "est",
+                "eth",
+                "fin",
+                "fji",
+                "flk",
+                "fra",
+                "gab",
+                "gbr",
+                "geo",
+                "gha",
+                "gin",
+                "glp",
+                "gmb",
+                "gnb",
+                "gnq",
+                "grc",
+                "grd",
+                "gtm",
+                "guy",
+                "hkg",
+                "hnd",
+                "hrv",
+                "hti",
+                "hun",
+                "idn",
+                "ind",
+                "irl",
+                "irn",
+                "irq",
+                "isl",
+                "isr",
+                "ita",
+                "jam",
+                "jor",
+                "jpn",
+                "kaz",
+                "ken",
+                "kgz",
+                "khm",
+                "kir",
+                "kna",
+                "kor",
+                "kwt",
+                "lao",
+                "lbn",
+                "lbr",
+                "lby",
+                "lca",
+                "lie",
+                "lka",
+                "lso",
+                "ltu",
+                "lux",
+                "lva",
+                "mar",
+                "mda",
+                "mdg",
+                "mdv",
+                "mex",
+                "mhl",
+                "mkd",
+                "mli",
+                "mmr",
+                "mne",
+                "mng",
+                "moz",
+                "mrt",
+                "msr",
+                "mtq",
+                "mus",
+                "mwi",
+                "mys",
+                "nam",
+                "ncl",
+                "ner",
+                "nga",
+                "nic",
+                "nld",
+                "nor",
+                "npl",
+                "nru",
+                "nzl",
+                "omn",
+                "pak",
+                "pan",
+                "per",
+                "phl",
+                "plw",
+                "png",
+                "pol",
+                "pri",
+                "prk",
+                "prt",
+                "pry",
+                "pse",
+                "pyf",
+                "qat",
+                "rou",
+                "rus",
+                "rwa",
+                "sau",
+                "sdn",
+                "sen",
+                "sgp",
+                "slb",
+                "sle",
+                "slv",
+                "som",
+                "spm",
+                "srb",
+                "stp",
+                "sur",
+                "svk",
+                "svn",
+                "swe",
+                "swz",
+                "syc",
+                "syr",
+                "tca",
+                "tcd",
+                "tgo",
+                "tha",
+                "tjk",
+                "tkl",
+                "tkm",
+                "tls",
+                "ton",
+                "tto",
+                "tun",
+                "tur",
+                "tuv",
+                "twn",
+                "tza",
+                "uga",
+                "ukr",
+                "ury",
+                "usa",
+                "uzb",
+                "ven",
+                "vnm",
+                "vut",
+                "wlf",
+                "wsm",
+                "yem",
+                "zaf",
+                "zmb",
+                "zwe"
               ]
             },
-            "description": "Maps non-conforming symbols to null and ensures all values are valid 3-letter country codes in uppercase."
+            "description": "Maps non-conforming symbols to null to standardize country codes to 3-letter lowercase ISO 3166-1 alpha-3 format."
           },
-          "description": "Column contains 3-letter country codes (e.g., 'ALB', 'AFG') with rare non-conforming symbols that should be treated as missing data."
+          "description": "Column represents nationality using 3-letter lowercase ISO 3166-1 alpha-3 country codes, with a small fraction of non-conforming symbols that are mapped to null."
         },
         "areoporto_arrivo": {
           "column_name": "areoporto_arrivo",
@@ -1253,14 +1456,14 @@
           "null_count": 0,
           "non_null_count": 5095,
           "missing_percentage": 0.0,
-          "n_unique_non_null": 79,
-          "unique_ratio_non_null": 0.0155,
+          "n_unique_non_null": 29,
+          "unique_ratio_non_null": 0.0057,
           "sample_values": [
-            "NAP",
-            "FCO",
-            "TSF",
-            "FCO",
-            "BGY"
+            "nap",
+            "fco",
+            "tsf",
+            "fco",
+            "bgy"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1271,18 +1474,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase 3-letter IATA code",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Convert all values to uppercase to standardize the airport code format."
+            "action": "none",
+            "target_format": "3-letter uppercase airport code",
+            "params": {},
+            "description": "No transformation needed as all values are already in the expected 3-letter uppercase airport code format."
           },
-          "description": "Column contains standardized 3-letter IATA airport codes, likely representing arrival airports. The name 'areoporto_arrivo' suggests Italian origin ('aeroporto' = airport, 'arrivo' = arrival)."
+          "description": "Column contains standardized 3-letter IATA airport codes for arrival locations, representing categorical data with 29 unique values."
         },
         "areoporto_partenza": {
           "column_name": "areoporto_partenza",
@@ -1291,14 +1492,14 @@
           "null_count": 0,
           "non_null_count": 5095,
           "missing_percentage": 0.0,
-          "n_unique_non_null": 242,
-          "unique_ratio_non_null": 0.0475,
+          "n_unique_non_null": 177,
+          "unique_ratio_non_null": 0.0347,
           "sample_values": [
-            "DUR",
-            "JFK",
-            "TIA",
-            "IST",
-            "MLE"
+            "dur",
+            "jfk",
+            "tia",
+            "ist",
+            "mle"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1309,18 +1510,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase 3-letter IATA airport codes",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Converts all airport codes to uppercase to ensure consistency with standard IATA airport code format."
+            "action": "none",
+            "target_format": "3-letter IATA airport codes in lowercase",
+            "params": {},
+            "description": "No transformation needed as all values are already in the expected 3-letter lowercase IATA airport code format."
           },
-          "description": "Column contains airport codes, likely in IATA format (3 uppercase letters). The name 'areoporto_partenza' suggests departure airport codes in Italian."
+          "description": "Column contains airport codes in IATA format (3-letter lowercase codes) representing departure airports. Values are consistent and require no cleaning."
         },
         "anno_partenza": {
           "column_name": "anno_partenza",
@@ -1360,14 +1559,14 @@
           "role_source": "llm",
           "expected_dtype": "Int64",
           "transformation_rule": {
-            "action": "extract_pattern",
+            "action": "extract",
             "target_format": "4-digit year",
             "params": {
               "regex": "\\d{4}"
             },
-            "description": "Extracts the 4-digit year from strings like 'anno 2024' to ensure consistent 4-digit format."
+            "description": "Extracts the 4-digit year from strings like 'anno 2024' using regex."
           },
-          "description": "Represents the year of departure, with values ranging from 24 to 2024. Most values are 4-digit years, but some contain additional text that needs extraction."
+          "description": "Represents the year of departure, with values ranging from 24 to 2024. Non-conforming values like 'anno 2024' are corrected by extracting the 4-digit year."
         },
         "mese_partenza": {
           "column_name": "mese_partenza",
@@ -1393,8 +1592,8 @@
           "non_conforming": {
             "share_pct": 4.5,
             "samples": [
-              "GEN",
-              "FEB"
+              "gen",
+              "feb"
             ]
           },
           "numeric_summary": {
@@ -1408,12 +1607,12 @@
           "role_source": "llm",
           "expected_dtype": "Int64",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "2-digit month number (01-12)",
+            "action": "map",
+            "target_format": "two-digit month number (01-12)",
             "params": {
               "mapping": {
-                "GEN": 1,
-                "FEB": 2
+                "gen": "01",
+                "feb": "02"
               },
               "canonical_values": [
                 "01",
@@ -1430,12 +1629,9 @@
                 "12"
               ]
             },
-            "description": "Maps non-conforming month names (e.g., 'GEN', 'FEB') to their canonical 2-digit numeric format."
+            "description": "Maps non-conforming month names (e.g., 'gen', 'feb') to their numeric equivalents (e.g., '01', '02')."
           },
-          "description": "Represents the month number (01-12) of departure, with non-conforming month names (e.g., 'GEN', 'FEB') converted to numeric format.",
-          "validator_fixes": [
-            "map_to_canonical values converted from strings to integers to match expected_dtype 'Int64'"
-          ]
+          "description": "Represents the month number (01-12) of departure. Values are mostly numeric two-digit strings with a small fraction of month abbreviations requiring mapping."
         },
         "giorno_partenza": {
           "column_name": "giorno_partenza",
@@ -1478,7 +1674,7 @@
             "params": {},
             "description": "No transformation needed as all values are valid day numbers (1-31) with no non-conforming samples."
           },
-          "description": "Column represents the day of the month (1-31) extracted from a date field, with no missing or invalid values."
+          "description": "Represents the day of the month for a departure date, ranging from 1 to 31. All values are valid integers within the expected range."
         },
         "data_partenza": {
           "column_name": "data_partenza",
@@ -1494,7 +1690,7 @@
             "2024-01-22 16:35:00",
             "2024-02-04 20:10:00",
             "2024-01-25 13:05:00",
-            "FEB 13 2024"
+            "feb 13 2024"
           ],
           "dominant_format": {
             "label": "generic",
@@ -1504,29 +1700,25 @@
           "non_conforming": {
             "share_pct": 2.5,
             "samples": [
-              "FEB 13 2024",
-              "2024-01-05T07:50:00",
-              "FEB 21 2024",
-              "2024-01-27T19:25:00",
-              "2024-02-11T19:45:00"
+              "feb 13 2024",
+              "2024-01-05t07:50:00",
+              "feb 21 2024",
+              "2024-01-27t19:25:00",
+              "2024-02-11t19:45:00"
             ]
           },
           "role": "datetime",
           "role_source": "llm",
           "expected_dtype": "datetime64[ns]",
           "transformation_rule": {
-            "action": "parse_date",
-            "target_format": "YYYY-MM-DD HH:MM:SS",
+            "action": "extract",
+            "target_format": "ISO 8601 datetime string (YYYY-MM-DD HH:MM:SS)",
             "params": {
-              "input_formats": [
-                "%Y-%m-%d %H:%M:%S",
-                "%b %d %Y",
-                "%Y-%m-%dT%H:%M:%S"
-              ]
+              "regex": "\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2}"
             },
-            "description": "Parses dates in multiple formats (e.g., '2024-02-13 07:30:00', 'FEB 13 2024') into a standardized datetime format."
+            "description": "Converts non-conforming datetime strings (e.g., 'feb 13 2024' or '2024-01-05t07:50:00') into the dominant ISO 8601 format by extracting the numeric date and time components."
           },
-          "description": "Column contains datetime values in various formats, with the dominant format being 'YYYY-MM-DD HH:MM:SS'. Non-conforming samples include alternative formats like 'FEB 13 2024' and ISO-like timestamps."
+          "description": "This column represents timestamps of events or records, with the dominant format being ISO 8601 datetime strings. Non-conforming values include alternative date formats or missing separators."
         },
         "descr_aereoporto_arr": {
           "column_name": "descr_aereoporto_arr",
@@ -1538,11 +1730,11 @@
           "n_unique_non_null": 29,
           "unique_ratio_non_null": 0.0057,
           "sample_values": [
-            "Napoli Capodichino",
-            "Fiumicino",
-            "Treviso-Sant'Angelo",
-            "Fiumicino",
-            "Orio al Serio"
+            "napoli capodichino",
+            "fiumicino",
+            "treviso-sant'angelo",
+            "fiumicino",
+            "orio al serio"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1552,33 +1744,31 @@
           "non_conforming": {
             "share_pct": 47.5,
             "samples": [
-              "Napoli Capodichino",
-              "Treviso-Sant'Angelo",
-              "Orio al Serio",
-              "Galileo Galilei",
-              "Guglielmo Marconi",
-              "Verona Villafranca",
-              "Punta Raisi",
-              "Venezia Marco Polo",
-              "Sant Egidio",
-              "Cristoforo Colombo",
-              "Firenze Peretola",
-              "Sandro Pertini",
-              "Lamezia Terme"
+              "napoli capodichino",
+              "treviso-sant'angelo",
+              "orio al serio",
+              "galileo galilei",
+              "guglielmo marconi",
+              "verona villafranca",
+              "punta raisi",
+              "venezia marco polo",
+              "sant egidio",
+              "cristoforo colombo",
+              "firenze peretola",
+              "sandro pertini",
+              "lamezia terme"
             ]
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase_underscore",
-            "params": {
-              "case": "lower"
-            },
-            "description": "Convert all airport names to lowercase and replace spaces with underscores to standardize the format."
+            "action": "none",
+            "target_format": "lowercase alphabetic airport names with optional hyphens or apostrophes",
+            "params": {},
+            "description": "No transformation needed as all values are already in the expected format for airport names."
           },
-          "description": "Column contains airport names in various formats, including full names and codes. Standardizing to lowercase with underscores ensures consistency for downstream processing."
+          "description": "This column contains airport names, which are categorical values representing different airports. The values are mostly in lowercase with some containing hyphens or apostrophes."
         },
         "descr_aereoporto_part": {
           "column_name": "descr_aereoporto_part",
@@ -1590,11 +1780,11 @@
           "n_unique_non_null": 176,
           "unique_ratio_non_null": 0.0345,
           "sample_values": [
-            "King Shaka International",
-            "John F Kennedy International",
-            "Rinas Mother Teresa",
-            "Havalimani",
-            "Male International"
+            "king shaka international",
+            "john f kennedy international",
+            "rinas mother teresa",
+            "havalimani",
+            "male international"
           ],
           "dominant_format": {
             "label": "generic",
@@ -1604,54 +1794,64 @@
           "non_conforming": {
             "share_pct": 17.0,
             "samples": [
-              "Havalimani",
-              "Sharjah",
-              "Carthage",
-              "Manchester",
-              "Kisauni",
-              "Stansted",
-              "Petrovec",
-              "4 de Fevereiro",
-              "Menara",
-              "Golubovci",
-              "Edinburgh",
-              "Yuzhny",
-              "Kopitnari"
+              "havalimani",
+              "sharjah",
+              "carthage",
+              "manchester",
+              "kisauni",
+              "stansted",
+              "petrovec",
+              "4 de fevereiro",
+              "menara",
+              "golubovci",
+              "edinburgh",
+              "yuzhny",
+              "kopitnari"
             ]
           },
-          "role": "airport_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "standardized airport name format",
+            "action": "map",
+            "target_format": "lowercase airport names without special characters",
             "params": {
               "mapping": {
-                "Havalimani": "Havalimani International Airport",
-                "Sharjah": "Sharjah International Airport",
-                "Carthage": "Carthage International Airport",
-                "Manchester": "Manchester Airport",
-                "Kisauni": "Kisauni Airport",
-                "Stansted": "London Stansted Airport",
-                "Petrovec": "Petrovec Airport",
-                "4 de Fevereiro": "4 de Fevereiro International Airport",
-                "Menara": "Menara Airport",
-                "Golubovci": "Golubovci Airport",
-                "Edinburgh": "Edinburgh Airport",
-                "Yuzhny": "Yuzhny Airport",
-                "Kopitnari": "Kopitnari Airport"
+                "havalimani": "ben gurion international",
+                "sharjah": "sharjah international",
+                "carthage": "carthage international",
+                "manchester": "manchester international",
+                "kisauni": "king shaka international",
+                "stansted": "london stansted",
+                "petrovec": "skopje alexander the great",
+                "4 de fevereiro": "4 de fevereiro international",
+                "menara": "marrakech menara",
+                "golubovci": "podgorica golubovci",
+                "edinburgh": "edinburgh international",
+                "yuzhny": "yuzhny international",
+                "kopitnari": "kopitnari international"
               },
               "canonical_values": [
-                "King Shaka International Airport",
-                "John F Kennedy International Airport",
-                "Rinas Mother Teresa International Airport",
-                "Havalimani International Airport",
-                "Male International Airport"
+                "king shaka international",
+                "john f kennedy international",
+                "rinas mother teresa",
+                "ben gurion international",
+                "sharjah international",
+                "carthage international",
+                "manchester international",
+                "london stansted",
+                "skopje alexander the great",
+                "4 de fevereiro international",
+                "marrakech menara",
+                "podgorica golubovci",
+                "edinburgh international",
+                "yuzhny international",
+                "kopitnari international"
               ]
             },
-            "description": "Standardizes airport names to a consistent format by mapping common variations to canonical names."
+            "description": "Maps non-standard airport names to their canonical lowercase forms."
           },
-          "description": "Column contains airport names with some variations in naming conventions. Standardization ensures consistent representation for analysis and matching."
+          "description": "Column contains airport names, with most values following a generic format and a minority requiring standardization to a consistent naming convention."
         },
         "citta_arr": {
           "column_name": "citta_arr",
@@ -1663,11 +1863,11 @@
           "n_unique_non_null": 27,
           "unique_ratio_non_null": 0.0053,
           "sample_values": [
-            "Napoli",
-            "Roma",
-            "Treviso",
-            "Roma",
-            "Bergamo"
+            "napoli",
+            "roma",
+            "treviso",
+            "roma",
+            "bergamo"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1677,21 +1877,30 @@
           "non_conforming": {
             "share_pct": 0.5,
             "samples": [
-              "Lamezia Terme"
+              "lamezia terme"
             ]
           },
-          "role": "city_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase city names",
+            "action": "map",
+            "target_format": "lowercase city names without diacritics",
             "params": {
-              "case": "lower"
+              "mapping": {
+                "lamezia terme": "lamezia terme"
+              },
+              "canonical_values": [
+                "napoli",
+                "roma",
+                "treviso",
+                "bergamo",
+                "lamezia terme"
+              ]
             },
-            "description": "Converts all city names to lowercase to ensure consistent formatting."
+            "description": "Converts city names to lowercase format to standardize representation."
           },
-          "description": "Column contains city names with minor formatting inconsistencies (e.g., mixed case). Standardizing to lowercase improves comparability and reduces duplicates."
+          "description": "Column contains city names in Italian, with a dominant format of lowercase alphabetic strings. One non-conforming sample with a space requires normalization."
         },
         "citta_partenza": {
           "column_name": "citta_partenza",
@@ -1703,11 +1912,11 @@
           "n_unique_non_null": 165,
           "unique_ratio_non_null": 0.0324,
           "sample_values": [
-            "Durban",
-            "New York",
-            "Tirana",
-            "Istanbul",
-            "Male"
+            "durban",
+            "new york",
+            "tirana",
+            "istanbul",
+            "male"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1717,24 +1926,36 @@
           "non_conforming": {
             "share_pct": 3.5,
             "samples": [
-              "New York",
-              "Sharm El Sheikh",
-              "Dallas-Fort Worth",
-              "San Paolo"
+              "new york",
+              "sharm el sheikh",
+              "dallas-fort worth",
+              "san paolo"
             ]
           },
-          "role": "city_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase city names",
+            "action": "map",
+            "target_format": "lowercase alphabetic city names with hyphens",
             "params": {
-              "case": "lower"
+              "mapping": {
+                "san paolo": "san paulo",
+                "dallas-fort worth": "dallas-fort worth"
+              },
+              "canonical_values": [
+                "durban",
+                "new york",
+                "tirana",
+                "istanbul",
+                "male",
+                "san paulo",
+                "dallas-fort worth"
+              ]
             },
-            "description": "Convert all city names to lowercase to ensure consistent formatting."
+            "description": "Maps non-conforming city names to their canonical lowercase alphabetic format with hyphens."
           },
-          "description": "Column contains city names with minor formatting inconsistencies (e.g., mixed case, hyphenated names). Standardizing to lowercase improves comparability and searchability."
+          "description": "This column represents city names of departure, containing alphabetic strings with some multi-word or hyphenated entries. The dominant format is lowercase alphabetic city names."
         },
         "codice_paese_arr": {
           "column_name": "codice_paese_arr",
@@ -1746,11 +1967,11 @@
           "n_unique_non_null": 2,
           "unique_ratio_non_null": 0.0004,
           "sample_values": [
-            "ITA",
-            "ITA",
-            "ITA",
-            "IT",
-            "ITA"
+            "ita",
+            "ita",
+            "ita",
+            "it",
+            "ita"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1761,23 +1982,23 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "3-letter ISO country code (uppercase)",
+            "action": "map",
+            "target_format": "3-letter lowercase ISO 3166-1 alpha-3 country code",
             "params": {
               "mapping": {
-                "IT": "ITA"
+                "it": "ita"
               },
               "canonical_values": [
-                "ITA"
+                "ita"
               ]
             },
-            "description": "Standardizes 2-letter country codes to their 3-letter ISO equivalents."
+            "description": "Maps the non-standard 2-letter code 'it' to the canonical 3-letter code 'ita' while preserving all other values."
           },
-          "description": "Column contains country codes, predominantly in 3-letter ISO format (ITA), with occasional 2-letter variants (IT)."
+          "description": "Column contains country codes, primarily in 3-letter ISO 3166-1 alpha-3 format with a single non-conforming 2-letter code 'it' that should be standardized to 'ita'."
         },
         "codice_paese_part": {
           "column_name": "codice_paese_part",
@@ -1789,11 +2010,11 @@
           "n_unique_non_null": 82,
           "unique_ratio_non_null": 0.0161,
           "sample_values": [
-            "ZAF",
-            "USA",
-            "ALB",
-            "TR",
-            "MDV"
+            "zaf",
+            "usa",
+            "alb",
+            "tr",
+            "mdv"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1804,18 +2025,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase 3-letter ISO country code",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Converts all country codes to uppercase to ensure consistent formatting."
+            "action": "none",
+            "target_format": "3-letter ISO country code (alpha-3)",
+            "params": {},
+            "description": "No transformation needed as all values are already in the expected 3-letter ISO country code format."
           },
-          "description": "Column contains standardized country codes, primarily 3-letter ISO codes (e.g., ZAF, USA) with some 2-letter codes (e.g., TR). Normalization ensures uniformity for downstream processing."
+          "description": "Column contains standardized 3-letter country codes (ISO alpha-3) with no missing or non-conforming values, representing the country of participation."
         },
         "paese_arr": {
           "column_name": "paese_arr",
@@ -1827,11 +2046,11 @@
           "n_unique_non_null": 1,
           "unique_ratio_non_null": 0.0002,
           "sample_values": [
-            "Italia",
-            "Italia",
-            "Italia",
-            "Italia",
-            "Italia"
+            "italia",
+            "italia",
+            "italia",
+            "italia",
+            "italia"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1842,16 +2061,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "country name in native language",
+            "target_format": "lowercase alphabetic country names",
             "params": {},
-            "description": "No transformation needed as all values are already in the dominant format (country name)."
+            "description": "No transformation needed as all values are already in the dominant lowercase alphabetic format."
           },
-          "description": "Column contains a single country name ('Italia') repeated for all rows, representing the country of arrival."
+          "description": "Column contains a single country name ('italia') repeated across all rows, indicating it is a categorical field representing the country of reference."
         },
         "paese_part": {
           "column_name": "paese_part",
@@ -1863,11 +2082,11 @@
           "n_unique_non_null": 76,
           "unique_ratio_non_null": 0.0149,
           "sample_values": [
-            "Sudafrica",
-            "Stati Uniti",
-            "Albania",
-            "Turchia",
-            "Maldive"
+            "sudafrica",
+            "stati uniti",
+            "albania",
+            "turchia",
+            "maldive"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -1877,24 +2096,39 @@
           "non_conforming": {
             "share_pct": 31.5,
             "samples": [
-              "Stati Uniti",
-              "Regno Unito",
-              "Emirati Arabi Uniti",
-              "Arabia Saudita"
+              "stati uniti",
+              "regno unito",
+              "emirati arabi uniti",
+              "arabia saudita"
             ]
           },
-          "role": "country_name",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase country names",
+            "action": "map",
+            "target_format": "lowercase country names with spaces",
             "params": {
-              "case": "lower"
+              "mapping": {
+                "stati uniti": "stati uniti",
+                "regno unito": "regno unito",
+                "emirati arabi uniti": "emirati arabi uniti",
+                "arabia saudita": "arabia saudita"
+              },
+              "canonical_values": [
+                "sudafrica",
+                "stati uniti",
+                "albania",
+                "turchia",
+                "maldive",
+                "regno unito",
+                "emirati arabi uniti",
+                "arabia saudita"
+              ]
             },
-            "description": "Convert all country names to lowercase to ensure consistent formatting."
+            "description": "Standardizes country names to lowercase with spaces for consistency."
           },
-          "description": "Column contains country names in Italian, with some multi-word entries. The dominant format is alphabetic, and normalization ensures uniformity for analysis."
+          "description": "Column represents country names with some variations in formatting (e.g., 'stati uniti' vs 'Stati Uniti')."
         },
         "zona": {
           "column_name": "zona",
@@ -1928,16 +2162,16 @@
             "median": 4.0,
             "std": 2.8133
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "single-digit numeric code as string",
+            "target_format": "single-digit numeric string (1-9)",
             "params": {},
             "description": "No transformation needed as all values are already in the dominant digit format."
           },
-          "description": "Likely represents a categorical code (e.g., zone identifier) with values ranging from -1 to 99, predominantly single-digit numbers."
+          "description": "Column represents categorical zones encoded as single-digit numeric strings (1-9). Values are consistently formatted, though some outliers (-1, 99) may indicate data entry errors or special codes."
         },
         "entrati": {
           "column_name": "entrati",
@@ -1979,17 +2213,27 @@
           "role_source": "llm",
           "expected_dtype": "Int64",
           "transformation_rule": {
-            "action": "extract_pattern",
+            "action": "map",
             "target_format": "integer",
             "params": {
-              "regex": "-?\\d+"
+              "mapping": {
+                "?": null,
+                "~51": "51",
+                "2,0": "2"
+              },
+              "canonical_values": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "51",
+                "58"
+              ]
             },
-            "description": "Convert numeric strings with commas to integers and handle non-numeric characters by coercing to null."
+            "description": "Maps non-conforming values (e.g., '?', '~51', '2,0') to their canonical integer forms or null."
           },
-          "description": "Column represents a count of entries, with most values being small integers (1-58) but some outliers (-500, 10000) and non-conforming formats like '~51' or '2,0'.",
-          "validator_fixes": [
-            "dominant is 'digit' with noisy non-conforming values → action switched from 'coerce_numeric' to 'extract_pattern'"
-          ]
+          "description": "Column represents discrete counts of entries, with values predominantly as integers. Non-conforming samples include symbols and decimal formats that need correction."
         },
         "investigati": {
           "column_name": "investigati",
@@ -2032,17 +2276,25 @@
           "role_source": "llm",
           "expected_dtype": "Int64",
           "transformation_rule": {
-            "action": "extract_pattern",
+            "action": "map",
             "target_format": "integer",
             "params": {
-              "regex": "-?\\d+"
+              "mapping": {
+                "\"102,0\"": "102",
+                "~0": "0",
+                "0 pax": "0",
+                "?": null
+              },
+              "canonical_values": [
+                "0",
+                "1",
+                "2",
+                "58"
+              ]
             },
-            "description": "Convert numeric strings with decimal separators (e.g., '102,0') to integers, and strip non-numeric characters (e.g., '~0', '0 pax', '?') by coercing to null."
+            "description": "Maps non-conforming string representations of counts (e.g., '102,0', '~0', '0 pax', '?') to their canonical integer form or null."
           },
-          "description": "Column represents a count of items or occurrences, with most values being small integers but some containing non-standard formats or outliers.",
-          "validator_fixes": [
-            "dominant is 'digit' with noisy non-conforming values → action switched from 'coerce_numeric' to 'extract_pattern'"
-          ]
+          "description": "Column represents a count of investigations, with values predominantly as integers. Non-conforming samples include formatted numbers, symbols, and text that should be standardized to integers or null."
         },
         "allarmati": {
           "column_name": "allarmati",
@@ -2086,17 +2338,25 @@
           "role_source": "llm",
           "expected_dtype": "Int64",
           "transformation_rule": {
-            "action": "extract_pattern",
+            "action": "map",
             "target_format": "integer",
             "params": {
-              "regex": "-?\\d+"
+              "mapping": {
+                "17 pax": "17",
+                "0 pax": "0",
+                "1 pax": "1",
+                "4,0": "4"
+              },
+              "canonical_values": [
+                "0",
+                "1",
+                "13",
+                "4"
+              ]
             },
-            "description": "Converts values with commas (e.g., '4,0') to integers and strips non-numeric suffixes (e.g., '17 pax')."
+            "description": "Maps non-conforming values with text suffixes or commas to their numeric equivalents."
           },
-          "description": "Column represents a count of items, with most values being small integers (0-13) but some containing non-numeric suffixes or commas. Negative values are likely data entry errors.",
-          "validator_fixes": [
-            "dominant is 'digit' with noisy non-conforming values → action switched from 'coerce_numeric' to 'extract_pattern'"
-          ]
+          "description": "Column represents a count of items, with most values being integers. Non-conforming samples include text suffixes or decimal commas that need normalization."
         },
         "tipo_documento": {
           "column_name": "tipo_documento",
@@ -2108,11 +2368,11 @@
           "n_unique_non_null": 6,
           "unique_ratio_non_null": 0.0018,
           "sample_values": [
-            "Passaporto",
-            "Carta d'identità",
-            "Permesso di soggiorno",
-            "Carta d'identità",
-            "Carta d'identità"
+            "passaporto",
+            "carta d'identità",
+            "permesso di soggiorno",
+            "carta d'identità",
+            "carta d'identità"
           ],
           "dominant_format": {
             "label": "generic",
@@ -2122,33 +2382,20 @@
           "non_conforming": {
             "share_pct": 48.53,
             "samples": [
-              "Passaporto",
-              "Visto"
+              "passaporto",
+              "visto"
             ]
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "standardized document type codes",
-            "params": {
-              "mapping": {
-                "Passaporto": "PASS",
-                "Carta d'identità": "CI",
-                "Permesso di soggiorno": "PS",
-                "Visto": "VS"
-              },
-              "canonical_values": [
-                "PASS",
-                "CI",
-                "PS",
-                "VS"
-              ]
-            },
-            "description": "Maps free-text document types to standardized 2-3 letter codes for consistency."
+            "action": "none",
+            "target_format": "lowercase string without diacritics",
+            "params": {},
+            "description": "No transformation needed as values are already in a consistent string format representing document types."
           },
-          "description": "Categorical column representing standardized document types (e.g., passport, ID card) with 34.54% missing values."
+          "description": "This column represents different types of identification documents, with values like 'passaporto' or 'carta d'identità'. The dominant format is lowercase Italian terms, and non-conforming samples are minor variations of the same categories."
         },
         "genere": {
           "column_name": "genere",
@@ -2157,14 +2404,14 @@
           "null_count": 595,
           "non_null_count": 4500,
           "missing_percentage": 11.68,
-          "n_unique_non_null": 17,
-          "unique_ratio_non_null": 0.0038,
+          "n_unique_non_null": 13,
+          "unique_ratio_non_null": 0.0029,
           "sample_values": [
-            "F",
-            "F",
             "f",
-            "M",
-            "F"
+            "f",
+            "f",
+            "m",
+            "f"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -2175,18 +2422,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase single-letter codes",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Convert all values to uppercase to standardize the categorical codes."
+            "action": "none",
+            "target_format": "lowercase single-letter gender codes ('m' or 'f')",
+            "params": {},
+            "description": "No transformation needed as all non-null values already conform to the dominant format of lowercase single-letter gender codes."
           },
-          "description": "Column represents gender categories encoded as single-letter codes (e.g., 'F', 'M'). Standardizing to uppercase ensures consistent categorical representation."
+          "description": "This column represents gender categories encoded as single-letter strings ('m' for male, 'f' for female). The data is clean with no non-conforming values, though 11.68% of entries are missing."
         },
         "fascia_eta": {
           "column_name": "fascia_eta",
@@ -2213,16 +2458,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "custom:age_range",
-          "role_source": "custom",
+          "role": "category",
+          "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
             "target_format": "age range in format 'X-Y' or 'X+'",
             "params": {},
-            "description": "No transformation needed as all values already conform to the dominant format 'X-Y' or 'X+'."
+            "description": "No transformation needed as all values conform to the dominant format of age ranges."
           },
-          "description": "Represents age ranges in a categorical format (e.g., '18-30', '61+'). The column is already clean with no non-conforming values, but the role is custom as 'age_range' is not in the provided vocabulary."
+          "description": "Represents age ranges as categorical data, likely used for demographic segmentation or analysis. Values are consistently formatted as 'X-Y' or 'X+'."
         },
         "flag_transito": {
           "column_name": "flag_transito",
@@ -2231,14 +2476,14 @@
           "null_count": 0,
           "non_null_count": 5095,
           "missing_percentage": 0.0,
-          "n_unique_non_null": 6,
-          "unique_ratio_non_null": 0.0012,
+          "n_unique_non_null": 5,
+          "unique_ratio_non_null": 0.001,
           "sample_values": [
-            "Singola Tratta",
-            "Singola Tratta",
-            "Singola Tratta",
-            "Singola Tratta",
-            "Singola Tratta"
+            "singola tratta",
+            "singola tratta",
+            "singola tratta",
+            "singola tratta",
+            "singola tratta"
           ],
           "dominant_format": {
             "label": "generic",
@@ -2249,26 +2494,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "standardized categorical codes",
-            "params": {
-              "mapping": {
-                "Singola Tratta": "SINGOLA_TRATTA",
-                "Tratta Singola": "SINGOLA_TRATTA",
-                "Singola": "SINGOLA_TRATTA",
-                "Tratta": "SINGOLA_TRATTA"
-              },
-              "canonical_values": [
-                "SINGOLA_TRATTA"
-              ]
-            },
-            "description": "Standardizes all variations of the categorical value to a single canonical form."
+            "action": "none",
+            "target_format": "categorical string values",
+            "params": {},
+            "description": "No transformation needed as all values conform to the dominant format."
           },
-          "description": "A categorical column representing transit types, with values like 'Singola Tratta' indicating a single transit route."
+          "description": "Column represents categorical labels for transit types, with values like 'singola tratta' indicating single-trip transit."
         },
         "compagnia_aerea": {
           "column_name": "compagnia_aerea",
@@ -2277,14 +2512,14 @@
           "null_count": 216,
           "non_null_count": 4879,
           "missing_percentage": 4.24,
-          "n_unique_non_null": 85,
-          "unique_ratio_non_null": 0.0174,
+          "n_unique_non_null": 73,
+          "unique_ratio_non_null": 0.015,
           "sample_values": [
-            "Fly Dubai",
-            "ITA Airways",
-            "Ryanair DAC",
-            "Turkish Airlines",
-            "Fly Dubai"
+            "fly dubai",
+            "ita airways",
+            "ryanair dac",
+            "turkish airlines",
+            "fly dubai"
           ],
           "dominant_format": {
             "label": "generic",
@@ -2294,24 +2529,39 @@
           "non_conforming": {
             "share_pct": 6.6,
             "samples": [
-              "Easyjet",
-              "Jet2.com",
-              "Emirates",
-              "Albawings"
+              "easyjet",
+              "jet2.com",
+              "emirates",
+              "albawings"
             ]
           },
-          "role": "free_text",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase airline names",
+            "action": "map",
+            "target_format": "lowercase airline name without special characters",
             "params": {
-              "case": "lower"
+              "mapping": {
+                "easyjet": "easyjet",
+                "jet2.com": "jet2",
+                "emirates": "emirates",
+                "albawings": "albawings"
+              },
+              "canonical_values": [
+                "fly dubai",
+                "ita airways",
+                "ryanair dac",
+                "turkish airlines",
+                "easyjet",
+                "jet2",
+                "emirates",
+                "albawings"
+              ]
             },
-            "description": "Convert all airline names to lowercase to ensure consistent formatting."
+            "description": "Maps non-conforming airline names to their canonical lowercase form without special characters."
           },
-          "description": "Column contains airline names with minor variations in casing and spelling. Normalizing to lowercase improves consistency for analysis and matching."
+          "description": "Column contains airline names, which are categorical values with a dominant generic format and minor variations in naming conventions."
         },
         "numero_volo": {
           "column_name": "numero_volo",
@@ -2320,14 +2570,14 @@
           "null_count": 168,
           "non_null_count": 4927,
           "missing_percentage": 3.3,
-          "n_unique_non_null": 696,
-          "unique_ratio_non_null": 0.1413,
+          "n_unique_non_null": 594,
+          "unique_ratio_non_null": 0.1206,
           "sample_values": [
-            "FZ1681",
-            "AZ0609",
-            "FR8400",
-            "TK1865",
-            "FZ1571"
+            "fz1681",
+            "az0609",
+            "fr8400",
+            "tk1865",
+            "fz1571"
           ],
           "dominant_format": {
             "label": "alphanumeric",
@@ -2340,16 +2590,16 @@
               "//"
             ]
           },
-          "role": "code_alphanumeric",
+          "role": "identifier",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "none",
-            "target_format": "alphanumeric code (e.g., FZ1681)",
+            "action": "set_null",
+            "target_format": "alphanumeric",
             "params": {},
-            "description": "No transformation needed as the dominant format is already alphanumeric and non-conforming samples are minimal."
+            "description": "Removes non-conforming values like '//' that do not match the alphanumeric flight number format."
           },
-          "description": "Column contains alphanumeric flight numbers (e.g., FZ1681, AZ0609). The single non-conforming sample ('//') is an outlier and can be treated as missing data."
+          "description": "Column contains alphanumeric flight identifiers (e.g., 'fz1681') with a small number of non-conforming values that should be treated as missing."
         },
         "esito_controllo": {
           "column_name": "esito_controllo",
@@ -2361,11 +2611,11 @@
           "n_unique_non_null": 5,
           "unique_ratio_non_null": 0.0013,
           "sample_values": [
-            "RESPINTO",
-            "SEGNALATO",
-            "SEGNALATO",
-            "RESPINTO",
-            "FERMATO"
+            "respinto",
+            "segnalato",
+            "segnalato",
+            "respinto",
+            "fermato"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -2375,28 +2625,29 @@
           "non_conforming": {
             "share_pct": 17.12,
             "samples": [
-              "IN ATTESA"
+              "in attesa"
             ]
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "uppercase categorical code",
+            "action": "map",
+            "target_format": "lowercase alphabetic string",
             "params": {
               "mapping": {
-                "IN ATTESA": "RESPINTO"
+                "in attesa": "in_attesa"
               },
               "canonical_values": [
-                "RESPINTO",
-                "SEGNALATO",
-                "FERMATO"
+                "respinto",
+                "segnalato",
+                "fermato",
+                "in_attesa"
               ]
             },
-            "description": "Maps non-conforming values like 'IN ATTESA' to the dominant canonical format 'RESPINTO' to standardize the categorical codes."
+            "description": "Maps non-conforming values like 'in attesa' to the canonical format 'in_attesa' to standardize the category."
           },
-          "description": "Categorical column representing control outcomes with dominant values 'RESPINTO', 'SEGNALATO', and 'FERMATO'. Non-conforming values like 'IN ATTESA' are mapped to the most frequent category."
+          "description": "Categorical column representing the outcome of a control process, with values like 'respinto', 'segnalato', 'fermato', and 'in_attesa'."
         },
         "note_operatore": {
           "column_name": "note_operatore",
@@ -2408,11 +2659,11 @@
           "n_unique_non_null": 4,
           "unique_ratio_non_null": 0.0656,
           "sample_values": [
-            "Alert manuale",
-            "Verifica richiesta",
-            "Alert manuale",
-            "Alert manuale",
-            "Passeggero noto"
+            "alert manuale",
+            "verifica richiesta",
+            "alert manuale",
+            "alert manuale",
+            "passeggero noto"
           ],
           "dominant_format": {
             "label": "generic",
@@ -2430,9 +2681,9 @@
             "action": "none",
             "target_format": "free text",
             "params": {},
-            "description": "No transformation needed as the column contains free-form text notes with no consistent pattern to enforce."
+            "description": "No transformation needed as all non-null values are already in a consistent free-text format."
           },
-          "description": "This column contains unstructured notes or comments from operators, with 98.8% missing values and only 4 unique non-null entries. It should be treated as free text for qualitative analysis."
+          "description": "This column contains free-text notes from operators, with 98.8% missing values. The non-null values are short, unstructured phrases describing manual alerts or verifications."
         },
         "codice_rischio": {
           "column_name": "codice_rischio",
@@ -2444,11 +2695,11 @@
           "n_unique_non_null": 3,
           "unique_ratio_non_null": 0.0732,
           "sample_values": [
-            "R3",
-            "R3",
-            "R2",
-            "R3",
-            "R2"
+            "r3",
+            "r3",
+            "r2",
+            "r3",
+            "r2"
           ],
           "dominant_format": {
             "label": "alphanumeric",
@@ -2459,18 +2710,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase alphanumeric code",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Convert all non-null values to uppercase to standardize the alphanumeric risk code format."
+            "action": "none",
+            "target_format": "alphanumeric code (e.g., 'r1', 'r2', 'r3')",
+            "params": {},
+            "description": "No transformation needed as all non-null values already conform to the dominant alphanumeric format."
           },
-          "description": "This column represents categorical risk codes (e.g., R2, R3) with very high null density. The non-null values are consistently alphanumeric codes, suggesting a categorical role for risk classification."
+          "description": "A categorical column representing risk codes, with only 3 unique values observed among the 41 non-null entries out of 5095 total rows."
         },
         "tipo_documento__1": {
           "column_name": "tipo_documento__1",
@@ -2482,11 +2731,11 @@
           "n_unique_non_null": 4,
           "unique_ratio_non_null": 0.0012,
           "sample_values": [
-            "Passaporto",
-            "Carta d'identità",
-            "Permesso di soggiorno",
-            "Carta d'identità",
-            "Carta d'identità"
+            "passaporto",
+            "carta d'identità",
+            "permesso di soggiorno",
+            "carta d'identità",
+            "carta d'identità"
           ],
           "dominant_format": {
             "label": "generic",
@@ -2496,33 +2745,20 @@
           "non_conforming": {
             "share_pct": 49.64,
             "samples": [
-              "Passaporto",
-              "Visto"
+              "passaporto",
+              "visto"
             ]
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map_to_canonical",
-            "target_format": "standardized document type codes",
-            "params": {
-              "mapping": {
-                "Passaporto": "passport",
-                "Carta d'identità": "id_card",
-                "Permesso di soggiorno": "residence_permit",
-                "Visto": "visa"
-              },
-              "canonical_values": [
-                "passport",
-                "id_card",
-                "residence_permit",
-                "visa"
-              ]
-            },
-            "description": "Maps non-standard document type labels to a canonical set of 4 standardized codes."
+            "action": "none",
+            "target_format": "lowercase string without diacritics",
+            "params": {},
+            "description": "No transformation needed as values are already in a consistent format."
           },
-          "description": "Categorical column representing standardized document types (e.g., passport, ID card, residence permit, visa) with 32.88% missing values."
+          "description": "Column represents types of identification documents, with values like 'passaporto', 'carta d'identità', and 'permesso di soggiorno'. Non-conforming values are minor variations of the same categories."
         },
         "fascia_eta__1": {
           "column_name": "fascia_eta__1",
@@ -2549,16 +2785,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "code_categorical",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "categorical range format (e.g., '18-30')",
+            "target_format": "age range format (e.g., '18-30', '31-45', '46-60', '61+')",
             "params": {},
-            "description": "No transformation needed as all values are already in the dominant categorical format."
+            "description": "No transformation needed as all values already conform to the dominant age range format."
           },
-          "description": "A categorical column representing age ranges in the format 'X-Y' or 'X+', likely used for demographic segmentation."
+          "description": "This column represents age ranges as categorical values, likely used for demographic segmentation. The values are consistently formatted as ranges or single values with a '+' suffix."
         },
         "col_3nazionalita": {
           "column_name": "col_3nazionalita",
@@ -2570,11 +2806,11 @@
           "n_unique_non_null": 7,
           "unique_ratio_non_null": 0.0014,
           "sample_values": [
-            "ALB",
-            "ALB",
-            "ALB",
-            "AFG",
-            "ALB"
+            "alb",
+            "alb",
+            "alb",
+            "afg",
+            "alb"
           ],
           "dominant_format": {
             "label": "alpha",
@@ -2585,18 +2821,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "country_code",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "uppercase 3-letter ISO country codes",
-            "params": {
-              "case": "upper"
-            },
-            "description": "Converts all country codes to uppercase to ensure consistent formatting."
+            "action": "none",
+            "target_format": "3-letter lowercase country code (e.g., 'alb', 'afg')",
+            "params": {},
+            "description": "No transformation needed as all values are already in the expected 3-letter lowercase country code format."
           },
-          "description": "Column contains 3-letter country codes in ISO format (e.g., ALB, AFG). All values are already in the expected format, so normalization to uppercase is applied for consistency."
+          "description": "Column contains standardized 3-letter lowercase country codes with no non-conforming values, representing nationalities."
         },
         "compagnia_aerea__1": {
           "column_name": "compagnia_aerea__1",
@@ -2608,11 +2842,11 @@
           "n_unique_non_null": 68,
           "unique_ratio_non_null": 0.0133,
           "sample_values": [
-            "Fly Dubai",
-            "ITA Airways",
-            "Ryanair DAC",
-            "Turkish Airlines",
-            "Fly Dubai"
+            "fly dubai",
+            "ita airways",
+            "ryanair dac",
+            "turkish airlines",
+            "fly dubai"
           ],
           "dominant_format": {
             "label": "generic",
@@ -2622,24 +2856,39 @@
           "non_conforming": {
             "share_pct": 7.0,
             "samples": [
-              "Easyjet",
-              "Jet2.com",
-              "Emirates",
-              "Albawings"
+              "easyjet",
+              "jet2.com",
+              "emirates",
+              "albawings"
             ]
           },
-          "role": "free_text",
+          "role": "category",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "normalize_case",
-            "target_format": "lowercase airline names",
+            "action": "map",
+            "target_format": "lowercase airline name without special characters",
             "params": {
-              "case": "lower"
+              "mapping": {
+                "easyjet": "easyjet",
+                "jet2.com": "jet2",
+                "emirates": "emirates",
+                "albawings": "albawings"
+              },
+              "canonical_values": [
+                "fly dubai",
+                "ita airways",
+                "ryanair dac",
+                "turkish airlines",
+                "easyjet",
+                "jet2",
+                "emirates",
+                "albawings"
+              ]
             },
-            "description": "Convert all airline names to lowercase to ensure consistent formatting."
+            "description": "Standardizes non-conforming airline names to lowercase and removes special characters (e.g., '.com') to match the dominant format."
           },
-          "description": "This column contains airline names in free text format, with some variations in capitalization. The dominant format is generic airline names, and normalization ensures uniformity for analysis."
+          "description": "Column contains airline names, with 93% following a generic format (e.g., 'fly dubai', 'ita airways'). Non-conforming values include variations like 'easyjet' or 'jet2.com' that need standardization."
         },
         "num_volo": {
           "column_name": "num_volo",
@@ -2648,14 +2897,14 @@
           "null_count": 0,
           "non_null_count": 5095,
           "missing_percentage": 0.0,
-          "n_unique_non_null": 706,
-          "unique_ratio_non_null": 0.1386,
+          "n_unique_non_null": 601,
+          "unique_ratio_non_null": 0.118,
           "sample_values": [
-            "FZ1681",
-            "AZ0609",
-            "FR8400",
-            "TK1865",
-            "FZ1571"
+            "fz1681",
+            "az0609",
+            "fr8400",
+            "tk1865",
+            "fz1571"
           ],
           "dominant_format": {
             "label": "alphanumeric",
@@ -2666,16 +2915,16 @@
             "share_pct": 0.0,
             "samples": []
           },
-          "role": "code_alphanumeric",
+          "role": "identifier",
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "alphanumeric code (e.g., FZ1681)",
+            "target_format": "alphanumeric identifier in the format [a-z]{2}\\d{4}",
             "params": {},
-            "description": "No transformation needed as all values already conform to the alphanumeric code format."
+            "description": "No transformation needed as all values already conform to the dominant alphanumeric format."
           },
-          "description": "Column contains alphanumeric flight codes (e.g., FZ1681, AZ0609) with no missing or non-conforming values."
+          "description": "This column contains alphanumeric identifiers likely representing flight numbers or similar codes, with a consistent two-letter prefix followed by four digits."
         }
       }
     }
