@@ -1,26 +1,24 @@
 {
-  "dataset_selection": {
-    "source_dataset": "tipologia",
-    "rationale": "Tipologia dataset contains all required roles."
-  },
   "baseline": {
-    "source_dataset": "tipologia_clean.csv",
-    "discovered_columns": {
-      "departure_airport": "areoporto_partenza",
-      "arrival_airport": "areoporto_arrivo",
-      "nationality": "nazionalita",
-      "document_type": "tipo_documento"
-    },
-    "dataset_selection": {
-      "chosen": "tipologia_clean.csv",
-      "rationale": "All four roles resolved cleanly and passed post-discovery checks"
-    },
+    "dataset": "tipologia_clean.csv",
+    "departure_airport": "areoporto_partenza",
+    "arrival_airport": "areoporto_arrivo",
+    "nationality": "nazionalita",
+    "document_type": "tipo_documento",
     "measure_column": "allarmati",
-    "measure_rationale": "Highest std/mean ratio among security-related candidates",
-    "route_definition": {
-      "departure_col": "areoporto_partenza",
-      "arrival_col": "areoporto_arrivo",
-      "separator": "→"
-    },
-    "n_unique_routes": 467,
-    "n_auto_loops": 
+    "output_columns": [
+      "areoporto_partenza",
+      "areoporto_arrivo",
+      "nazionalita",
+      "tipo_documento",
+      "_measure",
+      "route",
+      "rolling_mean_alarms",
+      "rolling_std_alarms",
+      "z_score",
+      "ratio_to_baseline"
+    ],
+    "rows": 5034
+  },
+  "baseline_granularity_note": "Route-level baseline with row-level anomaly aggregation"
+}

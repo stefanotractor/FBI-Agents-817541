@@ -59,7 +59,7 @@ viaggiatori con allarmi,blq,cmn,2024,2,2024-02-15 19:10:00,guglielmo marconi,moh
 nulla a procedere sdi,fco,saw,2024,1,2024-01-27 12:20:00,fiumicino,sabiha gokcen,roma,istanbul,ita,tur,italia,turchia,5,6.0,sdi,,,turchia,ita,5,italia,6
 voli disponibili in ingresso al sistema,bgy,cai,2024,1,2024-01-05 07:55:00,orio al serio,cairo international,bergamo,cairo,ita,egy,italia,egitto,2,1.0,interpol,,,egitto,ita,2,italia,1
 allarmi generati da sdi/nsis,bgy,tia,2024,2,2024-02-24 22:05:00,orio al serio,rinas mother teresa,bergamo,tirana,ita,,italia,albania,2,35.0,interpol,,,albania,ita,2,italia,35
-viaggiatori investigati,fco,ika,2024,2,,fiumicino,imam khomeini international,roma,tehran,ita,irn,italia,iran,5,138.0,manuale,,,iran,ita,5,italia,138
+viaggiatori investigati,fco,ika,2024,2,2024-02-22 00:00:00,fiumicino,imam khomeini international,roma,tehran,ita,irn,italia,iran,5,138.0,manuale,,,iran,ita,5,italia,138
 voli con allarmi,mxp,auh,2024,2,2024-02-22 03:10:00,malpensa,abu dhabi international,milano,abu dhabi,ita,are,italia,emirati arabi uniti,2,1.0,manuale,,,emirati arabi uniti,ita,2,italia,1
 allarmi generati da sdi/nsis,fco,lhr,,2,2024-02-08 12:40:00,fiumicino,london heathrow,roma,londra,ita,gbr,italia,regno unito,5,6.0,manuale,,,regno unito,ita,5,italia,6
 allarmi chiusi,vce,tia,2024,1,2024-01-07 12:30:00,venezia marco polo,rinas mother teresa,venezia,tirana,ita,,italia,albania,4,34.0,tsc,,,albania,ita,4,italia,34
@@ -93,11 +93,11 @@ voli disponibili in ingresso al sistema,fco,doh,2024,1,2024-01-15 02:30:00,fiumi
 allarmi generati da sdi/nsis,bgy,cai,2024,2,2024-02-12 07:50:00,orio al serio,cairo international,bergamo,,ita,egy,italia,egitto,2,37.0,,,,egitto,ita,2,italia,37
 "voli solo visualizzati, ma non investigati",bgy,man,2024,8,2024-02-25 08:45:00,orio al serio,manchester,bergamo,manchester,ita,gbr,italia,regno unito,2,1.0,nsis,,,regno unito,ita,2,italia,1
 viaggiatori entrati nel sistema,bgy,cai,2024,1,,orio al serio,cairo international,bergamo,cairo,ita,egy,italia,egitto,2,165.0,interpol,,,egitto,ita,2,italia,165
-voli con allarmi,fco,lgw,2024,1,,fiumicino,london gatwick,roma,londra,ita,gbr,italia,regno unito,5,1.0,,,,regno unito,ita,5,italia,1
+voli con allarmi,fco,lgw,2024,1,2024-01-06 00:00:00,fiumicino,london gatwick,roma,londra,ita,gbr,italia,regno unito,5,1.0,,,,regno unito,ita,5,italia,1
 viaggiatori investigati,fco,hgh,2024,1,2024-01-10 00:55:00,fiumicino,hangzhou,roma,hangzhou,ita,chn,italia,cina,5,238.0,sdi,,,cina,ita,5,italia,238
 voli investigati (sdi/nsis - interpol - tsc),lin,lhr,2024,1,2024-01-11 06:45:00,linate,london heathrow,milano,londra,ita,gbr,italia,regno unito,2,1.0,,,,regno unito,ita,2,italia,1
 voli con allarmi,bgy,cmn,2024,1,2024-01-02 07:00:00,orio al serio,mohamed v,bergamo,casablanca,ita,mar,italia,marocco,2,1.0,sdi,,,marocco,ita,2,italia,1
-viaggiatori investigati,mxp,cai,2024,2,,malpensa,cairo international,milano,cairo,ita,eg,italia,egitto,2,101.0,tsc,,,egitto,ita,2,italia,101
+viaggiatori investigati,mxp,cai,2024,2,2024-02-17 00:00:00,malpensa,cairo international,milano,cairo,ita,eg,italia,egitto,2,101.0,tsc,,,egitto,ita,2,italia,101
 nulla a procedere sdi,vce,ist,2024,2,2024-02-21 08:10:00,venezia marco polo,havalimani,venezia,istanbul,ita,tur,italia,turchia,4,8.0,manuale,,,turchia,ita,4,italia,8
 allarmi generati da sdi/nsis,bgy,tia,2024,1,,orio al serio,rinas mother teresa,bergamo,tirana,ita,,italia,albania,2,25.0,tsc,,,albania,ita,2,italia,25
 viaggiatori entrati nel sistema,trn,lgw,2024,1,,sandro pertini,london gatwick,torino,londra,ita,gbr,italia,regno unito,1,122.0,,,,regno unito,ita,1,italia,122
@@ -139,7 +139,7 @@ viaggiatori con allarmi,bri,tia,2024,1,2024-01-23 16:40:00,palese,rinas mother t
 voli disponibili in ingresso al sistema,bgy,tia,2024,2,2024-02-27 22:05:00,orio al serio,rinas mother teresa,bergamo,tirana,ita,alb,italia,albania,2,1.0,interpol,,,albania,ita,2,italia,1
 allarmi generati da sdi/nsis,cta,ssh,2024,1,2024-01-01 11:40:00,fontanarossa,sharm el-sheikh international,catania,sharm el sheikh,ita,egy,italia,egitto,7,11.0,manuale,,,egitto,ita,7,italia,11
 viaggiatori entrati nel sistema,fco,ist,,1,2024-01-21 13:05:00,fiumicino,havalimani,roma,istanbul,ita,tur,italia,turchia,5,134.0,nsis,,,turchia,ita,5,italia,134
-allarmi rilevanti,blq,tia,2024,2,,guglielmo marconi,rinas mother teresa,bologna,tirana,ita,alb,italia,albania,8,1.0,manuale,,medio,albania,ita,8,italia,1
+allarmi rilevanti,blq,tia,2024,2,2024-02-18 00:00:00,guglielmo marconi,rinas mother teresa,bologna,tirana,ita,alb,italia,albania,8,1.0,manuale,,medio,albania,ita,8,italia,1
 voli con allarmi,fco,tun,2024,2,2024-02-14 11:25:00,fiumicino,carthage,roma,,ita,tun,italia,tunisia,5,1.0,tsc,,,tunisia,ita,5,italia,1
 voli con allarmi,bgy,tia,2024,1,2024-01-04 21:55:00,orio al serio,rinas mother teresa,bergamo,tirana,ita,alb,italia,albania,2,1.0,manuale,,,albania,ita,2,italia,1
 viaggiatori entrati nel sistema,vce,lhr,2024,2,2024-02-13 13:40:00,venezia marco polo,london heathrow,venezia,londra,ita,gbr,italia,regno unito,4,163.0,interpol,,,regno unito,ita,4,italia,163
@@ -159,7 +159,7 @@ voli disponibili in ingresso al sistema,fco,alg,2024,1,2024-01-01 05:25:00,fiumi
 allarmi generati da sdi/nsis,fco,pvg,2024,1,2024-01-30 12:35:00,fiumicino,pu dong,roma,shanghai,ita,chn,italia,cina,5,12.0,interpol,,,cina,ita,5,italia,12
 viaggiatori investigati,cia,stn,2024,2,,ciampino,stansted,roma,londra,ita,gbr,italia,regno unito,5,182.0,tsc,,,regno unito,ita,5,italia,182
 viaggiatori entrati nel sistema,trn,stn,2024,2,2024-02-25 18:50:00,sandro pertini,stansted,torino,londra,ita,gbr,italia,regno unito,1,169.0,,,,regno unito,ita,1,italia,169
-viaggiatori entrati nel sistema,mxp,auh,2024,2,,malpensa,abu dhabi international,milano,?,ita,are,italia,emirati arabi uniti,2,284.0,tsc,,,emirati arabi uniti,ita,2,italia,284
+viaggiatori entrati nel sistema,mxp,auh,2024,2,2024-02-10 00:00:00,malpensa,abu dhabi international,milano,?,ita,are,italia,emirati arabi uniti,2,284.0,tsc,,,emirati arabi uniti,ita,2,italia,284
 viaggiatori con allarmi,fco,tpe,2024,2,2024-02-15 23:25:00,fiumicino,taiwan taoyuan international,roma,taipei,ita,twn,italia,,5,5.0,interpol,,,taiwan,ita,5,italia,5
 viaggiatori con allarmi,cia,edi,,1,2024-01-26 06:15:00,ciampino,edinburgh,roma,edinburgh,ita,gbr,italia,regno unito,5,4.0,,,,regno unito,ita,5,italia,4
 voli investigati (sdi/nsis - interpol - tsc),bgy,tia,2024,2,2024-02-07 20:35:00,orio al serio,rinas mother teresa,bergamo,tirana,ita,alb,italia,albania,2,1.0,sdi,,,albania,ita,2,italia,1
@@ -168,7 +168,7 @@ voli disponibili in ingresso al sistema,mxp,mct,2024,1,2024-01-18 14:15:00,malpe
 voli investigati (sdi/nsis - interpol - tsc),bri,stn,2024,1,2024-01-18 19:55:00,palese,stansted,bari,londra,ita,gbr,italia,regno unito,9,1.0,sdi,,,regno unito,ita,9,italia,1
 voli con allarmi,nap,tun,2024,1,2024-01-05 09:45:00,napoli capodichino,carthage,napoli,tunis,ita,tun,italia,tunisia,6,1.0,tsc,,,tunisia,ita,6,italia,1
 allarmi chiusi,mxp,spx,2024,2,2024-02-02 12:05:00,malpensa,sphinx international,milano,giza,ita,egy,italia,egitto,2,40.0,nsis,,,egitto,ita,2,italia,40
-allarmi chiusi con azione (cc.xx),mxp,mct,,2,,malpensa,seeb,milano,muscat,tur,omn,italia,,2,1.0,,,,oman,ita,2,italia,1
+allarmi chiusi con azione (cc.xx),mxp,mct,,2,2024-02-07 00:00:00,malpensa,seeb,milano,muscat,tur,omn,italia,,2,1.0,,,,oman,ita,2,italia,1
 voli con allarmi,vrn,tia,2024,1,2024-01-03 17:00:00,verona villafranca,rinas mother teresa,verona,tirana,ita,,italia,albania,4,1.0,nsis,,,albania,ita,4,italia,1
 voli disponibili in ingresso al sistema,trn,stn,2024,2,2024-02-25 18:50:00,sandro pertini,stansted,torino,londra,ita,gbr,italia,regno unito,1,1.0,,,,regno unito,ita,1,italia,1
 viaggiatori entrati nel sistema,bgy,saw,2024,2,2024-02-10 17:25:00,orio al serio,,bergamo,istanbul,ita,tur,italia,,2,49.0,nsis,,,turchia,ita,2,italia,49
@@ -596,7 +596,7 @@ voli disponibili in ingresso al sistema,fco,dfw,2024,2,2024-02-25 18:20:00,fiumi
 "voli solo visualizzati, ma non investigati",mxp,cun,2024,1,2024-01-25 18:45:00,malpensa,cancun international,milano,cancun,ita,mex,italia,messico,2,1.0,nsis,,,messico,ita,2,italia,1
 "voli solo visualizzati, ma non investigati",fco,mji,2024,1,2024-01-29 07:30:00,fiumicino,mitiga,roma,tripoli,ita,lby,italia,libia,5,1.0,tsc,,,libia,ita,5,italia,1
 allarmi rilevanti,fco,cai,2024,,2024-02-08 10:00:00,fiumicino,cairo international,roma,cairo,ita,egy,italia,egitto,5,1.0,interpol,,,egitto,ita,5,italia,1
-voli con allarmi,fco,lgw,2024,2,,fiumicino,london gatwick,roma,londra,ita,gbr,italia,regno unito,5,1.0,tsc,,,regno unito,ita,5,italia,1
+voli con allarmi,fco,lgw,2024,2,2024-02-18 00:00:00,fiumicino,london gatwick,roma,londra,ita,gbr,italia,regno unito,5,1.0,tsc,,,regno unito,ita,5,italia,1
 allarmi rilevanti,psa,dxb,2024,2,2024-02-13 07:50:00,galileo galilei,dubai international,pisa,dubai,ita,are,italia,emirati arabi uniti,8,4.0,manuale,,,emirati arabi uniti,ita,8,italia,
 viaggiatori investigati,vce,brs,2024,2,2024-02-16 14:50:00,venezia marco polo,bristol,venezia,bristol,ita,gbr,italia,regno unito,4,164.0,tsc,,,regno unito,ita,4,italia,164
 allarmi generati da sdi/nsis,blq,lhr,2024,1,2024-01-19 19:35:00,guglielmo marconi,london heathrow,bologna,londra,ita,gbr,italia,regno unito,8,3.0,,,,regno unito,ita,8,italia,3
@@ -1552,7 +1552,7 @@ voli con allarmi,fco,lgw,2023,1,2024-01-03 16:40:00,fiumicino,london gatwick,rom
 allarmi chiusi,fco,tia,2023,,2024-02-20 19:50:00,fiumicino,rinas mother teresa,roma,tirana,ita,alb,italia,albania,5,21.0,,,,albania,ita,5,italia,21
 "voli solo visualizzati, ma non investigati",fco,spx,,1,2024-01-11 11:15:00,fiumicino,sphinx international,roma,giza,ita,egy,italia,egitto,5,1.0,nsis,,,egitto,ita,5,italia,1
 viaggiatori entrati nel sistema,fco,lgw,2024,2,2024-02-05 09:45:00,fiumicino,london gatwick,roma,londra,gbr,gbr,italia,,5,180.0,interpol,,,regno unito,ita,5,italia,180
-allarmi generati da sdi/nsis,bri,ist,2023,1,,palese,havalimani,bari,istanbul,ita,tur,italia,turchia,9,7.0,interpol,,,turchia,ita,9,italia,7
+allarmi generati da sdi/nsis,bri,ist,2023,1,2024-01-06 00:00:00,palese,havalimani,bari,istanbul,ita,tur,italia,turchia,9,7.0,interpol,,,turchia,ita,9,italia,7
 allarmi generati da sdi/nsis,fco,doh,2024,1,,fiumicino,hamad international,roma,doha,ita,qat,italia,qatar,5,8.0,tsc,,,qatar,ita,5,italia,8
 viaggiatori con allarmi,psa,tia,2024,7,2024-02-16 16:10:00,galileo galilei,rinas mother teresa,pisa,tirana,ita,alb,italia,albania,8,18.0,manuale,,,albania,ita,8,italia,18
 voli disponibili in ingresso al sistema,fco,kut,2024,1,2024-01-20 16:30:00,fiumicino,kopitnari,roma,kutaisi,ita,geo,italia,georgia,5,1.0,,,,georgia,ita,5,italia,1
@@ -1647,7 +1647,7 @@ voli con allarmi,fco,jed,2024,1,2024-01-07 10:20:00,fiumicino,,roma,jeddah,ita,s
 allarmi generati da sdi/nsis,mxp,doh,2024,2,2024-02-09 15:30:00,malpensa,hamad international,milano,doha,ita,qat,italia,qatar,2,16.0,nsis,,,qatar,ita,2,italia,16
 voli investigati (sdi/nsis - interpol - tsc),vce,stn,2024,2,2024-02-12 15:10:00,venezia marco polo,stansted,venezia,londra,ita,gbr,italia,regno unito,4,1.0,tsc,,,regno unito,ita,4,italia,1
 voli con allarmi,fco,ewr,2024,2,2024-02-11 17:40:00,fiumicino,newark liberty international,roma,newark,ita,usa,italia,stati uniti,5,1.0,interpol,,,stati uniti,ita,5,italia,1
-voli investigati (sdi/nsis - interpol - tsc),fco,gru,2024,2,,fiumicino,sao paulo/guarulhos-governador andre franco montoro international,roma,,ita,bra,italia,brasile,5,1.0,nsis,,,brasile,ita,5,italia,1
+voli investigati (sdi/nsis - interpol - tsc),fco,gru,2024,2,2024-02-18 00:00:00,fiumicino,sao paulo/guarulhos-governador andre franco montoro international,roma,,ita,bra,italia,brasile,5,1.0,nsis,,,brasile,ita,5,italia,1
 viaggiatori con allarmi,lin,lcy,2023,2,2024-02-20 13:45:00,linate,london city,milano,londra,ita,gbr,italia,regno unito,2,2.0,manuale,,,regno unito,ita,2,italia,2
 viaggiatori entrati nel sistema,mxp,lgw,2024,2,2024-02-16 15:00:00,malpensa,london gatwick,milano,londra,ita,gbr,italia,regno unito,2,148.0,nsis,,,regno unito,ita,2,italia,148
 viaggiatori investigati,cta,tia,2024,4,2024-01-15 20:30:00,fontanarossa,rinas mother teresa,catania,tirana,ita,alb,italia,albania,7,55.0,sdi,,,albania,ita,7,italia,55
@@ -2079,7 +2079,7 @@ viaggiatori investigati,tsf,tia,2024,1,2024-01-08 09:00:00,treviso-sant'angelo,r
 nulla a procedere sdi,fco,tun,2024,3,2024-01-06 08:00:00,fiumicino,carthage,roma,//,ita,tun,italia,tunisia,5,18.0,nsis,,,tunisia,ita,5,italia,18
 voli disponibili in ingresso al sistema,mxp,rmf,2024,1,2024-01-06 14:50:00,malpensa,marsa alam international,milano,marsa alam,ita,egy,italia,egitto,2,1.0,sdi,,,egitto,ita,2,italia,1
 voli con allarmi,cia,tia,2024,1,2024-01-05 18:55:00,ciampino,rinas mother teresa,roma,tirana,ita,alb,italia,albania,5,1.0,sdi,,,albania,ita,5,italia,1
-"voli solo visualizzati, ma non investigati",mxp,lgw,2024,2,,malpensa,london gatwick,milano,londra,ita,gbr,italia,regno unito,2,1.0,interpol,,,regno unito,ita,2,italia,1
+"voli solo visualizzati, ma non investigati",mxp,lgw,2024,2,2024-02-07 00:00:00,malpensa,london gatwick,milano,londra,ita,gbr,italia,regno unito,2,1.0,interpol,,,regno unito,ita,2,italia,1
 nulla a procedere nsis,bgy,shj,2024,2,2024-02-22 22:10:00,orio al serio,sharjah,bergamo,sharjah,ita,are,italia,emirati arabi uniti,2,1.0,interpol,,,emirati arabi uniti,ita,2,italia,1
 allarmi generati da sdi/nsis,bgy,stn,2023,2,2024-02-16 07:15:00,orio al serio,stansted,bergamo,londra,ita,gbr,italia,regno unito,2,5.0,tsc,,,regno unito,ita,2,italia,5
 voli investigati (sdi/nsis - interpol - tsc),tsf,tia,2024,2,2024-02-11 20:10:00,treviso-sant'angelo,rinas mother teresa,treviso,tirana,ita,alb,italia,albania,4,1.0,sdi,,,albania,ita,4,italia,1
@@ -2468,7 +2468,7 @@ voli disponibili in ingresso al sistema,lin,lhr,2024,1,2024-01-24 18:30:00,linat
 allarmi generati da sdi/nsis,mxp,kut,2024,2,2024-02-29 16:25:00,malpensa,kopitnari,milano,kutaisi,ita,geo,italia,georgia,2,10.0,tsc,,,georgia,ita,2,italia,10
 voli con allarmi,fco,jed,2024,1,2024-01-14 10:20:00,fiumicino,king abdulaziz international,roma,jeddah,ita,sau,italia,arabia saudita,5,1.0,interpol,,,arabia saudita,ita,5,italia,1
 "voli solo visualizzati, ma non investigati",fco,kiv,2024,1,2024-01-17 17:20:00,fiumicino,chisinau international airport,roma,chisinau,ita,mda,italia,moldavia,5,1.0,,,,moldavia,ita,5,italia,1
-voli con allarmi,bri,tia,2024,2,,palese,rinas mother teresa,bari,tirana,ita,,italia,albania,9,1.0,nsis,,,albania,ita,9,italia,1
+voli con allarmi,bri,tia,2024,2,2024-02-18 00:00:00,palese,rinas mother teresa,bari,tirana,ita,,italia,albania,9,1.0,nsis,,,albania,ita,9,italia,1
 "voli solo visualizzati, ma non investigati",fco,mia,2024,2,2024-02-21 19:50:00,fiumicino,miami international,roma,miami,ita,usa,italia,stati uniti,5,1.0,,,,stati uniti,ita,5,italia,1
 voli disponibili in ingresso al sistema,trn,man,2024,2,,sandro pertini,manchester,torino,manchester,ita,gbr,italia,regno unito,1,1.0,tsc,,,regno unito,ita,1,italia,1
 allarmi generati da sdi/nsis,nap,ist,2024,2,2024-02-11 17:55:00,napoli capodichino,havalimani,napoli,istanbul,ita,tur,italia,turchia,6,25.0,,,,turchia,ita,6,italia,25
@@ -3465,7 +3465,7 @@ voli disponibili in ingresso al sistema,vce,lgw,2024,2,2024-02-16 11:25:00,venez
 allarmi generati da sdi/nsis,bgy,tia,2024,1,2024-01-18 09:00:00,orio al serio,rinas mother teresa,bergamo,,ita,alb,italia,albania,2,19.0,,,,albania,ita,2,italia,19
 allarmi generati da sdi/nsis,mxp,spx,2024,1,2024-01-04 21:50:00,malpensa,sphinx international,milano,giza,ita,eg,italia,egitto,2,31.0,tsc,,,egitto,ita,2,italia,31
 allarmi generati da sdi/nsis,vce,lgw,2024,2,2024-02-22 16:50:00,venezia marco polo,london gatwick,venezia,londra,ita,gbr,italia,regno unito,4,2.0,sdi,,,regno unito,ita,4,italia,2
-voli investigati (sdi/nsis - interpol - tsc),trn,tia,2024,1,,sandro pertini,rinas mother teresa,torino,tirana,ita,alb,italia,albania,1,1.0,tsc,,,albania,ita,1,italia,1
+voli investigati (sdi/nsis - interpol - tsc),trn,tia,2024,1,2024-01-06 00:00:00,sandro pertini,rinas mother teresa,torino,tirana,ita,alb,italia,albania,1,1.0,tsc,,,albania,ita,1,italia,1
 viaggiatori investigati,vce,lhr,2024,2,2024-02-25 17:30:00,venezia marco polo,london heathrow,venezia,londra,ita,gbr,italia,regno unito,4,133.0,manuale,,,regno unito,ita,4,italia,133
 allarmi generati da sdi/nsis,mxp,add,2024,2,2024-02-10 00:15:00,malpensa,bole international,milano,addis ababa,ita,eth,italia,etiopia,2,69.0,,,,etiopia,ita,2,italia,69
 voli con allarmi,vce,brs,2024,2,2024-02-21 19:25:00,venezia marco polo,bristol,venezia,bristol,ita,gbr,italia,regno unito,4,1.0,tsc,,,regno unito,ita,4,italia,1
@@ -4117,7 +4117,7 @@ viaggiatori investigati,bgy,dxb,2024,1,2024-01-12 18:00:00,orio al serio,dubai i
 viaggiatori con allarmi,nap,lgw,2024,2,2024-02-26 15:50:00,napoli capodichino,london gatwick,napoli,londra,ita,gbr,italia,regno unito,6,10.0,interpol,,,regno unito,ita,6,italia,10
 voli investigati (sdi/nsis - interpol - tsc),mxp,sin,2024,2,2024-02-17 23:45:00,malpensa,changi,milano,singapore,ita,sgp,italia,singapore,2,1.0,manuale,,,singapore,ita,2,italia,1
 voli investigati (sdi/nsis - interpol - tsc),vce,stn,,2,2024-02-05 07:20:00,venezia marco polo,stansted,venezia,londra,ita,gbr,italia,regno unito,4,1.0,,,,regno unito,ita,4,italia,1
-allarmi chiusi,fco,alg,2024,1,,fiumicino,houari boumediene,roma,algeri,ita,dza,italia,algeria,5,13.0,interpol,,,algeria,ita,5,italia,13
+allarmi chiusi,fco,alg,2024,1,2024-01-06 00:00:00,fiumicino,houari boumediene,roma,algeri,ita,dza,italia,algeria,5,13.0,interpol,,,algeria,ita,5,italia,13
 voli disponibili in ingresso al sistema,trn,edi,2024,8,2024-01-21 07:00:00,sandro pertini,edinburgh,torino,edinburgh,ita,gbr,italia,regno unito,1,1.0,,,,regno unito,ita,1,italia,1
 viaggiatori con allarmi,cia,rak,2023,1,2024-01-06 06:05:00,ciampino,menara,roma,marrakech,ita,mar,italia,marocco,5,18.0,tsc,,,marocco,ita,5,italia,18
 voli investigati (sdi/nsis - interpol - tsc),bgy,stn,2024,2,2024-02-17 13:45:00,orio al serio,stansted,bergamo,,ita,gbr,italia,regno unito,2,1.0,,,,regno unito,ita,2,italia,1
