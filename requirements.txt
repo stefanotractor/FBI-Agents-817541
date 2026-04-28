@@ -1,9 +1,9 @@
-pandas
 numpy
+pandas
 scikit-learn
-langchain
-langchain-core
-langgraph
-openai
-dotenv
+scipy
+matplotlib
+seaborn
 gradio
+python-dotenv
+openai
