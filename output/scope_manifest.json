@@ -1,0 +1,38 @@
+{
+  "user_query": "flights with anomalies from istanbul",
+  "user_intent_summary": "Identify anomalous flights departing from Istanbul by analyzing alarm events and traveler data.",
+  "datasets": [
+    {
+      "name": "allarmi_raw",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
+      "filters": {
+        "citta_partenza": [
+          "istanbul"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "citta_partenza",
+        "mese_partenza"
+      ],
+      "volume_column_hint": "tot",
+      "rationale": "Filters for alarms originating from Istanbul. Groups by departure airport, city, and month to detect monthly anomalies per route. Uses 'tot' as the anomaly metric (count of alarms or flagged events)."
+    },
+    {
+      "name": "tipologia_raw",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
+      "filters": {
+        "citta_partenza": [
+          "istanbul"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "citta_partenza",
+        "mese_partenza"
+      ],
+      "volume_column_hint": "allarmati",
+      "rationale": "Filters for travelers departing from Istanbul with alarm events. Groups by departure airport, city, and month to detect anomalies in alarm counts per route. Uses 'allarmati' (number of alarmed travelers) as the anomaly metric."
+    }
+  ]
+}

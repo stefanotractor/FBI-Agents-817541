@@ -1,2 +1,0 @@
-route,total_alarms,n_records,alert_rate,rolling_mean_alarms,rolling_std_alarms,z_score,ratio_to_baseline,anomaly_score,is_outlier,risk_score,risk_level,risk_reason
-saw→bgy,81.0,51,1.588235294117647,81.0,,2.366832363903647,1.0,167.36683236390363,True,0.0,LOW,Lower priority anomaly; monitor for potential escalation

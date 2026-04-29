@@ -1,13 +1,657 @@
-route,total_alarms,n_records,alert_rate,rolling_mean_alarms,rolling_std_alarms
-ist→bgy,2.0,1,2.0,2.0,
-ist→blq,5.0,5,1.0,5.0,
-ist→bri,3.0,3,1.0,3.0,
-ist→cta,8.0,1,8.0,8.0,
-ist→fco,14.0,10,1.4,14.0,
-ist→mxp,30.0,14,2.142857142857143,30.0,
-ist→nap,2.0,2,1.0,2.0,
-ist→vce,18.0,12,1.5,18.0,
-saw→bgy,81.0,51,1.588235294117647,81.0,
-saw→blq,33.0,15,2.2,33.0,
-saw→fco,57.0,36,1.5833333333333333,57.0,
-saw→vce,2.0,2,1.0,2.0,
+dataset,group_key,group_volume,n_records,rate,baseline_mean,baseline_std
+allarmi_raw,adb|smirne|1,179.0,3,59.666666666666664,59.666666666666664,96.4226805960783
+allarmi_raw,adb|smirne|2,112.0,3,37.333333333333336,37.333333333333336,62.93117934166921
+allarmi_raw,add|addis ababa|1,1700.0,17,100.0,100.0,149.3456561135944
+allarmi_raw,add|addis ababa|10,46.0,1,46.0,46.0,
+allarmi_raw,add|addis ababa|11,45.0,1,45.0,45.0,
+allarmi_raw,add|addis ababa|2,3142.0,19,165.3684210526316,174.55555555555554,185.84409095742285
+allarmi_raw,add|addis ababa|4,1.0,1,1.0,1.0,
+allarmi_raw,add|addis ababa|5,1.0,1,1.0,1.0,
+allarmi_raw,add|addis ababa|7,1.0,1,1.0,1.0,
+allarmi_raw,aga|agadir|1,16.0,1,16.0,16.0,
+allarmi_raw,aga|agadir|11,153.0,1,153.0,153.0,
+allarmi_raw,aga|agadir|2,173.0,2,86.5,86.5,120.91525958289962
+allarmi_raw,ala|almaty|2,1.0,1,1.0,1.0,
+allarmi_raw,alg|algeri|1,315.0,13,24.23076923076923,24.23076923076923,51.83652805720732
+allarmi_raw,alg|algeri|12,35.0,1,35.0,35.0,
+allarmi_raw,alg|algeri|2,184.0,11,16.727272727272727,16.727272727272727,28.941634055771313
+allarmi_raw,amm|amman|1,1143.0,25,45.72,47.625,69.52122759960818
+allarmi_raw,amm|amman|12,1.0,1,1.0,1.0,
+allarmi_raw,amm|amman|2,314.0,16,19.625,20.933333333333334,35.61192951539587
+allarmi_raw,anu|st. john's|1,1.0,1,1.0,1.0,
+allarmi_raw,atl|atlanta|1,336.0,4,84.0,84.0,161.3670763611132
+allarmi_raw,atl|atlanta|2,1076.0,11,97.81818181818181,97.81818181818181,133.43224361586536
+allarmi_raw,atq|amritsar|1,1.0,2,0.5,1.0,
+allarmi_raw,atq|amritsar|2,11.0,2,5.5,5.5,6.363961030678928
+allarmi_raw,auh|?|2,284.0,1,284.0,284.0,
+allarmi_raw,auh|abu dhabi|1,1761.0,38,46.3421052631579,48.916666666666664,91.12546296178692
+allarmi_raw,auh|abu dhabi|11,1.0,1,1.0,1.0,
+allarmi_raw,auh|abu dhabi|12,392.0,1,392.0,392.0,
+allarmi_raw,auh|abu dhabi|2,2631.0,31,84.87096774193549,84.87096774193549,140.3656515285426
+allarmi_raw,auh|abu dhabi|3,273.0,1,273.0,273.0,
+allarmi_raw,bah|manama|1,183.0,4,45.75,45.75,75.54854951177641
+allarmi_raw,bah|manama|12,4.0,1,4.0,4.0,
+allarmi_raw,bah|manama|2,359.0,5,71.8,71.8,82.711546956879
+allarmi_raw,bah|manama|6,164.0,1,164.0,164.0,
+allarmi_raw,bah|manama|7,1.0,1,1.0,1.0,
+allarmi_raw,beg|//|1,1.0,1,1.0,1.0,
+allarmi_raw,beg|belgrado|1,754.0,33,22.848484848484848,22.848484848484848,49.345162637867304
+allarmi_raw,beg|belgrado|12,135.0,1,135.0,135.0,
+allarmi_raw,beg|belgrado|2,682.0,43,15.86046511627907,16.238095238095237,44.31858582967114
+allarmi_raw,beg|belgrado|5,68.0,1,68.0,68.0,
+allarmi_raw,beg|belgrado|8,4.0,1,4.0,4.0,
+allarmi_raw,beg|belgrado|9,1.0,1,1.0,1.0,
+allarmi_raw,bey|beirut|1,134.0,3,44.666666666666664,44.666666666666664,73.05021104235999
+allarmi_raw,bey|beirut|2,9.0,3,3.0,3.0,2.0
+allarmi_raw,bfs|belfast|1,1.0,1,1.0,1.0,
+allarmi_raw,bfs|belfast|2,1.0,2,0.5,1.0,
+allarmi_raw,bhx|birmingham|1,583.0,13,44.84615384615385,44.84615384615385,67.62130600366298
+allarmi_raw,bhx|birmingham|2,1164.0,25,46.56,48.5,80.56971056712048
+allarmi_raw,bos|boston|1,0.0,1,0.0,0.0,
+allarmi_raw,bos|boston|11,272.0,1,272.0,272.0,
+allarmi_raw,bos|boston|2,282.0,1,282.0,282.0,
+allarmi_raw,bqh|londra|1,11.0,5,2.2,2.2,2.6832815729997477
+allarmi_raw,bqh|londra|2,2.0,3,0.6666666666666666,0.6666666666666666,0.5773502691896258
+allarmi_raw,brs|bristol|1,185.0,13,14.23076923076923,14.23076923076923,47.7042168753697
+allarmi_raw,brs|bristol|2,1193.0,28,42.607142857142854,42.607142857142854,72.2989366684341
+allarmi_raw,brs|bristol|3,1.0,1,1.0,1.0,
+allarmi_raw,brs|bristol|4,1.0,1,1.0,1.0,
+allarmi_raw,brs|bristol|7,1.0,1,1.0,1.0,
+allarmi_raw,brs|bristol|9,88.0,1,88.0,88.0,
+allarmi_raw,cai|?|1,136.0,1,136.0,136.0,
+allarmi_raw,cai|cairo|1,2160.0,64,33.75,35.40983606557377,54.67430141275403
+allarmi_raw,cai|cairo|2,2321.0,55,42.2,42.2,57.22256742074949
+allarmi_raw,cai|cairo|3,1.0,1,1.0,1.0,
+allarmi_raw,cai|cairo|6,8.0,1,8.0,8.0,
+allarmi_raw,cai|cairo|7,15.0,1,15.0,15.0,
+allarmi_raw,can|guangzhou|2,4.0,3,1.3333333333333333,1.3333333333333333,0.5773502691896258
+allarmi_raw,cgo|zhengzhou|1,2.0,2,1.0,1.0,0.0
+allarmi_raw,cgo|zhengzhou|2,18.0,1,18.0,18.0,
+allarmi_raw,cgo|zhengzhou|4,1.0,1,1.0,1.0,
+allarmi_raw,ckg|chongqing|2,349.0,3,116.33333333333333,116.33333333333333,82.85730706059263
+allarmi_raw,cmn|casablanca|1,2401.0,70,34.3,34.79710144927536,52.6801055512099
+allarmi_raw,cmn|casablanca|2,962.5,41,23.475609756097562,26.013513513513512,42.25065523595898
+allarmi_raw,cmn|casablanca|3,312.0,2,156.0,156.0,14.142135623730951
+allarmi_raw,cmn|casablanca|4,1.0,1,1.0,1.0,
+allarmi_raw,cmn|casablanca|5,177.0,1,177.0,177.0,
+allarmi_raw,cmn|casablanca|7,27.0,2,13.5,13.5,17.67766952966369
+allarmi_raw,cmn|casablanca|8,1.0,1,1.0,1.0,
+allarmi_raw,cmn|casablanca|9,1.0,1,1.0,1.0,
+allarmi_raw,cun|cancun|1,1.0,1,1.0,1.0,
+allarmi_raw,cun|cancun|11,2.0,1,2.0,2.0,
+allarmi_raw,del|nuova delhi|1,545.0,15,36.333333333333336,36.333333333333336,84.3383209517025
+allarmi_raw,del|nuova delhi|2,403.0,10,40.3,40.3,87.71804578053228
+allarmi_raw,del|nuova delhi|3,264.0,1,264.0,264.0,
+allarmi_raw,dfw|dallas-fort worth|1,6.0,2,3.0,3.0,2.8284271247461903
+allarmi_raw,dfw|dallas-fort worth|11,1.0,1,1.0,1.0,
+allarmi_raw,dfw|dallas-fort worth|2,135.0,4,33.75,33.75,65.5
+allarmi_raw,dfw|dallas-fort worth|5,1.0,1,1.0,1.0,
+allarmi_raw,dmm|dammam|1,117.0,1,117.0,117.0,
+allarmi_raw,dmm|dammam|2,207.0,3,69.0,69.0,117.77945491468365
+allarmi_raw,doh|//|1,1.0,1,1.0,1.0,
+allarmi_raw,doh|doha|1,3818.0,56,68.17857142857143,72.0377358490566,105.95535385321335
+allarmi_raw,doh|doha|12,1.0,1,1.0,1.0,
+allarmi_raw,doh|doha|2,1242.0,41,30.29268292682927,31.846153846153847,77.21042282433474
+allarmi_raw,dss|dakar|1,624.0,8,78.0,89.14285714285714,140.09809488524883
+allarmi_raw,dss|dakar|2,122.0,4,30.5,30.5,34.58805188693537
+allarmi_raw,dwc|dubai|1,216.0,3,72.0,72.0,98.92926766129425
+allarmi_raw,dwc|dubai|2,202.0,4,50.5,50.5,89.90921346929171
+allarmi_raw,dxb|?|1,1.0,1,1.0,1.0,
+allarmi_raw,dxb|?|2,40.0,1,40.0,40.0,
+allarmi_raw,dxb|dubai|1,3906.0,78,50.07692307692308,51.39473684210526,99.69581454903957
+allarmi_raw,dxb|dubai|11,1.0,1,1.0,1.0,
+allarmi_raw,dxb|dubai|12,1.0,1,1.0,1.0,
+allarmi_raw,dxb|dubai|2,1408.0,60,23.466666666666665,24.275862068965516,112.75183012533418
+allarmi_raw,dxb|dubai|4,2.0,1,2.0,2.0,
+allarmi_raw,dxb|dubai|5,328.0,1,328.0,328.0,
+allarmi_raw,dxb|dubai|8,1.0,1,1.0,1.0,
+allarmi_raw,dxb|dubai|9,235.0,2,117.5,117.5,164.75588001646557
+allarmi_raw,edi|edinburgh|1,1012.0,28,36.142857142857146,36.142857142857146,66.13438299218201
+allarmi_raw,edi|edinburgh|2,674.0,20,33.7,35.473684210526315,68.5065839666789
+allarmi_raw,edi|edinburgh|7,-99.0,1,-99.0,-99.0,
+allarmi_raw,edi|edinburgh|8,1.0,1,1.0,1.0,
+allarmi_raw,ema|derby|1,434.0,11,39.45454545454545,39.45454545454545,63.47340173074646
+allarmi_raw,ema|derby|2,387.0,7,55.285714285714285,55.285714285714285,86.04400867330293
+allarmi_raw,evn|yerevan|1,354.0,16,22.125,23.6,60.88724942758659
+allarmi_raw,evn|yerevan|2,176.0,11,16.0,17.6,48.311949292534706
+allarmi_raw,evn|yerevan|6,1.0,1,1.0,1.0,
+allarmi_raw,evn|yerevan|9,116.0,1,116.0,116.0,
+allarmi_raw,ewr|//|2,2.0,1,2.0,2.0,
+allarmi_raw,ewr|newark|1,308.0,25,12.32,12.833333333333334,42.73748651503956
+allarmi_raw,ewr|newark|11,1.0,1,1.0,1.0,
+allarmi_raw,ewr|newark|12,177.0,1,177.0,177.0,
+allarmi_raw,ewr|newark|2,1460.0,28,52.142857142857146,54.074074074074076,96.18128953097091
+allarmi_raw,ewr|newark|7,1.0,1,1.0,1.0,
+allarmi_raw,eze|buenos aires|1,1827.0,11,166.0909090909091,182.7,160.5968382143448
+allarmi_raw,eze|buenos aires|12,1.0,1,1.0,1.0,
+allarmi_raw,eze|buenos aires|2,875.0,16,54.6875,62.5,124.15173718540488
+allarmi_raw,eze|buenos aires|3,5.0,1,5.0,5.0,
+allarmi_raw,fab|?|2,1.0,1,1.0,1.0,
+allarmi_raw,fab|farnborough|1,6.0,4,1.5,1.5,1.7320508075688772
+allarmi_raw,fab|farnborough|2,2.0,2,1.0,1.0,0.0
+allarmi_raw,fez|fes|1,320.0,6,53.333333333333336,53.333333333333336,67.87242935586339
+allarmi_raw,fez|fes|11,1.0,1,1.0,1.0,
+allarmi_raw,fez|fes|2,57.0,2,28.5,28.5,13.435028842544403
+allarmi_raw,gig|//|1,1.0,1,1.0,1.0,
+allarmi_raw,gig|rio de janeiro|1,541.0,5,108.2,108.2,146.3547061081399
+allarmi_raw,gig|rio de janeiro|2,511.0,8,63.875,63.875,112.74552572687118
+allarmi_raw,gig|rio de janeiro|3,1.0,1,1.0,1.0,
+allarmi_raw,gig|rio de janeiro|4,269.0,1,269.0,269.0,
+allarmi_raw,gla|glasgow|1,179.0,6,29.833333333333332,29.833333333333332,70.13819691627856
+allarmi_raw,gla|glasgow|2,167.0,3,55.666666666666664,55.666666666666664,94.68544414709862
+allarmi_raw,gru|san paolo|1,1366.0,22,62.09090909090909,68.3,136.42275624342383
+allarmi_raw,gru|san paolo|12,1.0,1,1.0,1.0,
+allarmi_raw,gru|san paolo|2,2124.0,22,96.54545454545455,96.54545454545455,144.70914252643448
+allarmi_raw,gru|san paolo|8,1.0,1,1.0,1.0,
+allarmi_raw,gyd|baku|1,10.0,6,1.6666666666666667,1.6666666666666667,1.0327955589886444
+allarmi_raw,gyd|baku|2,21.0,6,3.5,3.5,3.8858718455450894
+allarmi_raw,gyd|baku|7,1.0,1,1.0,1.0,
+allarmi_raw,hgh|hangzhou|1,239.0,2,119.5,119.5,167.58430714121175
+allarmi_raw,hgh|hangzhou|2,65.0,4,16.25,16.25,30.5
+allarmi_raw,hkg|hong kong|1,2.0,2,1.0,1.0,0.0
+allarmi_raw,hkg|hong kong|2,546.0,4,136.5,182.0,158.5023659129415
+allarmi_raw,hkg|hong kong|4,12.0,1,12.0,12.0,
+allarmi_raw,hkg|hong kong|7,10.0,1,10.0,10.0,
+allarmi_raw,hnd|tokyo|1,7.0,6,1.1666666666666667,1.1666666666666667,0.408248290463863
+allarmi_raw,hnd|tokyo|2,554.0,4,138.5,184.66666666666666,159.10478727346117
+allarmi_raw,hrg|hurghada|1,370.0,5,74.0,92.5,108.83779980625603
+allarmi_raw,hrg|hurghada|2,4.0,4,1.0,1.0,0.0
+allarmi_raw,iad|washington|1,6.0,4,1.5,1.5,0.5773502691896257
+allarmi_raw,iad|washington|2,2.0,2,1.0,1.0,0.0
+allarmi_raw,icn|seoul|1,1090.0,14,77.85714285714286,90.83333333333333,134.96452957138123
+allarmi_raw,icn|seoul|2,777.0,10,77.7,77.7,123.05829693460106
+allarmi_raw,icn|seoul|4,1.0,1,1.0,1.0,
+allarmi_raw,icn|seoul|6,299.0,1,299.0,299.0,
+allarmi_raw,ika|tehran|1,192.0,6,32.0,32.0,68.7197206047871
+allarmi_raw,ika|tehran|2,153.0,3,51.0,51.0,75.4254598925323
+allarmi_raw,ika|tehran|3,103.0,1,103.0,103.0,
+allarmi_raw,ist|//|2,107.0,1,107.0,107.0,
+allarmi_raw,ist|?|1,27.0,3,9.0,9.0,3.4641016151377544
+allarmi_raw,ist|istanbul|1,4426.0,137,32.306569343065696,33.53030303030303,61.234680513720285
+allarmi_raw,ist|istanbul|10,159.0,1,159.0,159.0,
+allarmi_raw,ist|istanbul|11,10.0,1,10.0,10.0,
+allarmi_raw,ist|istanbul|12,1.0,1,1.0,1.0,
+allarmi_raw,ist|istanbul|2,4943.0,132,37.446969696969695,39.23015873015873,60.170446260391024
+allarmi_raw,ist|istanbul|4,1.0,1,1.0,1.0,
+allarmi_raw,ist|istanbul|6,1.0,1,1.0,1.0,
+allarmi_raw,ist|istanbul|9,120.0,1,120.0,120.0,
+allarmi_raw,jed|jeddah|1,510.0,22,23.181818181818183,24.285714285714285,51.574356861858064
+allarmi_raw,jed|jeddah|2,846.0,27,31.333333333333332,31.333333333333332,61.57546964123345
+allarmi_raw,jfk|//|2,7.0,1,7.0,7.0,
+allarmi_raw,jfk|?|2,1.0,1,1.0,1.0,
+allarmi_raw,jfk|new york|1,2390.0,59,40.50847457627118,45.96153846153846,86.25087928814919
+allarmi_raw,jfk|new york|12,13.0,2,6.5,6.5,7.7781745930520225
+allarmi_raw,jfk|new york|2,2143.0,36,59.52777777777778,63.029411764705884,102.98587290412851
+allarmi_raw,jfk|new york|6,1.0,1,1.0,1.0,
+allarmi_raw,jfk|new york|9,1.0,1,1.0,1.0,
+allarmi_raw,kiv|chisinau|1,597.0,15,39.8,42.642857142857146,72.7964571653331
+allarmi_raw,kut|kutaisi|1,19.0,5,3.8,3.8,6.260990336999411
+allarmi_raw,kut|kutaisi|2,227.0,7,32.42857142857143,32.42857142857143,79.25456273480862
+allarmi_raw,kwi|?|1,119.0,1,119.0,119.0,
+allarmi_raw,kwi|kuwait city|1,293.0,11,26.636363636363637,26.636363636363637,49.045433482175945
+allarmi_raw,kwi|kuwait city|2,343.0,10,34.3,38.111111111111114,49.518795533727506
+allarmi_raw,kwi|kuwait city|7,3.0,1,3.0,3.0,
+allarmi_raw,lax|los angeles|1,1.0,1,1.0,1.0,
+allarmi_raw,lba|leeds|2,1.0,1,1.0,1.0,
+allarmi_raw,lcy|?|1,72.0,1,72.0,72.0,
+allarmi_raw,lcy|londra|1,100298.0,24,4179.083333333333,4360.782608695652,20848.41348216502
+allarmi_raw,lcy|londra|10,1.0,1,1.0,1.0,
+allarmi_raw,lcy|londra|11,1.0,1,1.0,1.0,
+allarmi_raw,lcy|londra|2,829.0,42,19.738095238095237,19.738095238095237,33.18540637514315
+allarmi_raw,lcy|londra|6,1.0,1,1.0,1.0,
+allarmi_raw,lcy|londra|9,48.0,1,48.0,48.0,
+allarmi_raw,lgw|londra|1,5180.0,148,35.0,35.97222222222222,59.79451344717038
+allarmi_raw,lgw|londra|10,2.0,2,1.0,1.0,0.0
+allarmi_raw,lgw|londra|11,1.0,1,1.0,1.0,
+allarmi_raw,lgw|londra|12,96.0,1,96.0,96.0,
+allarmi_raw,lgw|londra|2,106684.0,214,498.5233644859813,517.8834951456311,6965.261293298437
+allarmi_raw,lgw|londra|3,5.0,2,2.5,2.5,2.1213203435596424
+allarmi_raw,lgw|londra|4,109.0,2,54.5,54.5,75.66042558696059
+allarmi_raw,lgw|londra|6,190.0,4,47.5,47.5,91.01098834756164
+allarmi_raw,lgw|londra|8,8.0,1,8.0,8.0,
+allarmi_raw,lgw|londra|9,2.0,2,1.0,1.0,0.0
+allarmi_raw,lhr|?|2,2.0,1,2.0,2.0,
+allarmi_raw,lhr|?|3,122.0,1,122.0,122.0,
+allarmi_raw,lhr|londra|1,5664.0,202,28.03960396039604,28.897959183673468,52.55112085870309
+allarmi_raw,lhr|londra|10,143.0,1,143.0,143.0,
+allarmi_raw,lhr|londra|11,1.0,1,1.0,1.0,
+allarmi_raw,lhr|londra|2,15163.0,154,98.46103896103897,102.45270270270271,821.3596189234579
+allarmi_raw,lhr|londra|4,321.0,4,80.25,80.25,89.54095897036916
+allarmi_raw,lhr|londra|6,1.0,1,1.0,1.0,
+allarmi_raw,lhr|londra|7,4.0,1,4.0,4.0,
+allarmi_raw,lhr|londra|8,56.0,2,28.0,28.0,38.18376618407357
+allarmi_raw,lhr|londra|9,6.0,1,6.0,6.0,
+allarmi_raw,lpl|liverpool|1,3.0,3,1.0,1.0,0.0
+allarmi_raw,lpl|liverpool|12,1.0,1,1.0,1.0,
+allarmi_raw,lpl|liverpool|2,189.0,2,94.5,94.5,126.572113832392
+allarmi_raw,lrm|la romana|1,87.0,5,17.4,17.4,15.17563837207516
+allarmi_raw,lrm|la romana|2,49.0,4,12.25,12.25,13.149778198382917
+allarmi_raw,ltn|?|2,1.0,1,1.0,1.0,
+allarmi_raw,ltn|londra|1,435.0,23,18.91304347826087,18.91304347826087,43.414401719704045
+allarmi_raw,ltn|londra|11,1.0,1,1.0,1.0,
+allarmi_raw,ltn|londra|2,548.0,30,18.266666666666666,19.571428571428573,42.35863510848724
+allarmi_raw,ltn|londra|7,2.0,1,2.0,2.0,
+allarmi_raw,ltn|londra|9,1.0,1,1.0,1.0,
+allarmi_raw,lxr|luxor|1,8.0,2,4.0,4.0,4.242640687119285
+allarmi_raw,lxr|luxor|4,1.0,1,1.0,1.0,
+allarmi_raw,lyx|lydd|1,3.0,1,3.0,3.0,
+allarmi_raw,man|manchester|1,3216.0,57,56.421052631578945,56.421052631578945,76.18420987702417
+allarmi_raw,man|manchester|10,1.0,1,1.0,1.0,
+allarmi_raw,man|manchester|2,2267.0,57,39.771929824561404,39.771929824561404,70.9637778688787
+allarmi_raw,man|manchester|3,1.0,1,1.0,1.0,
+allarmi_raw,man|manchester|5,1.0,1,1.0,1.0,
+allarmi_raw,man|manchester|6,5.0,1,5.0,5.0,
+allarmi_raw,man|manchester|8,189.0,2,94.5,94.5,132.22896808188437
+allarmi_raw,mba|mombasa|1,693.0,4,173.25,173.25,184.77441200916684
+allarmi_raw,mba|mombasa|2,429.0,5,85.8,107.25,170.51759440010875
+allarmi_raw,mbj|montego bay|1,1.0,2,0.5,0.5,0.7071067811865476
+allarmi_raw,mct|muscat|1,439.0,9,48.77777777777778,48.77777777777778,81.73551519654382
+allarmi_raw,mct|muscat|2,844.5,11,76.77272727272727,76.77272727272727,108.67735818383782
+allarmi_raw,mex|citta del messico|1,9.0,3,3.0,3.0,3.4641016151377544
+allarmi_raw,mex|citta del messico|2,255.0,3,85.0,85.0,140.32818676231798
+allarmi_raw,mex|citta del messico|3,1.0,1,1.0,1.0,
+allarmi_raw,mex|citta del messico|5,1.0,1,1.0,1.0,
+allarmi_raw,mia|miami|1,537.0,7,76.71428571428571,89.5,131.90716432400478
+allarmi_raw,mia|miami|2,303.0,8,37.875,37.875,94.36924060004178
+allarmi_raw,mji|tripoli|1,2.0,3,0.6666666666666666,1.0,0.0
+allarmi_raw,mji|tripoli|2,1.0,1,1.0,1.0,
+allarmi_raw,mle|male|1,637.0,9,70.77777777777777,70.77777777777777,133.35926831099684
+allarmi_raw,mle|male|2,672.0,8,84.0,84.0,150.74671282841103
+allarmi_raw,mru|plaisance|1,1.0,1,1.0,1.0,
+allarmi_raw,mru|plaisance|2,22.0,1,22.0,22.0,
+allarmi_raw,ncl|newcastle|1,371.0,9,41.22222222222222,41.22222222222222,67.25655688811645
+allarmi_raw,ncl|newcastle|2,370.0,6,61.666666666666664,61.666666666666664,92.43736618200818
+allarmi_raw,nht|northolt|1,1.0,1,1.0,1.0,
+allarmi_raw,nkg|nanjing|1,191.0,3,63.666666666666664,63.666666666666664,87.75724091682312
+allarmi_raw,nkg|nanjing|2,205.0,2,102.5,102.5,143.54267658086914
+allarmi_raw,oak|oakland|2,1.0,1,1.0,1.0,
+allarmi_raw,oxf|oxford|1,5.0,1,5.0,5.0,
+allarmi_raw,pek|pechino|1,1478.0,22,67.18181818181819,70.38095238095238,108.14872916057598
+allarmi_raw,pek|pechino|2,772.0,10,77.2,77.2,116.59883742511711
+allarmi_raw,pek|pechino|6,279.0,1,279.0,279.0,
+allarmi_raw,pek|pechino|8,1.0,1,1.0,1.0,
+allarmi_raw,phl|filadelfia|1,16.0,7,2.2857142857142856,2.2857142857142856,1.6035674514745464
+allarmi_raw,phl|filadelfia|2,416.0,3,138.66666666666666,138.66666666666666,117.50035460939398
+allarmi_raw,prn|pristina|1,309.0,4,77.25,77.25,126.8394654671802
+allarmi_raw,prn|pristina|2,3.0,3,1.0,1.0,0.0
+allarmi_raw,pvg|shanghai|1,552.0,17,32.470588235294116,32.470588235294116,74.56718249928954
+allarmi_raw,pvg|shanghai|2,293.0,11,26.636363636363637,32.55555555555556,87.21397696343045
+allarmi_raw,pvg|shanghai|9,9.0,1,9.0,9.0,
+allarmi_raw,rak|marrakech|1,2057.0,54,38.092592592592595,39.55769230769231,67.11576579388444
+allarmi_raw,rak|marrakech|10,1.0,1,1.0,1.0,
+allarmi_raw,rak|marrakech|12,1.0,1,1.0,1.0,
+allarmi_raw,rak|marrakech|2,1965.0,45,43.666666666666664,44.65909090909091,69.15938557497329
+allarmi_raw,rba|rabat|1,404.0,3,134.66666666666666,134.66666666666666,88.1608378665569
+allarmi_raw,rba|rabat|2,180.0,1,180.0,180.0,
+allarmi_raw,rmf|marsa alam|1,379.0,7,54.142857142857146,54.142857142857146,86.78791884325179
+allarmi_raw,rmf|marsa alam|2,145.0,6,24.166666666666668,24.166666666666668,49.583935570572315
+allarmi_raw,rmo|?|2,1.0,1,1.0,1.0,
+allarmi_raw,rmo|chisinau|1,549.0,12,45.75,49.90909090909091,61.42549071103062
+allarmi_raw,rmo|chisinau|2,735.0,28,26.25,29.4,51.3638978271704
+allarmi_raw,ruh|?|1,2.0,1,2.0,2.0,
+allarmi_raw,ruh|riyadh|1,278.0,14,19.857142857142858,19.857142857142858,46.259896476084144
+allarmi_raw,ruh|riyadh|2,457.0,6,76.16666666666667,91.4,85.48274679723389
+allarmi_raw,saw|istanbul|1,3734.0,66,56.57575757575758,56.57575757575758,87.2411442463775
+allarmi_raw,saw|istanbul|10,21.0,2,10.5,10.5,0.7071067811865476
+allarmi_raw,saw|istanbul|11,1.0,1,1.0,1.0,
+allarmi_raw,saw|istanbul|2,2140.0,55,38.90909090909091,38.90909090909091,75.4662722622381
+allarmi_raw,saw|istanbul|5,8.0,1,8.0,8.0,
+allarmi_raw,saw|istanbul|7,10.0,1,10.0,10.0,
+allarmi_raw,shj|sharjah|1,282.0,6,47.0,47.0,71.93052203341777
+allarmi_raw,shj|sharjah|2,26.0,5,5.2,5.2,9.391485505499118
+allarmi_raw,shj|sharjah|7,1.0,1,1.0,1.0,
+allarmi_raw,sid|sal|1,10.0,5,2.0,2.0,2.23606797749979
+allarmi_raw,sid|sal|2,27.0,4,6.75,6.75,5.377421934967226
+allarmi_raw,sin|singapore|1,864.0,10,86.4,86.4,110.2927417779107
+allarmi_raw,sin|singapore|12,1.0,1,1.0,1.0,
+allarmi_raw,sin|singapore|2,752.0,9,83.55555555555556,83.55555555555556,122.22327019752736
+allarmi_raw,skp|?|2,1.0,1,1.0,1.0,
+allarmi_raw,skp|skopie|1,398.0,7,56.857142857142854,56.857142857142854,80.74120916324487
+allarmi_raw,skp|skopie|2,157.0,6,26.166666666666668,31.4,67.97646651599361
+allarmi_raw,sll|?|2,357.0,1,357.0,357.0,
+allarmi_raw,sll|salalah|1,1.0,1,1.0,1.0,
+allarmi_raw,sll|salalah|2,1.0,1,1.0,1.0,
+allarmi_raw,spx|//|1,179.0,1,179.0,179.0,
+allarmi_raw,spx|giza|1,547.0,14,39.07142857142857,39.07142857142857,61.84280853125097
+allarmi_raw,spx|giza|12,34.0,1,34.0,34.0,
+allarmi_raw,spx|giza|2,621.0,12,51.75,51.75,74.51799660606703
+allarmi_raw,ssh|//|2,1.0,1,1.0,1.0,
+allarmi_raw,ssh|?|1,215.0,1,215.0,215.0,
+allarmi_raw,ssh|sharm el sheikh|1,1952.0,47,41.53191489361702,42.43478260869565,73.91937114147882
+allarmi_raw,ssh|sharm el sheikh|11,1.0,1,1.0,1.0,
+allarmi_raw,ssh|sharm el sheikh|12,1.0,1,1.0,1.0,
+allarmi_raw,ssh|sharm el sheikh|2,850.0,35,24.285714285714285,25.0,57.52101065407897
+allarmi_raw,ssh|sharm el sheikh|6,1.0,1,1.0,1.0,
+allarmi_raw,ssh|sharm el sheikh|7,216.0,1,216.0,216.0,
+allarmi_raw,stn|//|1,1.0,1,1.0,1.0,
+allarmi_raw,stn|//|2,6.0,2,3.0,3.0,0.0
+allarmi_raw,stn|?|1,104.0,1,104.0,104.0,
+allarmi_raw,stn|londra|1,7109.0,234,30.38034188034188,31.31718061674009,59.07379377185772
+allarmi_raw,stn|londra|10,2.0,3,0.6666666666666666,1.0,0.0
+allarmi_raw,stn|londra|11,1.0,1,1.0,1.0,
+allarmi_raw,stn|londra|2,8618.0,217,39.714285714285715,40.65094339622642,70.51470115993193
+allarmi_raw,stn|londra|3,4.0,1,4.0,4.0,
+allarmi_raw,stn|londra|4,186.0,2,93.0,93.0,130.10764773832474
+allarmi_raw,stn|londra|5,168.0,3,56.0,56.0,94.39809320108114
+allarmi_raw,stn|londra|6,2.0,2,1.0,1.0,0.0
+allarmi_raw,stn|londra|7,1.0,1,1.0,1.0,
+allarmi_raw,stn|londra|9,144.0,2,72.0,72.0,90.50966799187809
+allarmi_raw,szx|shenzhen|1,199.0,8,24.875,24.875,58.88836290570732
+allarmi_raw,szx|shenzhen|2,73.0,6,12.166666666666666,12.166666666666666,16.940090515303236
+allarmi_raw,szx|shenzhen|9,1.0,1,1.0,1.0,
+allarmi_raw,tas|tashkent|1,1.0,1,1.0,1.0,
+allarmi_raw,tas|tashkent|2,1.0,1,1.0,1.0,
+allarmi_raw,tbs|tbilisi|1,9.0,5,1.8,1.8,1.3038404810405297
+allarmi_raw,tbs|tbilisi|2,70.0,1,70.0,70.0,
+allarmi_raw,tfu|chengdu|1,0.0,1,0.0,0.0,
+allarmi_raw,tfu|chengdu|2,9.0,3,3.0,3.0,3.4641016151377544
+allarmi_raw,tgd|podgorica|1,191.0,6,31.833333333333332,31.833333333333332,51.61556612754206
+allarmi_raw,tgd|podgorica|2,128.0,4,32.0,32.0,60.67399223170776
+allarmi_raw,tia|//|1,1.0,1,1.0,1.0,
+allarmi_raw,tia|//|2,2.0,2,1.0,1.0,0.0
+allarmi_raw,tia|?|1,180.0,3,60.0,60.0,102.19099764656376
+allarmi_raw,tia|tirana|1,10855.0,310,35.016129032258064,35.82508250825082,66.78267931284113
+allarmi_raw,tia|tirana|10,2.0,2,1.0,1.0,0.0
+allarmi_raw,tia|tirana|12,373.0,5,74.6,74.6,100.00149998875017
+allarmi_raw,tia|tirana|2,7570.0,244,31.024590163934427,32.35042735042735,60.88352578705458
+allarmi_raw,tia|tirana|4,56.0,2,28.0,28.0,38.18376618407357
+allarmi_raw,tia|tirana|6,184.0,3,61.333333333333336,61.333333333333336,79.38723658960132
+allarmi_raw,tia|tirana|7,32.0,5,6.4,6.4,7.503332592921628
+allarmi_raw,tia|tirana|8,39.0,1,39.0,39.0,
+allarmi_raw,tlv|tel aviv yafo|1,837.0,22,38.04545454545455,44.05263157894737,73.48505039515825
+allarmi_raw,tlv|tel aviv yafo|2,685.0,20,34.25,36.05263157894737,68.84077738941468
+allarmi_raw,tlv|tel aviv yafo|5,1.0,1,1.0,1.0,
+allarmi_raw,tlv|tel aviv yafo|8,1.0,1,1.0,1.0,
+allarmi_raw,tng|tangier|1,3.0,3,1.0,1.0,0.0
+allarmi_raw,tng|tangier|2,229.0,4,57.25,57.25,80.04321749321842
+allarmi_raw,tng|tangier|4,,1,,,
+allarmi_raw,tpe|taipei|1,765.0,16,47.8125,47.8125,94.77145755271818
+allarmi_raw,tpe|taipei|2,30.0,7,4.285714285714286,4.285714285714286,4.4986770542121866
+allarmi_raw,tpe|taipei|5,1.0,1,1.0,1.0,
+allarmi_raw,tun|//|3,18.0,1,18.0,18.0,
+allarmi_raw,tun|tunis|1,11342.0,43,263.7674418604651,263.7674418604651,1521.0617663362545
+allarmi_raw,tun|tunis|2,731.0,37,19.756756756756758,21.5,34.52820542247989
+allarmi_raw,tun|tunis|7,87.0,1,87.0,87.0,
+allarmi_raw,wnz|wenzhou|1,115.0,6,19.166666666666668,23.0,30.797727188868986
+allarmi_raw,wnz|wenzhou|2,641.0,6,106.83333333333333,128.2,106.98224151699196
+allarmi_raw,wnz|wenzhou|5,1.0,1,1.0,1.0,
+allarmi_raw,yul|montreal|1,25.0,5,5.0,5.0,6.164414002968976
+allarmi_raw,yul|montreal|12,216.0,1,216.0,216.0,
+allarmi_raw,yul|montreal|2,471.0,5,94.2,94.2,126.86882989923096
+allarmi_raw,yul|montreal|5,175.0,1,175.0,175.0,
+allarmi_raw,yyz|toronto|1,308.0,3,102.66666666666667,102.66666666666667,171.7798979314324
+allarmi_raw,yyz|toronto|2,206.0,3,68.66666666666667,68.66666666666667,117.20210464549403
+allarmi_raw,znz|zanzibar|1,358.0,1,358.0,358.0,
+allarmi_raw,znz|zanzibar|2,348.0,2,174.0,348.0,
+allarmi_raw,znz|zanzibar|6,1.0,1,1.0,1.0,
+tipologia_raw,abj|abidjan|2,0.0,1,0.0,0.0,
+tipologia_raw,adb|smirne|1,2.0,5,0.4,0.4,0.894427190999916
+tipologia_raw,adb|smirne|2,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,add|addis ababa|2,0.0,1,0.0,0.0,
+tipologia_raw,adl|adelaide|1,0.0,1,0.0,0.0,
+tipologia_raw,aer|sochi|1,6.0,1,6.0,6.0,
+tipologia_raw,akl|auckland|2,0.0,1,0.0,0.0,
+tipologia_raw,ala|almaty|1,0.0,1,0.0,0.0,
+tipologia_raw,alg|algeri|2,6.0,1,6.0,6.0,
+tipologia_raw,amd|ahmedabad|2,0.0,1,0.0,0.0,
+tipologia_raw,amm|amman|1,0.0,12,0.0,0.0,0.0
+tipologia_raw,amm|amman|2,1.0,9,0.1111111111111111,0.125,0.3535533905932738
+tipologia_raw,arn|stoccolma|1,0.0,1,0.0,0.0,
+tipologia_raw,asb|ashgabat|1,1.0,1,1.0,1.0,
+tipologia_raw,asm|asmara|2,1.0,1,1.0,1.0,
+tipologia_raw,atl|atlanta|1,0.0,1,0.0,0.0,
+tipologia_raw,auh|abu dhabi|1,5.0,25,0.2,0.20833333333333334,0.5089773777040515
+tipologia_raw,auh|abu dhabi|2,2.0,12,0.16666666666666666,0.16666666666666666,0.38924947208076144
+tipologia_raw,ayt|antalya|2,0.0,2,0.0,0.0,0.0
+tipologia_raw,bah|manama|1,,1,,,
+tipologia_raw,beg|belgrado|1,3.0,8,0.375,0.42857142857142855,0.5345224838248488
+tipologia_raw,beg|belgrado|2,3.0,7,0.42857142857142855,0.42857142857142855,0.5345224838248488
+tipologia_raw,bfs|belfast|1,7.0,4,1.75,1.75,3.5
+tipologia_raw,bfs|belfast|2,0.0,2,0.0,0.0,0.0
+tipologia_raw,bhx|birmingham|1,8.0,16,0.5,0.5714285714285714,1.3424596091494905
+tipologia_raw,bhx|birmingham|2,4.0,18,0.2222222222222222,0.2222222222222222,0.42779263194649864
+tipologia_raw,bkk|bangkok|1,2.0,14,0.14285714285714285,0.14285714285714285,0.36313651960128146
+tipologia_raw,bkk|bangkok|2,1.0,9,0.1111111111111111,0.1111111111111111,0.33333333333333337
+tipologia_raw,blr|bangalore|2,0.0,2,0.0,0.0,0.0
+tipologia_raw,bna|nashville|2,0.0,1,0.0,0.0,
+tipologia_raw,bne|brisbane|1,0.0,1,0.0,0.0,
+tipologia_raw,bog|bogota|2,0.0,1,0.0,0.0,
+tipologia_raw,bos|boston|1,3.0,3,1.0,1.0,1.7320508075688772
+tipologia_raw,bos|boston|2,0.0,1,0.0,0.0,
+tipologia_raw,brs|bristol|1,5.0,10,0.5,0.5,0.7071067811865476
+tipologia_raw,brs|bristol|2,4.0,15,0.26666666666666666,0.26666666666666666,0.45773770821706344
+tipologia_raw,bsb|brasilia|2,0.0,1,0.0,0.0,
+tipologia_raw,buf|buffalo|1,0.0,1,0.0,0.0,
+tipologia_raw,cai|cairo|1,2.0,9,0.2222222222222222,0.2222222222222222,0.4409585518440985
+tipologia_raw,cai|cairo|2,0.0,6,0.0,0.0,0.0
+tipologia_raw,can|guangzhou|1,0.0,4,0.0,0.0,0.0
+tipologia_raw,can|guangzhou|2,0.0,3,0.0,0.0,0.0
+tipologia_raw,ceb|cebu|1,1.0,1,1.0,1.0,
+tipologia_raw,cgk|giacarta|1,4.0,4,1.0,1.0,1.1547005383792515
+tipologia_raw,cgk|giacarta|2,5.0,2,2.5,2.5,2.1213203435596424
+tipologia_raw,cle|cleveland|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,cle|cleveland|2,0.0,1,0.0,0.0,
+tipologia_raw,cmn|casablanca|1,4.0,10,0.4,0.4,0.5163977794943222
+tipologia_raw,cmn|casablanca|2,0.0,3,0.0,0.0,0.0
+tipologia_raw,cun|cancun|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,cun|cancun|2,1.0,1,1.0,1.0,
+tipologia_raw,cvg|cincinnati|1,0.0,1,0.0,0.0,
+tipologia_raw,dar|dar es salaam|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,dar|dar es salaam|2,5.0,3,1.6666666666666667,1.6666666666666667,1.1547005383792517
+tipologia_raw,del|nuova delhi|1,0.0,1,0.0,0.0,
+tipologia_raw,del|nuova delhi|2,1.0,5,0.2,0.2,0.4472135954999579
+tipologia_raw,dfw|dallas-fort worth|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,dfw|dallas-fort worth|2,0.0,1,0.0,0.0,
+tipologia_raw,dmm|dammam|1,0.0,1,0.0,0.0,
+tipologia_raw,dmm|dammam|2,1.0,1,1.0,1.0,
+tipologia_raw,doh|doha|1,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,doh|doha|2,8.0,7,1.1428571428571428,1.1428571428571428,2.1930626551751344
+tipologia_raw,dps|denpasar|1,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,dps|denpasar|2,0.0,5,0.0,0.0,0.0
+tipologia_raw,dss|dakar|1,0.0,1,0.0,0.0,
+tipologia_raw,dtw|detroit|1,,1,,,
+tipologia_raw,dtw|detroit|2,0.0,4,0.0,0.0,0.0
+tipologia_raw,dur|durban|2,0.0,1,0.0,0.0,
+tipologia_raw,dwc|dubai|1,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,dxb|dubai|1,46.0,56,0.8214285714285714,0.8214285714285714,1.2664501979533596
+tipologia_raw,dxb|dubai|2,22.0,55,0.4,0.4,0.7097208632298362
+tipologia_raw,edi|edinburgh|1,1.0,4,0.25,0.25,0.5
+tipologia_raw,edi|edinburgh|2,1.0,5,0.2,0.25,0.5
+tipologia_raw,elq|buraidah|1,0.0,1,0.0,0.0,
+tipologia_raw,ema|derby|1,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,ema|derby|2,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,esb|ankara|1,0.0,1,0.0,0.0,
+tipologia_raw,esb|ankara|2,0.0,1,0.0,0.0,
+tipologia_raw,evn|yerevan|1,2.0,7,0.2857142857142857,0.3333333333333333,0.816496580927726
+tipologia_raw,evn|yerevan|2,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,ewr|newark|1,14.0,14,1.0,1.0,1.9611613513818404
+tipologia_raw,ewr|newark|2,2.0,15,0.13333333333333333,0.13333333333333333,0.3518657752744984
+tipologia_raw,eze|buenos aires|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,fez|fes|2,1.0,1,1.0,1.0,
+tipologia_raw,fih|kinshasa|2,1.0,1,1.0,1.0,
+tipologia_raw,fll|fort lauderdale|1,0.0,1,0.0,0.0,
+tipologia_raw,fra|francoforte|1,1.0,1,1.0,1.0,
+tipologia_raw,fru|bishkek|1,1.0,1,1.0,1.0,
+tipologia_raw,fuk|fukuoka|2,0.0,1,0.0,0.0,
+tipologia_raw,gig|rio de janeiro|2,2.0,5,0.4,0.4,0.5477225575051661
+tipologia_raw,gla|glasgow|1,0.0,1,0.0,0.0,
+tipologia_raw,gru|san paolo|1,3.0,5,0.6,0.6,0.5477225575051661
+tipologia_raw,gru|san paolo|2,1.0,1,1.0,1.0,
+tipologia_raw,gyd|baku|1,0.0,3,0.0,0.0,0.0
+tipologia_raw,gyd|baku|2,4.0,2,2.0,2.0,2.8284271247461903
+tipologia_raw,gzt|gaziantep|2,1.0,1,1.0,1.0,
+tipologia_raw,han|hanoi|1,0.0,1,0.0,0.0,
+tipologia_raw,han|hanoi|2,1.0,1,1.0,1.0,
+tipologia_raw,hgh|hangzhou|2,0.0,1,0.0,0.0,
+tipologia_raw,hkg|hong kong|1,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,hkt|phuket|1,5.0,12,0.4166666666666667,0.4166666666666667,0.6685579234215215
+tipologia_raw,hkt|phuket|2,7.0,10,0.7,0.7,0.6749485577105528
+tipologia_raw,hnd|tokyo|2,1.0,4,0.25,0.25,0.5
+tipologia_raw,hrg|hurghada|1,4.0,5,0.8,0.8,0.4472135954999579
+tipologia_raw,hrg|hurghada|2,2.0,3,0.6666666666666666,0.6666666666666666,1.1547005383792517
+tipologia_raw,iad|washington|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,iad|washington|2,0.0,1,0.0,0.0,
+tipologia_raw,iah|houston|2,3.0,2,1.5,1.5,2.1213203435596424
+tipologia_raw,icn|seoul|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,icn|seoul|2,0.0,1,0.0,0.0,
+tipologia_raw,ifn|isfahan|1,0.0,1,0.0,0.0,
+tipologia_raw,ifn|isfahan|2,1.0,1,1.0,1.0,
+tipologia_raw,ika|tehran|1,42.0,51,0.8235294117647058,0.84,1.3455899244933278
+tipologia_raw,ika|tehran|2,62.0,30,2.066666666666667,2.066666666666667,4.563221286081482
+tipologia_raw,isb|islamabad|1,3.0,5,0.6,0.6,0.5477225575051662
+tipologia_raw,isb|islamabad|2,5.0,8,0.625,0.625,0.5175491695067657
+tipologia_raw,ist|istanbul|1,44.0,62,0.7096774193548387,0.7213114754098361,1.2666379059144937
+tipologia_raw,ist|istanbul|2,38.0,47,0.8085106382978723,0.8085106382978723,2.0497963618087445
+tipologia_raw,jax|jacksonville|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,jax|jacksonville|2,0.0,4,0.0,0.0,0.0
+tipologia_raw,jed|jeddah|1,17.0,42,0.40476190476190477,0.425,0.7807787039970959
+tipologia_raw,jed|jeddah|2,11.0,28,0.39285714285714285,0.4074074074074074,1.217161238900369
+tipologia_raw,jfk|new york|1,31.0,61,0.5081967213114754,0.5081967213114754,1.3369486504683235
+tipologia_raw,jfk|new york|12,0.0,1,0.0,0.0,
+tipologia_raw,jfk|new york|2,10.0,49,0.20408163265306123,0.20833333333333334,0.9215697369932697
+tipologia_raw,kbl|kabul|1,526.0,38,13.842105263157896,13.842105263157896,81.00100977541743
+tipologia_raw,kbl|kabul|2,25.0,34,0.7352941176470589,0.7352941176470589,0.7904284810156533
+tipologia_raw,kch|kuching|1,0.0,1,0.0,0.0,
+tipologia_raw,kiv|chisinau|1,3.0,6,0.5,0.5,0.5477225575051661
+tipologia_raw,kul|kuala lumpur|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,kul|kuala lumpur|2,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,kut|kutaisi|1,2.0,4,0.5,0.5,0.5773502691896257
+tipologia_raw,kut|kutaisi|2,0.0,3,0.0,0.0,0.0
+tipologia_raw,kwi|kuwait city|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,kwi|kuwait city|2,0.0,4,0.0,0.0,0.0
+tipologia_raw,kzn|kazan|1,0.0,1,0.0,0.0,
+tipologia_raw,lad|luanda|1,8.0,16,0.5,0.5,1.2649110640673518
+tipologia_raw,lad|luanda|2,1.0,11,0.09090909090909091,0.1,0.31622776601683794
+tipologia_raw,las|las vegas|1,0.0,1,0.0,0.0,
+tipologia_raw,lax|los angeles|1,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,lcy|londra|1,2.0,5,0.4,0.4,0.5477225575051661
+tipologia_raw,lcy|londra|2,1.0,7,0.14285714285714285,0.14285714285714285,0.37796447300922725
+tipologia_raw,lgw|londra|1,45.0,114,0.39473684210526316,0.4017857142857143,1.0175028736136806
+tipologia_raw,lgw|londra|2,57.0,147,0.3877551020408163,0.3904109589041096,1.0594291740251565
+tipologia_raw,lhr|londra|1,5.0,38,0.13157894736842105,0.13513513513513514,0.5355247770054966
+tipologia_raw,lhr|londra|2,6.0,46,0.13043478260869565,0.13043478260869565,0.45258249841812936
+tipologia_raw,los|lagos|2,0.0,1,0.0,0.0,
+tipologia_raw,lpl|liverpool|1,0.0,1,0.0,0.0,
+tipologia_raw,lrm|la romana|1,3.0,5,0.6,0.6,0.5477225575051662
+tipologia_raw,lrm|la romana|2,3.0,3,1.0,1.0,1.0
+tipologia_raw,ltn|londra|1,18.0,22,0.8181818181818182,0.8181818181818182,1.651445647689541
+tipologia_raw,ltn|londra|2,9.0,32,0.28125,0.28125,0.5811209967839966
+tipologia_raw,man|manchester|1,13.0,43,0.3023255813953488,0.30952380952380953,0.6043781419307536
+tipologia_raw,man|manchester|2,9.0,44,0.20454545454545456,0.20930232558139536,0.4658908279478053
+tipologia_raw,mba|mombasa|1,1.0,5,0.2,0.2,0.447213595499958
+tipologia_raw,mba|mombasa|2,2.0,4,0.5,0.5,0.5773502691896257
+tipologia_raw,mct|muscat|1,0.0,1,0.0,0.0,
+tipologia_raw,mct|muscat|2,0.0,2,0.0,0.0,0.0
+tipologia_raw,med|madinah|1,0.0,4,0.0,0.0,0.0
+tipologia_raw,mel|melbourne|1,0.0,4,0.0,0.0,0.0
+tipologia_raw,mel|melbourne|2,2.0,2,1.0,1.0,0.0
+tipologia_raw,mex|citta del messico|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,mex|citta del messico|2,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,mhd|mashad|1,2.0,7,0.2857142857142857,0.2857142857142857,0.48795003647426666
+tipologia_raw,mhd|mashad|2,1.0,5,0.2,0.2,0.447213595499958
+tipologia_raw,mia|miami|1,5.0,12,0.4166666666666667,0.4166666666666667,0.6685579234215215
+tipologia_raw,mia|miami|2,0.0,5,0.0,0.0,0.0
+tipologia_raw,mji|tripoli|1,0.0,1,0.0,0.0,
+tipologia_raw,mle|male|1,10.0,31,0.3225806451612903,0.3225806451612903,0.4751909633114914
+tipologia_raw,mle|male|2,8.0,16,0.5,0.5,0.6324555320336759
+tipologia_raw,mnl|manila|1,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,mnl|manila|2,1.0,1,1.0,1.0,
+tipologia_raw,mpm|maputo|2,0.0,1,0.0,0.0,
+tipologia_raw,mru|plaisance|1,1.0,4,0.25,0.25,0.5
+tipologia_raw,mru|plaisance|2,0.0,2,0.0,0.0,0.0
+tipologia_raw,myr|myrtle beach|1,0.0,1,0.0,0.0,
+tipologia_raw,nav|nevsehir|1,1.0,1,1.0,1.0,
+tipologia_raw,nbo|nairobi|2,0.0,2,0.0,0.0,0.0
+tipologia_raw,ncl|newcastle|1,2.0,3,0.6666666666666666,0.6666666666666666,0.5773502691896258
+tipologia_raw,ncl|newcastle|2,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,nos|nosy-be|1,1.0,1,1.0,1.0,
+tipologia_raw,nrt|tokyo|1,1.0,1,1.0,1.0,
+tipologia_raw,nrt|tokyo|2,0.0,3,0.0,0.0,0.0
+tipologia_raw,nsi|yaounde|2,0.0,1,0.0,0.0,
+tipologia_raw,ord|chicago|1,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,ord|chicago|2,0.0,1,0.0,0.0,
+tipologia_raw,oua|ouagadougou|1,2.0,1,2.0,2.0,
+tipologia_raw,oxb|bissau|1,0.0,1,0.0,0.0,
+tipologia_raw,pek|pechino|1,0.0,3,0.0,0.0,0.0
+tipologia_raw,pek|pechino|2,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,per|perth|1,,1,,,
+tipologia_raw,pew|peshawar|1,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,pew|peshawar|2,8.0,6,1.3333333333333333,1.3333333333333333,1.3662601021279464
+tipologia_raw,phl|filadelfia|1,1.0,1,1.0,1.0,
+tipologia_raw,phl|filadelfia|2,0.0,1,0.0,0.0,
+tipologia_raw,pkx|pechino|1,0.0,1,0.0,0.0,
+tipologia_raw,pkx|pechino|2,0.0,1,0.0,0.0,
+tipologia_raw,poa|porto alegre|1,0.0,1,0.0,0.0,
+tipologia_raw,prn|pristina|1,13.0,16,0.8125,0.8125,1.2763881332363862
+tipologia_raw,prn|pristina|2,11.0,13,0.8461538461538461,0.9166666666666666,0.6685579234215215
+tipologia_raw,pvg|shanghai|1,7.0,4,1.75,1.75,2.8722813232690143
+tipologia_raw,pvg|shanghai|2,5.0,3,1.6666666666666667,1.6666666666666667,2.8867513459481287
+tipologia_raw,pvr|puerto vallarta|2,0.0,1,0.0,0.0,
+tipologia_raw,rak|marrakech|1,5.0,8,0.625,0.625,1.407885953173359
+tipologia_raw,rak|marrakech|2,9.0,19,0.47368421052631576,0.47368421052631576,1.1722922015640782
+tipologia_raw,rec|recife|1,0.0,1,0.0,0.0,
+tipologia_raw,rmf|marsa alam|1,2.0,7,0.2857142857142857,0.2857142857142857,0.4879500364742666
+tipologia_raw,rmf|marsa alam|2,11.0,9,1.2222222222222223,1.2222222222222223,2.1666666666666665
+tipologia_raw,rmo|chisinau|1,1.0,6,0.16666666666666666,0.16666666666666666,0.408248290463863
+tipologia_raw,rmo|chisinau|2,4.0,8,0.5,0.5,0.5345224838248488
+tipologia_raw,ruh|riyadh|1,2.0,10,0.2,0.2,0.4216370213557839
+tipologia_raw,ruh|riyadh|2,7.0,8,0.875,0.875,1.7268882005337975
+tipologia_raw,saw|istanbul|1,86.0,108,0.7962962962962963,0.8037383177570093,1.2471798552148552
+tipologia_raw,saw|istanbul|2,87.0,101,0.8613861386138614,0.87,1.4045740574381556
+tipologia_raw,scl|santiago|1,0.0,1,0.0,0.0,
+tipologia_raw,sdu|rio de janeiro|2,0.0,1,0.0,0.0,
+tipologia_raw,sgn|ho chi minh city|1,0.0,2,0.0,0.0,
+tipologia_raw,sgn|ho chi minh city|2,0.0,1,0.0,0.0,
+tipologia_raw,shj|sharjah|1,2.0,10,0.2,0.2,0.42163702135578396
+tipologia_raw,shj|sharjah|2,3.0,5,0.6,0.6,0.8944271909999159
+tipologia_raw,sin|singapore|1,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,sin|singapore|2,1.0,1,1.0,1.0,
+tipologia_raw,sjj|sarajevo|2,0.0,1,0.0,0.0,
+tipologia_raw,skg|thessaloniki|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,skg|thessaloniki|2,1.0,1,1.0,1.0,
+tipologia_raw,skp|skopie|1,11.0,21,0.5238095238095238,0.5238095238095238,1.1670067531530235
+tipologia_raw,skp|skopie|2,2.0,10,0.2,0.2,0.42163702135578396
+tipologia_raw,skt|sialkot|1,0.0,1,0.0,0.0,
+tipologia_raw,smf|sacramento|1,0.0,1,0.0,0.0,
+tipologia_raw,sof|sofia|1,1.0,1,1.0,1.0,
+tipologia_raw,spx|giza|1,0.0,6,0.0,0.0,0.0
+tipologia_raw,spx|giza|2,7.0,7,1.0,1.0,1.5275252316519468
+tipologia_raw,ssa|salvador|2,1.0,1,1.0,1.0,
+tipologia_raw,ssh|sharm el sheikh|1,30.0,44,0.6818181818181818,0.6818181818181818,0.8289171213579426
+tipologia_raw,ssh|sharm el sheikh|2,37.0,39,0.9487179487179487,0.9487179487179487,1.2343487084868077
+tipologia_raw,stn|londra|1,96.0,254,0.3779527559055118,0.3855421686746988,0.9898434867467458
+tipologia_raw,stn|londra|2,95.0,248,0.38306451612903225,0.38934426229508196,1.0264251260720207
+tipologia_raw,svo|mosca|1,1.0,1,1.0,1.0,
+tipologia_raw,syd|sidney|1,2.0,4,0.5,0.5,0.5773502691896257
+tipologia_raw,syd|sidney|2,0.0,2,0.0,0.0,
+tipologia_raw,syr|syracuse|2,0.0,1,0.0,0.0,
+tipologia_raw,syz|shiraz|2,0.0,1,0.0,0.0,
+tipologia_raw,szx|shenzhen|1,0.0,1,0.0,0.0,
+tipologia_raw,tas|tashkent|2,0.0,1,0.0,0.0,
+tipologia_raw,tbs|tbilisi|2,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,tfu|chengdu|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,tgd|podgorica|1,77.0,11,7.0,7.7,18.85058207176756
+tipologia_raw,tgd|podgorica|2,13.0,12,1.0833333333333333,1.1818181818181819,1.2504544628399563
+tipologia_raw,tia|tirana|1,18174.0,1236,14.70388349514563,14.995049504950495,17.671279780039537
+tipologia_raw,tia|tirana|2,17425.0,1004,17.355577689243027,17.547834843907353,159.2100394799732
+tipologia_raw,tlv|tel aviv yafo|1,0.0,1,0.0,0.0,
+tipologia_raw,tlv|tel aviv yafo|2,1.0,3,0.3333333333333333,0.3333333333333333,0.5773502691896258
+tipologia_raw,tng|tangier|2,0.0,1,0.0,0.0,
+tipologia_raw,tpa|tampa|1,1.0,1,1.0,1.0,
+tipologia_raw,tpa|tampa|2,0.0,2,0.0,0.0,0.0
+tipologia_raw,tpe|taipei|1,0.0,1,0.0,0.0,
+tipologia_raw,tsa|taipei|2,0.0,1,0.0,0.0,
+tipologia_raw,tun|tunis|1,2.0,5,0.4,0.4,0.5477225575051662
+tipologia_raw,tun|tunis|2,8.0,11,0.7272727272727273,0.7272727272727273,1.7939291563999449
+tipologia_raw,vko|mosca|1,0.0,1,0.0,0.0,
+tipologia_raw,vko|mosca|2,1.0,1,1.0,1.0,
+tipologia_raw,yeg|edmonton|1,1.0,1,1.0,1.0,
+tipologia_raw,yhz|halifax|1,5.0,1,5.0,5.0,
+tipologia_raw,yul|montreal|1,1.0,2,0.5,0.5,0.7071067811865476
+tipologia_raw,yvr|vancouver|1,0.0,2,0.0,0.0,0.0
+tipologia_raw,ywg|winnipeg|1,0.0,1,0.0,0.0,
+tipologia_raw,yyc|calgary|1,0.0,1,0.0,0.0,
+tipologia_raw,yyz|toronto|1,0.0,7,0.0,0.0,0.0
+tipologia_raw,yyz|toronto|2,1.0,7,0.14285714285714285,0.14285714285714285,0.37796447300922725
+tipologia_raw,znz|zanzibar|1,3.0,7,0.42857142857142855,0.42857142857142855,0.5345224838248488
+tipologia_raw,znz|zanzibar|2,0.0,7,0.0,0.0,0.0

@@ -1,0 +1,24 @@
+{
+  "allarmi_raw": [
+    "ist|istanbul|1",
+    "ist|istanbul|2",
+    "saw|istanbul|2",
+    "saw|istanbul|1",
+    "saw|istanbul|5",
+    "ist|istanbul|9",
+    "saw|istanbul|10",
+    "ist|istanbul|12",
+    "ist|istanbul|6",
+    "ist|istanbul|10",
+    "ist|istanbul|4",
+    "saw|istanbul|11",
+    "saw|istanbul|7",
+    "ist|istanbul|11"
+  ],
+  "tipologia_raw": [
+    "ist|istanbul|1",
+    "saw|istanbul|1",
+    "saw|istanbul|2",
+    "ist|istanbul|2"
+  ]
+}
