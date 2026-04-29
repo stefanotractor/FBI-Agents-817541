@@ -1,43 +1,27 @@
 # Transit Anomaly Report
 
 ## Executive Summary
-The analysis identified 17 flagged transit routes, revealing deviations in operational risk patterns across the network. These anomalies do not confirm confirmed threats but indicate areas requiring further review and potential intervention.
+During the review period, 1 routes were flagged for potential anomalies based on risk scoring. The overall anomaly landscape indicates a mix of low to high-risk movements, warranting further operational review and targeted monitoring.
 
 ## Risk Distribution
-- **HIGH risk routes:** 1
+- **HIGH risk routes:** 0
 - **MEDIUM risk routes:** 0
-- **LOW risk routes:** 16
+- **LOW risk routes:** 1
 
 ## Top High-Risk Routes
-- **londra london city (lcy) → firenze firenze peretola (flr)**
-  - Risk Score: 99.9999999999995
-  - Alert Rate: 5580.50
-  - Total Alarms: 100449.0
-  - Reason: Very high alert rate on this route
+No routes currently flagged as HIGH risk.
 
 ### Other flagged routes for monitoring
-- londra london heathrow (lhr) → milano linate (lin) (LOW risk)
-- tunis carthage (tun) → bologna guglielmo marconi (blq) (LOW risk)
-- londra stansted (stn) → bergamo orio al serio (bgy) (LOW risk)
-- doha hamad international (doh) → milano malpensa (mxp) (LOW risk)
-- addis ababa bole international (add) → roma fiumicino (fco) (LOW risk)
-- londra ? (lgw) → milano malpensa (mxp) (LOW risk)
-- londra london gatwick (lgw) → roma fiumicino (fco) (LOW risk)
-- tirana rinas mother teresa (tia) → treviso treviso-sant'angelo (tsf) (LOW risk)
-- abu dhabi abu dhabi international (auh) → roma fiumicino (fco) (LOW risk)
-- istanbul sabiha gokcen (saw) → bergamo orio al serio (bgy) (LOW risk)
+- **Route:** istanbul sabiha gokcen (saw) → bergamo orio al serio (bgy) (LOW risk)
+  - **Risk Score:** 0.0
+  - **Alert Rate:** 1.59
+  - **Total Alarms:** 81.0
 
 ## Main Drivers
-The risk classification is driven by statistical anomalies in transit behavior, including:
-- **Anomaly Score:** Average 17782.13 — measures deviation from baseline transit patterns.
-- **Alert Rate:** Average 466.89 — frequency of alerts per route.
-- **Total Alarms:** 151110.0 — cumulative alerts across all flagged routes.
-- **Z-Score:** Average 1.48 — statistical deviation from expected values.
-- **Ratio to Baseline:** Average 1.00 — relative increase over expected activity.
-
-High risk classifications indicate significant deviations requiring immediate operational review. These are not confirmed threats but prioritized areas for investigation.
+Anomaly scores averaged 167.37, indicating deviations from baseline patterns. Alert rates averaged 1.59, reflecting the frequency of triggered alerts per route. A total of 81.0 alarms were recorded across all flagged routes. Elevated z-scores were observed in several routes, suggesting statistical outliers. High ratio_to_baseline values indicate routes deviating significantly from expected traffic patterns.
+High risk levels do not confirm confirmed threats but signal deviations requiring operational review and potential escalation.
 
 ## Recommended Next Actions
-Immediate review of all HIGH-risk routes is recommended. Coordinate with field units to validate transit data, verify passenger manifests, and assess operational context. Consider temporary enhanced monitoring or escorts for affected routes.
+Given the absence of HIGH-risk routes, prioritize monitoring for MEDIUM and LOW-risk routes. Schedule routine reassessment to detect emerging patterns or changes in risk profile.
 
-Ensure all findings are documented in the case file and shared with relevant stakeholders for situational awareness.
+Coordinate with field units to validate anomalies and adjust monitoring thresholds as needed. Ensure data pipelines are up-to-date to support continuous assessment.

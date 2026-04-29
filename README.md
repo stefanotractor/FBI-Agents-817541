@@ -9,7 +9,7 @@
 **Company:** Whitehall Reply  
 **Project type:** Machine Learning project — Anomaly Detection  
 **Main notebook:** `main.ipynb`  
-**Figures folder:** `images/`
+**Data folder:** `data/`
 
 ---
 
@@ -520,14 +520,15 @@ sequenceDiagram
 
     S->>A: Build task-specific prompt
     A->>C: Request executable Python code
-    C->>O: Generate and save artifact
+    C->>O: Execute code & generate artifact
+
     S->>V: Validate artifact
-    V-->>S: Passed or failed
+    V-->>S: Passed / Failed
 
     alt Validation passed
-        S-->>S: Continue to next agent
+        S->>S: Proceed to next agent
     else Validation failed
-        S->>C: Retry with different temperature
+        S->>C: Retry with modified parameters
     end
 ```
 
@@ -948,30 +949,6 @@ The most important conclusion is that the two approaches are complementary:
 
 ---
 
-## Suggested Figures
-
-The README should include figures generated from the notebook and saved inside the `images/` folder.
-
-Recommended figures:
-
-1. anomaly score distributions for Isolation Forest and LOF;
-2. Z-score maximum distribution;
-3. vote distribution across the three methods;
-4. priority score ranking for the 19 reliable routes;
-5. bubble chart showing alert rate vs investigated volume;
-6. risk level distribution;
-7. Classical Pipeline flowchart;
-8. Multi-Agent Pipeline architecture.
-
-Example references:
-
-```markdown
-![Priority Score Ranking](images/priority_score_ranking.png)
-
-![Alert Rate vs Volume](images/alert_rate_vs_volume.png)
-```
-
----
 
 ## [Section 5] Conclusions
 
@@ -1023,10 +1000,6 @@ Future work could include:
 │   ├── outliers.csv
 │   ├── risk_report.csv
 │   └── transit_anomaly_report.md
-├── images/
-│   ├── priority_score_ranking.png
-│   ├── alert_rate_vs_volume.png
-│   └── anomaly_vote_distribution.png
 └── requirements.txt
 ```
 
@@ -1049,6 +1022,24 @@ Example installation:
 pip install -r requirements.txt
 ```
 
+# API Key
+
+This project requires a Mistral API key to run the Multi-Agent Pipeline.
+
+For the purpose of evaluation, the API key is provided below:
+
+```bash
+MISTRAL_API_KEY=6H9hgqBwYfQSjKp37F5zr1TWnyMTYitV
+```
+
+To use it locally, set it as an environment variable:
+
+```bash
+export MISTRAL_API_KEY=6H9hgqBwYfQSjKp37F5zr1TWnyMTYitV
+```
+
+
+
 Main Python libraries used:
 
 - `pandas`
@@ -1064,7 +1055,3 @@ Main Python libraries used:
 ---
 
 ## Notes on Academic Integrity
-
-All code should be written and understood by the team.  
-Any external code, AI-generated code, or reused implementation should be clearly referenced in accordance with the project rules.
-

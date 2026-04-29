@@ -1,18 +1,2 @@
-route,rolling_mean_alarms,rolling_std_alarms,total_alarms,n_records,alert_rate,z_score,ratio_to_baseline,anomaly_score,is_outlier,risk_score,risk_level,risk_reason
-lcy→flr,100449.0,5512.287441460299,100449.0,18,5580.5,18.09340408620369,1.0,200919.0934040862,True,99.9999999999995,HIGH,Very high alert rate on this route
-lhr→lin,12423.0,5512.287441460299,12423.0,72,172.54166666666666,2.1243529554665,1.0,24851.124352955467,True,10.984143677695924,LOW,Lower priority anomaly; monitor for potential escalation
-tun→blq,10223.0,5512.287441460299,10223.0,8,1277.875,1.7252445955771287,1.0,20450.72524459558,True,8.75940457891752,LOW,Lower priority anomaly; monitor for potential escalation
-stn→bgy,2651.0,5512.287441460299,2651.0,69,38.42028985507246,0.3515861859942553,1.0,5305.351586185994,True,1.1022570989402096,LOW,Lower priority anomaly; monitor for potential escalation
-doh→mxp,2307.0,5512.287441460299,2307.0,40,57.675,0.2891801515388263,1.0,4617.289180151539,True,0.7543888034948592,LOW,Lower priority anomaly; monitor for potential escalation
-add→fco,2269.0,5512.287441460299,2269.0,18,126.05555555555556,0.2822864616861917,1.0,4541.282286461686,True,0.7159614917886867,LOW,Lower priority anomaly; monitor for potential escalation
-lgw→mxp,2153.0,5512.287441460299,2153.0,57,37.77192982456141,0.2612425663465703,1.0,4309.2612425663465,True,0.5986570665803707,LOW,Lower priority anomaly; monitor for potential escalation
-lgw→fco,2076.0,5512.287441460299,2076.0,46,45.130434782608695,0.2472737737504423,1.0,4155.247273773751,True,0.5207911981231267,LOW,Lower priority anomaly; monitor for potential escalation
-tia→tsf,1951.0,5512.287441460299,1951.0,41,47.58536585365854,0.2245971623930917,1.0,3905.224597162393,True,0.39438556751071707,LOW,Lower priority anomaly; monitor for potential escalation
-auh→fco,1922.0,5512.287441460299,1922.0,24,80.08333333333333,0.2193361885581863,1.0,3847.2193361885584,True,0.3650594612086383,LOW,Lower priority anomaly; monitor for potential escalation
-saw→bgy,1889.0,5512.287441460299,1889.0,32,59.03125,0.2133495631598457,1.0,3781.21334956316,True,0.3316883747269623,LOW,Lower priority anomaly; monitor for potential escalation
-ist→fco,1860.0,5512.287441460299,1860.0,48,38.75,0.2080885893249404,1.0,3723.208088589325,True,0.3023622684248833,LOW,Lower priority anomaly; monitor for potential escalation
-icn→fco,1857.0,5512.287441460299,1857.0,15,123.8,0.207544350652364,1.0,3717.207544350653,True,0.2993285332901856,LOW,Lower priority anomaly; monitor for potential escalation
-lhr→fco,1848.0,5512.287441460299,1848.0,66,28.0,0.2059116346346347,1.0,3699.2059116346345,True,0.2902273278860918,LOW,Lower priority anomaly; monitor for potential escalation
-auh→mxp,1846.0,5512.287441460299,1846.0,23,80.26086956521739,0.2055488088529171,1.0,3695.205548808853,True,0.2882048377962934,LOW,Lower priority anomaly; monitor for potential escalation
-eze→fco,1825.0,5512.287441460299,1825.0,17,107.3529411764706,0.2017391381448822,1.0,3653.201739138145,True,0.2669686918534086,LOW,Lower priority anomaly; monitor for potential escalation
-stn→cia,1561.0,5512.287441460299,1561.0,43,36.30232558139535,0.1538461349581576,1.0,3125.1538461349583,True,0.0,LOW,Lower priority anomaly; monitor for potential escalation
+route,total_alarms,n_records,alert_rate,rolling_mean_alarms,rolling_std_alarms,z_score,ratio_to_baseline,anomaly_score,is_outlier,risk_score,risk_level,risk_reason
+saw→bgy,81.0,51,1.588235294117647,81.0,,2.366832363903647,1.0,167.36683236390363,True,0.0,LOW,Lower priority anomaly; monitor for potential escalation

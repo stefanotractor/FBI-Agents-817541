@@ -67,9 +67,9 @@
             "action": "none",
             "target_format": "Int64",
             "params": {},
-            "description": "No transformation needed; values represent counts of occurrences and are already in a consistent format."
+            "description": "No transformation needed as the column represents counts of occurrences, which are inherently numeric."
           },
-          "description": "Column represents counts of occurrences or events, with values like 'voli con allarmi' and 'viaggiatori con allarmi' indicating event types.",
+          "description": "The column 'occorrenze' contains counts of events or occurrences, such as alarms or travelers, and should be treated as a numeric measure.",
           "validator_fixes": [
             "role 'count' is numeric but dominant_format is 'generic' at 100.0% (textual evidence overrides). Reassigned to 'category', dtype to 'string'."
           ]
@@ -106,9 +106,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as all values are valid airport codes in lowercase alphabetic format."
+            "description": "No transformation needed as all values are valid IATA airport codes in lowercase."
           },
-          "description": "Column contains airport codes (e.g., 'fco', 'cia') representing arrival airports. Values are consistently formatted as 3-letter lowercase codes."
+          "description": "Column contains IATA airport codes (e.g., 'fco', 'cia') representing arrival airports. Values are consistently formatted as 3-letter lowercase codes."
         },
         "areoporto_partenza": {
           "column_name": "areoporto_partenza",
@@ -144,7 +144,7 @@
             "params": {},
             "description": "No transformation needed as all values are valid 3-letter airport codes in uppercase."
           },
-          "description": "Column contains airport codes (e.g., 'ist', 'lhr') representing departure airports. Values are consistently formatted as 3-letter uppercase strings."
+          "description": "Column contains standardized 3-letter airport codes representing departure locations. Values are consistent in format and fully conform to expected patterns."
         },
         "anno_partenza": {
           "column_name": "anno_partenza",
@@ -190,7 +190,7 @@
             "params": {
               "regex": "\\d{4}"
             },
-            "description": "Extracts the 4-digit year from values that may include prefixes or suffixes (e.g., 'anno 2024' or '2024.')."
+            "description": "Extracts the 4-digit year from strings that may include prefixes or suffixes (e.g., 'anno 2024' or '2024.')."
           },
           "description": "Represents the year of departure, with values ranging from 24 to 2024. Non-conforming samples are recoverable by extracting the 4-digit year."
         },
@@ -253,9 +253,9 @@
                 "12"
               ]
             },
-            "description": "Maps non-conforming string 'gen' to null and converts valid month numbers to integers."
+            "description": "Maps non-conforming value 'gen' to null and converts valid month numbers to integers."
           },
-          "description": "Represents the month number of departure, ranging from 1 to 12. Non-conforming values like 'gen' are set to null."
+          "description": "Represents the month of departure as a numeric identifier between 1 and 12, with non-conforming values set to null."
         },
         "data_partenza": {
           "column_name": "data_partenza",
@@ -301,9 +301,9 @@
             "params": {
               "regex": "\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2}"
             },
-            "description": "Extracts datetime values in ISO-like format (YYYY-MM-DD HH:MM:SS) from non-conforming samples like 'feb 22 2024' or '2024-02-25t14:25:00'."
+            "description": "Extracts datetime values in ISO-like format (YYYY-MM-DD HH:MM:SS) and converts non-conforming samples (e.g., 'feb 22 2024') to null."
           },
-          "description": "Column represents a timestamp of departure events, with most values in standard datetime format and a minority requiring format normalization."
+          "description": "Represents the date and time of departure with a standard datetime format. Non-standard formats are cleaned or nullified."
         },
         "descr_aereoporto_arr": {
           "column_name": "descr_aereoporto_arr",
@@ -349,9 +349,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as the column contains airport names in a consistent string format."
+            "description": "No transformation needed as values are already in a consistent categorical format representing airport names."
           },
-          "description": "The column contains airport names with some entries including full names or compound names (e.g., 'galileo galilei'). It represents a categorical variable with 31 unique values."
+          "description": "Column contains airport names in Italian, with some entries including full names or compound terms. The data represents categorical airport identifiers."
         },
         "descr_aereoporto_part": {
           "column_name": "descr_aereoporto_part",
@@ -435,11 +435,11 @@
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "string",
+            "target_format": null,
             "params": {},
             "description": "No transformation needed as all values are lowercase alphabetic city names with no anomalies."
           },
-          "description": "Column contains city names with consistent lowercase alphabetic format and no missing or non-conforming values."
+          "description": "Column represents city names with a small set of unique values, indicating a categorical role for geographic classification."
         },
         "citta_partenza": {
           "column_name": "citta_partenza",
@@ -485,7 +485,7 @@
             "params": {},
             "description": "No transformation needed as values are already in a consistent string format representing city names."
           },
-          "description": "Column represents departure cities with mostly alphabetic values and some multi-word city names. Non-conforming samples include punctuation and abbreviations but are still interpretable as city names."
+          "description": "Column represents city names as categories, with some non-conforming samples like abbreviations or special characters that may need manual review."
         },
         "codice_paese_arr": {
           "column_name": "codice_paese_arr",
@@ -526,9 +526,9 @@
                 "ita"
               ]
             },
-            "description": "Standardize country codes by mapping 'it' to the canonical value 'ita'."
+            "description": "Standardizes country codes by mapping 'it' to the dominant format 'ita'."
           },
-          "description": "This column represents country codes, specifically for Italy, with minor variations in formatting that need standardization."
+          "description": "This column represents country codes, with the dominant value 'ita' and a minor variant 'it'. It should be treated as a categorical identifier for countries."
         },
         "codice_paese_part": {
           "column_name": "codice_paese_part",
@@ -560,7 +560,7 @@
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "map",
-            "target_format": "alpha",
+            "target_format": "alpha_3",
             "params": {
               "mapping": {
                 "gb": "gbr"
@@ -570,9 +570,9 @@
                 "tur"
               ]
             },
-            "description": "Standardizes country codes to ISO 3166-1 alpha-3 format by mapping 'gb' to 'gbr'."
+            "description": "Maps non-standard country codes (e.g., 'gb' to 'gbr') to ISO 3166-1 alpha-3 format for consistency."
           },
-          "description": "Represents country codes in ISO 3166-1 alpha-3 format, with non-conforming values standardized to the dominant format."
+          "description": "Represents country codes, primarily in ISO 3166-1 alpha-3 format, with minor variations requiring normalization."
         },
         "paese_arr": {
           "column_name": "paese_arr",
@@ -608,7 +608,7 @@
             "params": {},
             "description": "No transformation needed as all values are consistent and conform to the expected format."
           },
-          "description": "Column contains a single country name ('italia') repeated across all rows, indicating a categorical field representing a country."
+          "description": "This column represents a categorical variable with a single unique value 'italia', indicating it likely denotes a country or region identifier."
         },
         "paese_part": {
           "column_name": "paese_part",
@@ -648,11 +648,11 @@
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "string",
+            "target_format": "lowercase_alpha",
             "params": {},
-            "description": "No transformation needed as values are already in a consistent string format representing country names."
+            "description": "No transformation needed; values are already in lowercase alphabetic format representing country names."
           },
-          "description": "Column contains country names in Italian, with a high uniqueness ratio indicating a categorical variable for geographic regions."
+          "description": "Column represents country names with a high cardinality of unique values, indicating a categorical role."
         },
         "zona": {
           "column_name": "zona",
@@ -693,9 +693,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as the column contains categorical numeric codes with no format anomalies."
+            "description": "No transformation needed as values are already in a consistent string format representing categories."
           },
-          "description": "The column 'zona' represents categorical codes (e.g., '5', '2', '8') with 12 unique values, likely denoting different zones or categories."
+          "description": "Column represents categorical zones with numeric labels. Values are consistent and no anomalies detected."
         },
         "tot": {
           "column_name": "tot",
@@ -740,13 +740,13 @@
           "expected_dtype": "Float64",
           "transformation_rule": {
             "action": "extract",
-            "target_format": "Float64",
+            "target_format": "float",
             "params": {
-              "regex": "[-+]?\\d+\\.?\\d*"
+              "regex": "[-+]?\\d+(\\.\\d+)?"
             },
-            "description": "Extracts numeric values from strings, handling leading/trailing non-numeric characters (e.g., '~181' -> 181, '1 voli' -> 1)."
+            "description": "Extracts numeric values from strings, handling leading/trailing non-numeric characters. Invalid formats like '?' or '1 voli' are set to null."
           },
-          "description": "Numeric measure column with values representing quantities, including some non-conforming samples with non-numeric prefixes or suffixes."
+          "description": "Column represents a numeric measure with potential non-numeric prefixes/suffixes. Negative values and extreme outliers (e.g., -500) are retained as they may be valid in context."
         },
         "motivo_allarme": {
           "column_name": "motivo_allarme",
@@ -780,9 +780,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as all non-null values are consistent and conform to a categorical format."
+            "description": "No transformation needed as all non-null values are already in a consistent string format representing alarm reasons."
           },
-          "description": "Column represents distinct alarm reasons with a fixed set of values like 'manuale', 'tsc', 'sdi', and 'interpol'."
+          "description": "Column contains categorical values representing different alarm reasons with no format anomalies. All non-null values are lowercase strings."
         },
         "note_operatore": {
           "column_name": "note_operatore",
@@ -818,7 +818,7 @@
             "params": {},
             "description": "No transformation needed as the column contains free-form text notes with no consistent format or recoverable anomalies."
           },
-          "description": "The column contains unstructured text notes from operators with 98.48% missing values and only 4 unique non-null values, indicating it is free-form text rather than a structured field."
+          "description": "The column contains unstructured text notes from operators with 98.48% missing values and only 4 unique non-null values, indicating it is free text."
         },
         "flag_rischio": {
           "column_name": "flag_rischio",
@@ -852,9 +852,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as values are already in a consistent alpha format ('alto', 'medio')."
+            "description": "No transformation needed as values are already in a consistent alphabetic format ('alto', 'medio')."
           },
-          "description": "Categorical column representing risk levels with two distinct values. High null count suggests optional or derived data."
+          "description": "Column represents a categorical risk flag with two possible values ('alto', 'medio'). High null percentage suggests optional or missing data."
         },
         "paese_partenza": {
           "column_name": "paese_partenza",
@@ -896,9 +896,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed; values are already in a consistent string format representing countries or regions."
+            "description": "No transformation needed as the column represents categorical country names with consistent alpha format."
           },
-          "description": "Column represents geographic regions or countries of departure, with 50 unique values and no nulls. The dominant format is alphabetic with some variations in naming conventions."
+          "description": "Column contains country names in Italian, representing departure locations. Values are categorical with low uniqueness ratio, indicating a controlled vocabulary."
         },
         "codice_paese_arr__1": {
           "column_name": "codice_paese_arr__1",
@@ -934,7 +934,7 @@
             "params": {},
             "description": "No transformation needed as all values are consistent and conform to the expected format."
           },
-          "description": "This column represents a categorical identifier for countries, specifically 'ita' for Italy, with no variation or missing values."
+          "description": "This column represents a country code with a single unique value 'ita', indicating it is a constant category field for Italy."
         },
         "col_3zona": {
           "column_name": "col_3zona",
@@ -977,7 +977,7 @@
             "params": {},
             "description": "No transformation needed as values are already in a consistent numeric format representing categories."
           },
-          "description": "Column represents categorical codes (1-9) with no missing or non-conforming values. Values are likely mapped to descriptive categories in a separate reference."
+          "description": "Column represents categorical codes with 8 unique values ranging from 1 to 9, likely mapping to distinct zones or categories."
         },
         "paese_arr__1": {
           "column_name": "paese_arr__1",
@@ -1013,7 +1013,7 @@
             "params": {},
             "description": "No transformation needed as all values are consistent and conform to the expected format."
           },
-          "description": "Column contains a single country name ('italia') with no variation, indicating a categorical field representing a country or region."
+          "description": "Column contains a single country name ('italia') repeated across all records, indicating it is a categorical field representing a country identifier."
         },
         "tot_voli": {
           "column_name": "tot_voli",
@@ -1061,9 +1061,9 @@
             "params": {
               "regex": "\\d+"
             },
-            "description": "Extracts numeric values from strings, converting non-conforming samples like '~181' or '1 voli' to their numeric equivalents."
+            "description": "Extracts numeric values from strings, discarding non-numeric prefixes/suffixes (e.g., '~181' becomes 181, '1 voli' becomes 1)."
           },
-          "description": "Represents a count of flights (voli), with non-conforming samples cleaned by extracting numeric values. The dominant format is purely numeric."
+          "description": "Column represents a count of items (e.g., total volumes), with most values being positive integers. Non-conforming samples contain non-numeric characters or text."
         }
       }
     },
@@ -1155,8 +1155,8 @@
                 "afg",
                 "ita",
                 "fra",
-                "esp",
                 "deu",
+                "esp",
                 "gbr",
                 "usa",
                 "rus",
@@ -1167,9 +1167,9 @@
                 "aus"
               ]
             },
-            "description": "Maps non-conforming values ('//', '?') to null and ensures canonical country codes are used."
+            "description": "Maps non-conforming values (e.g., '//', '?') to null and standardizes country codes to canonical values."
           },
-          "description": "Column represents nationality codes, primarily in 3-letter ISO format, with a small fraction of non-conforming entries that are cleaned to null."
+          "description": "Represents nationality as a categorical variable with standardized country codes, handling non-conforming entries by converting them to null."
         },
         "areoporto_arrivo": {
           "column_name": "areoporto_arrivo",
@@ -1203,9 +1203,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as the column contains airport codes in a consistent alphabetic format."
+            "description": "No transformation needed as all values are valid 3-letter airport codes in lowercase."
           },
-          "description": "The column contains airport codes represented as 3-letter alphabetic strings, indicating arrival airports. The data is clean with no missing values or format anomalies."
+          "description": "Column contains airport codes (e.g., 'nap', 'fco') representing arrival airports. All values are consistent in format and valid."
         },
         "areoporto_partenza": {
           "column_name": "areoporto_partenza",
@@ -1239,9 +1239,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as all values are valid 3-letter airport codes in uppercase."
+            "description": "No transformation needed as all values are valid airport codes in alphabetic format."
           },
-          "description": "Column represents departure airports using 3-letter IATA codes. All values are consistent in format and no anomalies detected."
+          "description": "Column represents departure airports, encoded as 3-letter IATA codes. All values are consistent and conform to the expected alphabetic format."
         },
         "anno_partenza": {
           "column_name": "anno_partenza",
@@ -1286,9 +1286,9 @@
             "params": {
               "regex": "\\d{4}"
             },
-            "description": "Extracts the 4-digit year from values like 'anno 2024' while preserving clean year values like '2024'."
+            "description": "Extracts the 4-digit year from values like 'anno 2024' or '2024'."
           },
-          "description": "Represents the year of departure, with most values being clean 4-digit years and a small portion requiring extraction from prefixed text."
+          "description": "Represents the year of departure, with most values being 4-digit years and a small fraction containing additional text."
         },
         "mese_partenza": {
           "column_name": "mese_partenza",
@@ -1351,9 +1351,9 @@
                 "12"
               ]
             },
-            "description": "Maps non-conforming month names (e.g., 'gen', 'feb') to their numeric equivalents (1, 2) and ensures all values are within the 1-12 range."
+            "description": "Maps non-conforming month names (e.g., 'gen', 'feb') to their numeric equivalents (1, 2) and ensures all values are valid month numbers (1-12)."
           },
-          "description": "Represents the month number of departure, with values ranging from 1 to 12. Non-numeric values like 'gen' or 'feb' are mapped to their canonical numeric equivalents."
+          "description": "Represents the month of departure as a numeric value between 1 and 12, with non-conforming text values (e.g., month names) mapped to their numeric equivalents."
         },
         "giorno_partenza": {
           "column_name": "giorno_partenza",
@@ -1394,9 +1394,9 @@
             "action": "none",
             "target_format": "int64",
             "params": {},
-            "description": "No transformation needed as values are within the valid day range (1-31) and conform to the expected format."
+            "description": "No transformation needed as values are already valid day numbers (1-31) with no non-conforming samples."
           },
-          "description": "Represents the day of the month for a departure date, with values ranging from 1 to 31."
+          "description": "Represents the day of the month (1-31) for a departure date. Values are consistently numeric and within the expected range."
         },
         "data_partenza": {
           "column_name": "data_partenza",
@@ -1436,11 +1436,11 @@
             "action": "extract",
             "target_format": "datetime64[ns]",
             "params": {
-              "regex": "\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2}|\\w+ \\d{2} \\d{4}"
+              "regex": "\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2}|\\w+ \\d{1,2} \\d{4}"
             },
-            "description": "Standardize datetime strings to ISO format by extracting date and time components, handling both 'YYYY-MM-DD HH:MM:SS' and 'MMM DD YYYY' formats."
+            "description": "Extracts datetime values from mixed formats (ISO and textual) and converts them to a standardized datetime64[ns] format."
           },
-          "description": "Column contains datetime values in various formats, primarily ISO-like with some non-standard representations."
+          "description": "The column contains datetime information in various formats, primarily ISO 8601 with some textual representations like 'feb 13 2024'. Requires parsing to a consistent datetime format."
         },
         "descr_aereoporto_arr": {
           "column_name": "descr_aereoporto_arr",
@@ -1488,9 +1488,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed; values represent airport names as categories."
+            "description": "No transformation needed as values are already in a consistent textual format representing airport names."
           },
-          "description": "Column contains airport names as free-form text with minor variations in formatting (e.g., hyphens, apostrophes). No further standardization required."
+          "description": "Column contains airport names in free text format, with no consistent casing or separators. Values are categorical identifiers for airports."
         },
         "descr_aereoporto_part": {
           "column_name": "descr_aereoporto_part",
@@ -1538,9 +1538,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as the column contains airport names in various formats, which are valid categories."
+            "description": "No transformation needed; values represent airport names in various formats."
           },
-          "description": "Column contains airport names in different languages and formats, representing categorical data with 176 unique values out of 5095 rows."
+          "description": "Column contains airport names in different languages and formats, representing categorical data with no consistent structure."
         },
         "citta_arr": {
           "column_name": "citta_arr",
@@ -1576,9 +1576,9 @@
             "action": "none",
             "target_format": "lowercase_alpha",
             "params": {},
-            "description": "No transformation needed as values are already in a consistent alphabetic format with minor exceptions."
+            "description": "No transformation needed as values are already in lowercase alpha format with minor exceptions."
           },
-          "description": "The column represents city names in Italy, with values predominantly in lowercase alphabetic format. Minor non-conforming samples (e.g., 'lamezia terme') are present but do not require transformation."
+          "description": "Column represents city names with a small set of unique values, suitable for categorical analysis. Minor non-conforming sample detected but not significant enough for transformation."
         },
         "citta_partenza": {
           "column_name": "citta_partenza",
@@ -1619,7 +1619,7 @@
             "params": {},
             "description": "No transformation needed as the column contains city names with minor formatting variations (e.g., hyphens, spaces)."
           },
-          "description": "Column contains city names as departure locations, with some non-standard formatting (e.g., 'dallas-fort worth'). No further transformation required."
+          "description": "Column represents departure cities with categorical values. Minor formatting inconsistencies (e.g., 'dallas-fort worth') do not require transformation for role identification."
         },
         "codice_paese_arr": {
           "column_name": "codice_paese_arr",
@@ -1662,7 +1662,7 @@
             },
             "description": "Standardize country codes by mapping 'it' to the canonical value 'ita'."
           },
-          "description": "This column represents country codes, with 'ita' as the dominant and canonical value. Non-conforming samples like 'it' are corrected to maintain consistency."
+          "description": "This column represents country codes with two unique values, where 'ita' is the dominant format and 'it' is a non-conforming variant."
         },
         "codice_paese_part": {
           "column_name": "codice_paese_part",
@@ -1694,11 +1694,11 @@
           "expected_dtype": "string",
           "transformation_rule": {
             "action": "none",
-            "target_format": "string",
+            "target_format": "alpha",
             "params": {},
-            "description": "No transformation needed as all values are valid ISO 3166-1 alpha-3 country codes."
+            "description": "No transformation needed as all values are already in the expected alpha format (ISO 3166-1 alpha-3 codes)."
           },
-          "description": "Column contains standardized 3-letter country codes (e.g., 'zaf', 'usa') representing countries or regions."
+          "description": "Column contains ISO 3166-1 alpha-3 country codes, representing categories of countries."
         },
         "paese_arr": {
           "column_name": "paese_arr",
@@ -1732,9 +1732,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as all values are consistent and conform to the expected format."
+            "description": "No transformation needed as all values are consistent and conform to the expected format for a category."
           },
-          "description": "Column contains a single country name ('italia') repeated across all rows, indicating a categorical field representing a country."
+          "description": "Column contains a single country name ('italia') repeated across all rows, indicating it represents a categorical variable for country."
         },
         "paese_part": {
           "column_name": "paese_part",
@@ -1773,9 +1773,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as the column represents country names in a consistent format."
+            "description": "No transformation needed as the column contains country names in a consistent format."
           },
-          "description": "Column contains country names with some variations in formatting (e.g., 'stati uniti' vs 'italia'). The dominant format is alphabetic with minor non-conforming samples."
+          "description": "The column represents country names, with some variations in formatting (e.g., 'stati uniti' vs 'Stati Uniti'). No transformation is required as the values are already in a usable format."
         },
         "zona": {
           "column_name": "zona",
@@ -1818,7 +1818,7 @@
             "params": {},
             "description": "No transformation needed as values are already in a consistent string format representing categories."
           },
-          "description": "Column represents categorical zones with numeric labels. Values are consistent and no anomalies detected."
+          "description": "Column 'zona' contains categorical values represented as strings, with 13 unique categories and no missing values."
         },
         "entrati": {
           "column_name": "entrati",
@@ -1865,9 +1865,9 @@
             "params": {
               "regex": "\\d+"
             },
-            "description": "Extracts numeric digits from values, converting non-conforming entries (e.g., '?', '~51', '2,0') to null."
+            "description": "Extracts numeric digits from strings, converting values like '~51' or '2,0' to integers (51 and 2 respectively). Non-recoverable values (e.g., '?') are set to null."
           },
-          "description": "Column represents a count of entries, with most values being positive integers. Non-conforming samples are treated as missing due to irrecoverable format issues."
+          "description": "Column represents a count of entries, with most values being positive integers. Non-conforming samples are cleaned by extracting digits or set to null if unrecoverable."
         },
         "investigati": {
           "column_name": "investigati",
@@ -1915,9 +1915,9 @@
             "params": {
               "regex": "\\d+"
             },
-            "description": "Extracts numeric values from strings, converting non-conforming samples like '102,0' or '~0' to their numeric equivalents where possible."
+            "description": "Extracts numeric digits from values, converting non-conforming samples like '102,0' or '~0' to their numeric equivalents."
           },
-          "description": "This column represents a count of items or occurrences, with most values being numeric digits. Non-conforming samples are minor and can be recovered via extraction."
+          "description": "This column represents a count of items or occurrences, as evidenced by numeric values and non-conforming samples indicating counts with additional characters."
         },
         "allarmati": {
           "column_name": "allarmati",
@@ -1966,9 +1966,9 @@
             "params": {
               "regex": "\\d+"
             },
-            "description": "Extracts numeric values from strings containing digits (e.g., '17 pax' -> 17, '4,0' -> 4) and converts to integer."
+            "description": "Extracts numeric values from strings containing digits, converting entries like '17 pax' or '4,0' to integers."
           },
-          "description": "Column represents count-like values, primarily numeric digits with some textual noise (e.g., 'pax', '?'). Non-conforming samples are recoverable by extracting digits."
+          "description": "Represents a count of items or occurrences, with values ranging from negative to large positive numbers."
         },
         "tipo_documento": {
           "column_name": "tipo_documento",
@@ -2007,7 +2007,7 @@
             "params": {},
             "description": "No transformation needed as values are already in a consistent string format representing document types."
           },
-          "description": "Column represents types of identification documents with a small set of categorical values. Non-conforming samples are minor variations of the same categories."
+          "description": "Column represents types of identification documents with a small set of unique values, suitable for categorical analysis."
         },
         "genere": {
           "column_name": "genere",
@@ -2038,21 +2038,12 @@
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map",
+            "action": "none",
             "target_format": "string",
-            "params": {
-              "mapping": {
-                "f": "female",
-                "m": "male"
-              },
-              "canonical_values": [
-                "female",
-                "male"
-              ]
-            },
-            "description": "Maps shorthand values 'f' and 'm' to their canonical forms 'female' and 'male'."
+            "params": {},
+            "description": "No transformation needed as the column contains categorical values ('f', 'm') with a single dominant format (alpha)."
           },
-          "description": "Column represents gender categories with two distinct values, 'female' and 'male', encoded as 'f' and 'm'."
+          "description": "Column represents categorical data with two possible values ('f', 'm'), likely indicating gender or similar classification."
         },
         "fascia_eta": {
           "column_name": "fascia_eta",
@@ -2083,12 +2074,25 @@
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "none",
+            "action": "map",
             "target_format": "string",
-            "params": {},
-            "description": "No transformation needed as the values are already in a consistent categorical format representing age ranges."
+            "params": {
+              "mapping": {
+                "18-30": "18-30",
+                "31-45": "31-45",
+                "46-60": "46-60",
+                "61+": "61+"
+              },
+              "canonical_values": [
+                "18-30",
+                "31-45",
+                "46-60",
+                "61+"
+              ]
+            },
+            "description": "Standardizes age range categories to a consistent format for analysis."
           },
-          "description": "Represents age ranges as categorical data, with values like '18-30', '31-45', etc. The column is already clean and does not require transformation."
+          "description": "Represents predefined age range categories (e.g., '18-30', '31-45') used for demographic segmentation."
         },
         "flag_transito": {
           "column_name": "flag_transito",
@@ -2122,9 +2126,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as the column contains categorical labels with consistent format."
+            "description": "No transformation needed as all values conform to the expected category format."
           },
-          "description": "Column represents traffic transit types with a single dominant category 'singola tratta' and no non-conforming values."
+          "description": "Column represents different transit types with a single dominant category 'singola tratta' and no non-conforming samples."
         },
         "compagnia_aerea": {
           "column_name": "compagnia_aerea",
@@ -2165,7 +2169,7 @@
             "params": {},
             "description": "No transformation needed as values are already in a consistent string format representing airline names."
           },
-          "description": "Column contains airline names with a high uniqueness ratio, indicating categorical data representing different airlines."
+          "description": "Column contains airline names with a high uniqueness ratio, indicating categorical data with some variations in naming conventions."
         },
         "numero_volo": {
           "column_name": "numero_volo",
@@ -2201,9 +2205,9 @@
             "action": "set_null",
             "target_format": "string",
             "params": {},
-            "description": "Set null for non-conforming samples like '//' that cannot be recovered into a valid flight number format."
+            "description": "Set null for non-conforming samples like '//' that cannot be recovered to a valid identifier format."
           },
-          "description": "Column contains alphanumeric flight numbers (e.g., 'fz1681') with a small percentage of invalid entries. The dominant format is alphanumeric, and the role is an identifier."
+          "description": "Column contains alphanumeric flight numbers (e.g., 'fz1681') with a small percentage of invalid entries that are not recoverable."
         },
         "esito_controllo": {
           "column_name": "esito_controllo",
@@ -2249,9 +2253,9 @@
                 "in_attesa"
               ]
             },
-            "description": "Standardizes non-conforming value 'in attesa' to canonical format 'in_attesa' while preserving existing category values."
+            "description": "Standardizes non-conforming value 'in attesa' to canonical category 'in_attesa' and ensures all values are lowercase for consistency."
           },
-          "description": "Column represents categorical outcomes of a control process with 4 distinct classes, including a minor non-conforming value that can be mapped to a canonical category."
+          "description": "Column represents categorical outcomes of a control process with 4 distinct classes. Non-conforming value 'in attesa' is mapped to a canonical category."
         },
         "note_operatore": {
           "column_name": "note_operatore",
@@ -2287,7 +2291,7 @@
             "params": {},
             "description": "No transformation needed as the column contains unstructured text notes with no discernible pattern or format issues."
           },
-          "description": "The column contains free-text operator notes with 98.8% missing values and only 4 unique non-null values, indicating sparse categorical-like text data."
+          "description": "The column contains free-form text notes from operators with 98.8% missing values and only 4 unique non-null values, indicating it is used for unstructured annotations."
         },
         "codice_rischio": {
           "column_name": "codice_rischio",
@@ -2318,23 +2322,12 @@
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map",
+            "action": "none",
             "target_format": "string",
-            "params": {
-              "mapping": {
-                "r1": "low",
-                "r2": "medium",
-                "r3": "high"
-              },
-              "canonical_values": [
-                "low",
-                "medium",
-                "high"
-              ]
-            },
-            "description": "Maps the alphanumeric risk codes (r1, r2, r3) to canonical risk categories (low, medium, high)."
+            "params": {},
+            "description": "No transformation needed as the column contains categorical codes ('r1', 'r2', 'r3') with consistent alphanumeric format."
           },
-          "description": "Column represents risk categories with three distinct values, predominantly null (99.2%)."
+          "description": "Column represents categorical risk codes with 3 unique values and high null rate (99.2%). The non-null values follow a consistent 'r<number>' pattern."
         },
         "tipo_documento__1": {
           "column_name": "tipo_documento__1",
@@ -2371,9 +2364,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as values are already in a consistent string format representing document types."
+            "description": "No transformation needed as values are already in a consistent categorical format."
           },
-          "description": "Column represents types of identification documents with a small set of categorical values. Non-conforming samples like 'visto' are valid document types and do not require correction."
+          "description": "Column represents types of identification documents with a small set of unique values. Non-conforming samples like 'visto' are valid categories within the domain."
         },
         "fascia_eta__1": {
           "column_name": "fascia_eta__1",
@@ -2407,9 +2400,9 @@
             "action": "none",
             "target_format": "string",
             "params": {},
-            "description": "No transformation needed as the values are already in a consistent categorical format representing age ranges."
+            "description": "No transformation needed as the values are already in a consistent categorical format (e.g., '18-30', '31-45')."
           },
-          "description": "Represents age ranges as categorical labels (e.g., '18-30', '31-45'). Suitable for grouping or analysis by age brackets."
+          "description": "Column represents age ranges as categorical labels, with 5 unique values covering common demographic brackets."
         },
         "col_3nazionalita": {
           "column_name": "col_3nazionalita",
@@ -2440,21 +2433,12 @@
           "role_source": "llm",
           "expected_dtype": "string",
           "transformation_rule": {
-            "action": "map",
+            "action": "none",
             "target_format": "string",
-            "params": {
-              "mapping": {
-                "alb": "Albania",
-                "afg": "Afghanistan"
-              },
-              "canonical_values": [
-                "Albania",
-                "Afghanistan"
-              ]
-            },
-            "description": "Maps abbreviated country codes to their canonical names using a predefined mapping."
+            "params": {},
+            "description": "No transformation needed as the column contains standardized 3-letter country codes with no non-conforming samples."
           },
-          "description": "The column contains abbreviated nationality codes (e.g., 'alb', 'afg') representing countries. All values are in a consistent 3-letter alpha format with no non-conforming samples."
+          "description": "Column represents nationality categories encoded as 3-letter ISO country codes (e.g., 'alb' for Albania, 'afg' for Afghanistan)."
         },
         "compagnia_aerea__1": {
           "column_name": "compagnia_aerea__1",
@@ -2495,7 +2479,7 @@
             "params": {},
             "description": "No transformation needed as values are already in a consistent string format representing airline names."
           },
-          "description": "Column contains airline names with a dominant generic format (93%) and minor variations (7%) like 'jet2.com' or 'albawings'."
+          "description": "Column contains airline names with a dominant generic format (93%) and minor variations (7%). No cleaning or transformation required."
         },
         "num_volo": {
           "column_name": "num_volo",
@@ -2531,7 +2515,7 @@
             "params": {},
             "description": "No transformation needed as the column contains alphanumeric identifiers with consistent format."
           },
-          "description": "Column contains alphanumeric flight numbers (e.g., 'fz1681', 'az0609') used as unique identifiers."
+          "description": "Column contains alphanumeric flight identifiers (e.g., 'fz1681', 'az0609') with no nulls or non-conforming samples."
         }
       }
     }
