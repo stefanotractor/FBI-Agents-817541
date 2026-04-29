@@ -1,16 +1,13 @@
 {
-  "user_query": "show me anomaly routes departing from albania",
-  "user_intent_summary": "Identify anomalous routes originating in Albania by analyzing departure airports and associated alarm/event metrics.",
+  "user_query": "voglio vedere le anomalie per i voli che partono da istanbul",
+  "user_intent_summary": "Identificare anomalie nei voli in partenza da Istanbul",
   "datasets": [
     {
       "name": "allarmi_raw",
-      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/allarmi_clean.csv",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
       "filters": {
-        "codice_paese_part": [
-          "alb"
-        ],
-        "areoporto_partenza": [
-          "ist"
+        "citta_partenza": [
+          "istanbul"
         ]
       },
       "group_key_hint": [
@@ -18,14 +15,14 @@
         "areoporto_arrivo"
       ],
       "volume_column_hint": "tot",
-      "rationale": "Filters for records where departure country is Albania (alb) and departure airport is Istanbul (ist). Groups by route (departure-arrival airports) to compute anomaly metrics on alarm counts (tot)."
+      "rationale": "Filtra i voli in partenza da Istanbul. Raggruppa per rotta (partenza/arrivo) per analizzare il volume di allarmi per tratta. La colonna 'tot' rappresenta il conteggio di eventi di interesse (allarmi) da monitorare per anomalie."
     },
     {
       "name": "tipologia_raw",
-      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
       "filters": {
-        "codice_paese_part": [
-          "alb"
+        "citta_partenza": [
+          "istanbul"
         ]
       },
       "group_key_hint": [
@@ -33,7 +30,7 @@
         "areoporto_arrivo"
       ],
       "volume_column_hint": "allarmati",
-      "rationale": "Filters for records where departure country is Albania (alb). Groups by route to compute anomaly metrics on alarm counts (allarmati)."
+      "rationale": "Filtra i voli in partenza da Istanbul. Raggruppa per rotta per analizzare il numero di passeggeri allarmati per tratta. La colonna 'allarmati' rappresenta il conteggio di eventi di interesse da monitorare per anomalie."
     }
   ]
 }
