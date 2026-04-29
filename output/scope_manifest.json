@@ -1,13 +1,13 @@
 {
-  "user_query": "flights with anomalies from istanbul",
-  "user_intent_summary": "Identify flights departing from Istanbul that have associated anomalies or alarms.",
+  "user_query": "flights with anomalies from albania",
+  "user_intent_summary": "Identify flights departing from Albania that have associated anomalies or alarms.",
   "datasets": [
     {
       "name": "allarmi_raw",
-      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/allarmi_clean.csv",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
       "filters": {
-        "citta_partenza": [
-          "istanbul"
+        "paese_partenza": [
+          "albania"
         ],
         "occorrenze": [
           "voli con allarmi"
@@ -15,32 +15,30 @@
       },
       "group_key_hint": [
         "areoporto_partenza",
-        "areoporto_arrivo",
         "mese_partenza"
       ],
-      "volume_column_hint": "tot",
-      "rationale": "Filters for records where flights departed from Istanbul and had alarms. Groups by departure/arrival airports and month to detect anomalous volumes per route-month. Uses 'tot' as the anomaly metric (count of alarms)."
+      "volume_column_hint": "tot_voli",
+      "rationale": "Filters for flights departing from Albania with alarm occurrences. Groups by departure airport and month to detect monthly anomalies per route. Uses tot_voli as the metric to monitor for unusual counts."
     },
     {
       "name": "tipologia_raw",
-      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
       "filters": {
-        "citta_partenza": [
-          "istanbul"
+        "paese_part": [
+          "albania"
         ],
         "esito_controllo": [
           "segnalato",
-          "respinto",
-          "fermato"
+          "fermato",
+          "in_attesa"
         ]
       },
       "group_key_hint": [
         "areoporto_partenza",
-        "areoporto_arrivo",
         "mese_partenza"
       ],
       "volume_column_hint": "allarmati",
-      "rationale": "Filters for flights departing Istanbul with non-normal outcomes (alarms/incidents). Groups by route and month to detect anomalous alarm counts. Uses 'allarmati' (flagged travelers) as the anomaly metric."
+      "rationale": "Filters for travelers departing from Albania with control outcomes indicating anomalies. Groups by departure airport and month to detect monthly anomalies per route. Uses allarmati as the metric to monitor for unusual counts."
     }
   ]
 }

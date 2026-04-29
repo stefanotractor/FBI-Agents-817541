@@ -17,9 +17,9 @@
       "dominant_format": "alpha",
       "transformation_rule": {
         "action": "none",
-        "target_format": "string",
+        "target_format": "lowercase_3_letters",
         "params": {},
-        "description": "No transformation needed as all values are valid 3-letter IATA airport codes in lowercase."
+        "description": "No transformation needed as all values are already in lowercase 3-letter airport codes."
       }
     },
     "areoporto_partenza": {
@@ -30,7 +30,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as the column contains standardized airport codes (IATA format) with no non-conforming samples."
+        "description": "No transformation needed as all values are valid 3-letter airport codes in uppercase."
       }
     },
     "anno_partenza": {
@@ -52,10 +52,10 @@
       "dominant_format": "digit",
       "transformation_rule": {
         "action": "map",
-        "target_format": "int",
+        "target_format": "Int64",
         "params": {
           "mapping": {
-            "gen": null
+            "gen": "1"
           },
           "canonical_values": [
             "1",
@@ -72,7 +72,7 @@
             "12"
           ]
         },
-        "description": "Maps non-conforming value 'gen' to null and ensures all other values are canonical month numbers (1-12)."
+        "description": "Maps non-conforming string 'gen' to canonical month number '1' and ensures all values are valid month numbers (1-12)."
       }
     },
     "data_partenza": {
@@ -85,7 +85,7 @@
         "params": {
           "regex": "\\d{4}-\\d{2}-\\d{2}[ T]\\d{2}:\\d{2}:\\d{2}"
         },
-        "description": "Extracts datetime values in ISO-like format (YYYY-MM-DD HH:MM:SS) from the column, handling non-conforming samples by ignoring them."
+        "description": "Extracts datetime values in ISO-like format (YYYY-MM-DD HH:MM:SS) and converts non-conforming formats (e.g., 'feb 22 2024', 'gen 06 2024') to null."
       }
     },
     "descr_aereoporto_arr": {
@@ -96,7 +96,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as values are already in a consistent category format."
+        "description": "No transformation needed as values are already in a consistent string format representing airport names."
       }
     },
     "descr_aereoporto_part": {
@@ -116,9 +116,9 @@
       "dominant_format": "alpha",
       "transformation_rule": {
         "action": "none",
-        "target_format": "string",
+        "target_format": "lowercase",
         "params": {},
-        "description": "No transformation needed as all values are lowercase alphabetic city names with no anomalies."
+        "description": "No transformation needed; values are already in a consistent alphabetic format."
       }
     },
     "citta_partenza": {
@@ -166,7 +166,7 @@
             "tur"
           ]
         },
-        "description": "Standardizes country codes to ISO 3166-1 alpha-3 format by mapping non-conforming values (e.g., 'gb' to 'gbr')."
+        "description": "Standardize country codes to their canonical 3-letter ISO format (e.g., 'gb' to 'gbr')."
       }
     },
     "paese_arr": {
@@ -186,9 +186,9 @@
       "dominant_format": "alpha",
       "transformation_rule": {
         "action": "none",
-        "target_format": "string",
+        "target_format": "lowercase",
         "params": {},
-        "description": "No transformation needed as values are already in a consistent string format representing country names."
+        "description": "No transformation needed; values are already in a consistent format (lowercase)."
       }
     },
     "zona": {
@@ -208,11 +208,11 @@
       "dominant_format": "digit",
       "transformation_rule": {
         "action": "extract",
-        "target_format": "Float64",
+        "target_format": "numeric",
         "params": {
-          "regex": "[-+]?\\d+\\.?\\d*"
+          "regex": "[-+]?\\d+(\\.\\d+)?"
         },
-        "description": "Extracts numeric values from strings, handling leading/trailing non-numeric characters. Non-recoverable non-numeric values (e.g., '?', 'voli') will remain as nulls."
+        "description": "Extracts numeric values from strings, handling leading/trailing non-numeric characters. Non-recoverable non-numeric values (e.g., '?', '1 voli') will be set to null."
       }
     },
     "motivo_allarme": {
@@ -223,7 +223,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as all non-null values are already in a consistent string format."
+        "description": "No transformation needed as all non-null values are alphabetic and conform to the expected category format."
       }
     },
     "note_operatore": {
@@ -256,7 +256,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as the column represents categorical country names with no format anomalies."
+        "description": "No transformation needed as the column contains categorical country names with no format anomalies."
       }
     },
     "codice_paese_arr__1": {
@@ -302,7 +302,7 @@
         "params": {
           "regex": "\\d+"
         },
-        "description": "Extracts numeric values from strings, discarding non-numeric prefixes/suffixes (e.g., '~181' becomes 181, '1 voli' becomes 1)."
+        "description": "Extracts numeric digits from strings, converting non-conforming values like '~181' or '1 voli' to their numeric equivalents (e.g., 181, 1)."
       }
     }
   },
@@ -326,17 +326,17 @@
             "fra",
             "deu",
             "esp",
-            "prt",
-            "rou",
             "pol",
-            "rus",
-            "tur",
+            "rou",
             "mar",
+            "tun",
             "chn",
-            "ind"
+            "ind",
+            "pak",
+            "bdi"
           ]
         },
-        "description": "Maps non-conforming values ('//', '?') to null and ensures canonical country codes (e.g., 'alb' for Albania) are preserved."
+        "description": "Maps non-conforming values ('//', '?') to null and standardizes nationality codes to canonical values."
       }
     },
     "areoporto_arrivo": {
@@ -347,7 +347,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as the column contains standardized airport codes in a consistent format."
+        "description": "No transformation needed as all values are valid 3-letter airport codes in lowercase."
       }
     },
     "areoporto_partenza": {
@@ -358,7 +358,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as the column contains airport codes in a consistent alphabetic format."
+        "description": "No transformation needed as all values are valid 3-letter airport codes in uppercase."
       }
     },
     "anno_partenza": {
@@ -367,11 +367,11 @@
       "dominant_format": "digit",
       "transformation_rule": {
         "action": "extract",
-        "target_format": "Int64",
+        "target_format": "YYYY",
         "params": {
           "regex": "\\d{4}"
         },
-        "description": "Extracts the 4-digit year from values like 'anno 2024' and converts them to integers. Non-conforming samples are parsed to recover the year."
+        "description": "Extracts the 4-digit year from values like 'anno 2024' and standardizes to '2024'."
       }
     },
     "mese_partenza": {
@@ -401,7 +401,7 @@
             "12"
           ]
         },
-        "description": "Maps non-conforming month names (e.g., 'gen', 'feb') to their numeric equivalents (1, 2) and ensures all values are within the valid month range (1-12)."
+        "description": "Maps non-conforming month names (e.g., 'gen', 'feb') to their numeric equivalents (1, 2) and ensures all values are valid month numbers (1-12)."
       }
     },
     "giorno_partenza": {
@@ -423,9 +423,9 @@
         "action": "extract",
         "target_format": "datetime64[ns]",
         "params": {
-          "regex": "(?P<date>\\d{4}-\\d{2}-\\d{2})[ Tt]?(?P<time>\\d{2}:\\d{2}:\\d{2})?"
+          "regex": "(?P<year>\\d{4})-(?P<month>\\d{2})-(?P<day>\\d{2})[ Tt](?P<hour>\\d{2}):(?P<minute>\\d{2}):(?P<second>\\d{2})|(?P<month_alt>\\w{3})\\s+(?P<day_alt>\\d{1,2})\\s+(?P<year_alt>\\d{4})"
         },
-        "description": "Extracts date and optional time components from strings, converting to datetime64[ns] format. Non-conforming samples like 'feb 13 2024' will be set to null."
+        "description": "Extracts datetime from dominant 'YYYY-MM-DD HH:MM:SS' format and alternative 'MMM DD YYYY' format, converting to datetime64[ns]."
       }
     },
     "descr_aereoporto_arr": {
@@ -447,7 +447,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed; values represent airport names or related categories."
+        "description": "No transformation needed; values represent airport names in various languages and formats."
       }
     },
     "citta_arr": {
@@ -456,9 +456,9 @@
       "dominant_format": "alpha",
       "transformation_rule": {
         "action": "none",
-        "target_format": "lowercase_alpha",
+        "target_format": "string",
         "params": {},
-        "description": "No transformation needed as values are already in lowercase alphabetic format with minor exceptions."
+        "description": "No transformation needed as the column contains city names in a consistent alpha format with minor exceptions."
       }
     },
     "citta_partenza": {
@@ -469,7 +469,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as the column contains city names with minor formatting variations."
+        "description": "No transformation needed as the column contains city names with minor formatting variations (e.g., hyphens, spaces)."
       }
     },
     "codice_paese_arr": {
@@ -496,9 +496,9 @@
       "dominant_format": "alpha",
       "transformation_rule": {
         "action": "none",
-        "target_format": "alpha",
+        "target_format": "string",
         "params": {},
-        "description": "No transformation needed as all values are already in the expected alpha format (3-letter country codes)."
+        "description": "No transformation needed as all values are in a consistent alpha format (ISO 3166-1 alpha-3 or alpha-2 country codes)."
       }
     },
     "paese_arr": {
@@ -509,7 +509,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as all values are consistent and conform to the expected format for a category."
+        "description": "No transformation needed as all values are consistent and conform to the expected format."
       }
     },
     "paese_part": {
@@ -520,7 +520,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as the column contains country names in a consistent format."
+        "description": "No transformation needed as values are already in a consistent textual format representing countries."
       }
     },
     "zona": {
@@ -531,20 +531,20 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as values are already in a consistent string format representing categories."
+        "description": "No transformation needed as the column contains categorical codes with no format anomalies."
       }
     },
     "entrati": {
       "column_name": "entrati",
-      "expected_dtype": "Float64",
+      "expected_dtype": "Int64",
       "dominant_format": "digit",
       "transformation_rule": {
         "action": "extract",
-        "target_format": "Float64",
+        "target_format": "integer",
         "params": {
-          "regex": "[-+]?\\d*\\.?\\d+"
+          "regex": "\\d+"
         },
-        "description": "Extracts numeric values from strings, handling optional signs and decimal points. Non-numeric parts (e.g., '~', ',') are removed."
+        "description": "Extracts numeric digits from values, converting non-conforming entries like '~51' or '2,0' to their numeric equivalents (e.g., 51, 2)."
       }
     },
     "investigati": {
@@ -557,7 +557,7 @@
         "params": {
           "regex": "\\d+"
         },
-        "description": "Extracts numeric digits from values, converting non-conforming samples like '102,0' or '~0' to their numeric equivalents."
+        "description": "Extracts numeric digits from strings, converting values like '102,0' to 102 and '~0' to 0. Non-recoverable values (e.g., '?') are set to null."
       }
     },
     "allarmati": {
@@ -570,7 +570,7 @@
         "params": {
           "regex": "\\d+"
         },
-        "description": "Extracts numeric part from values like '17 pax' or '4,0' to convert them to integers. Non-recoverable non-numeric values (e.g., '?') are set to null."
+        "description": "Extracts numeric values from strings containing digits, converting entries like '17 pax' or '4,0' to integers."
       }
     },
     "tipo_documento": {
@@ -589,10 +589,19 @@
       "expected_dtype": "string",
       "dominant_format": "alpha",
       "transformation_rule": {
-        "action": "none",
+        "action": "map",
         "target_format": "string",
-        "params": {},
-        "description": "No transformation needed as the column already contains categorical values ('f', 'm') with a dominant alpha format."
+        "params": {
+          "mapping": {
+            "f": "female",
+            "m": "male"
+          },
+          "canonical_values": [
+            "female",
+            "male"
+          ]
+        },
+        "description": "Maps abbreviated gender values 'f' and 'm' to their canonical forms 'female' and 'male'."
       }
     },
     "fascia_eta": {
@@ -600,23 +609,10 @@
       "expected_dtype": "string",
       "dominant_format": "generic",
       "transformation_rule": {
-        "action": "map",
+        "action": "none",
         "target_format": "string",
-        "params": {
-          "mapping": {
-            "18-30": "18-30",
-            "31-45": "31-45",
-            "46-60": "46-60",
-            "61+": "61+"
-          },
-          "canonical_values": [
-            "18-30",
-            "31-45",
-            "46-60",
-            "61+"
-          ]
-        },
-        "description": "Standardize age range categories to a consistent format for analysis."
+        "params": {},
+        "description": "No transformation needed as the values are already in a consistent categorical format representing age ranges."
       }
     },
     "flag_transito": {
@@ -627,7 +623,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as all values are consistent and conform to the expected category format."
+        "description": "No transformation needed as all values conform to the expected category format."
       }
     },
     "compagnia_aerea": {
@@ -646,10 +642,10 @@
       "expected_dtype": "string",
       "dominant_format": "alphanumeric",
       "transformation_rule": {
-        "action": "set_null",
+        "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "Set null for non-conforming samples like '//' which cannot be recovered into a valid flight number format."
+        "description": "No transformation needed as the column contains alphanumeric flight numbers with a consistent format."
       }
     },
     "esito_controllo": {
@@ -661,15 +657,16 @@
         "target_format": "string",
         "params": {
           "mapping": {
-            "in attesa": null
+            "in attesa": "in_attesa"
           },
           "canonical_values": [
             "respinto",
             "segnalato",
-            "fermato"
+            "fermato",
+            "in_attesa"
           ]
         },
-        "description": "Maps non-standard value 'in attesa' to null and standardizes remaining values to canonical categories."
+        "description": "Standardizes non-conforming value 'in attesa' to canonical category 'in_attesa' and ensures all values are mapped to one of the four expected categories."
       }
     },
     "note_operatore": {
@@ -688,21 +685,10 @@
       "expected_dtype": "string",
       "dominant_format": "alphanumeric",
       "transformation_rule": {
-        "action": "map",
+        "action": "none",
         "target_format": "string",
-        "params": {
-          "mapping": {
-            "r1": "low",
-            "r2": "medium",
-            "r3": "high"
-          },
-          "canonical_values": [
-            "low",
-            "medium",
-            "high"
-          ]
-        },
-        "description": "Maps the alphanumeric risk codes (r1, r2, r3) to their canonical categorical labels (low, medium, high)."
+        "params": {},
+        "description": "No transformation needed as the column contains categorical risk codes (e.g., 'r2', 'r3') with consistent alphanumeric format."
       }
     },
     "tipo_documento__1": {
@@ -713,7 +699,7 @@
         "action": "none",
         "target_format": "string",
         "params": {},
-        "description": "No transformation needed as values are already in a consistent categorical format."
+        "description": "No transformation needed as values are already in a consistent string format representing document types."
       }
     },
     "fascia_eta__1": {
@@ -733,9 +719,9 @@
       "dominant_format": "alpha",
       "transformation_rule": {
         "action": "none",
-        "target_format": "string",
+        "target_format": "alpha",
         "params": {},
-        "description": "No transformation needed as all values are valid 3-letter country codes in lowercase."
+        "description": "No transformation needed as all values are already in the expected alpha format (3-letter country codes)."
       }
     },
     "compagnia_aerea__1": {
