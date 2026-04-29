@@ -1,24 +1,21 @@
 {
   "allarmi_raw": [
-    "ist|istanbul|1",
-    "ist|istanbul|2",
-    "saw|istanbul|2",
-    "saw|istanbul|1",
-    "saw|istanbul|5",
-    "ist|istanbul|9",
-    "saw|istanbul|10",
-    "ist|istanbul|12",
-    "ist|istanbul|6",
-    "ist|istanbul|10",
-    "ist|istanbul|4",
-    "saw|istanbul|11",
-    "saw|istanbul|7",
-    "ist|istanbul|11"
+    "fco|1",
+    "fco|2",
+    "fco|8",
+    "fco|5",
+    "fco|12",
+    "fco|11",
+    "fco|9",
+    "fco|7",
+    "fco|3",
+    "fco|6",
+    "fco|4",
+    "fco|10"
   ],
   "tipologia_raw": [
-    "ist|istanbul|1",
-    "saw|istanbul|1",
-    "saw|istanbul|2",
-    "ist|istanbul|2"
+    "fco|1",
+    "fco|2",
+    "fco|12"
   ]
 }
