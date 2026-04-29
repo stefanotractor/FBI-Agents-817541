@@ -1,44 +1,39 @@
 {
-  "user_query": "flights with anomalies from albania",
-  "user_intent_summary": "Identify flights departing from Albania that have associated anomalies or alarms.",
+  "user_query": "show me anomaly routes departing from albania",
+  "user_intent_summary": "Identify anomalous routes originating in Albania by analyzing departure airports and associated alarm/event metrics.",
   "datasets": [
     {
       "name": "allarmi_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/allarmi_clean.csv",
       "filters": {
-        "paese_partenza": [
-          "albania"
+        "codice_paese_part": [
+          "alb"
         ],
-        "occorrenze": [
-          "voli con allarmi"
+        "areoporto_partenza": [
+          "ist"
         ]
       },
       "group_key_hint": [
         "areoporto_partenza",
-        "mese_partenza"
+        "areoporto_arrivo"
       ],
-      "volume_column_hint": "tot_voli",
-      "rationale": "Filters for flights departing from Albania with alarm occurrences. Groups by departure airport and month to detect monthly anomalies per route. Uses tot_voli as the metric to monitor for unusual counts."
+      "volume_column_hint": "tot",
+      "rationale": "Filters for records where departure country is Albania (alb) and departure airport is Istanbul (ist). Groups by route (departure-arrival airports) to compute anomaly metrics on alarm counts (tot)."
     },
     {
       "name": "tipologia_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
       "filters": {
-        "paese_part": [
-          "albania"
-        ],
-        "esito_controllo": [
-          "segnalato",
-          "fermato",
-          "in_attesa"
+        "codice_paese_part": [
+          "alb"
         ]
       },
       "group_key_hint": [
         "areoporto_partenza",
-        "mese_partenza"
+        "areoporto_arrivo"
       ],
       "volume_column_hint": "allarmati",
-      "rationale": "Filters for travelers departing from Albania with control outcomes indicating anomalies. Groups by departure airport and month to detect monthly anomalies per route. Uses allarmati as the metric to monitor for unusual counts."
+      "rationale": "Filters for records where departure country is Albania (alb). Groups by route to compute anomaly metrics on alarm counts (allarmati)."
     }
   ]
 }

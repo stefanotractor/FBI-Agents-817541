@@ -1,13 +1,32 @@
 {
-  "allarmi_raw": [
-    "tia|1",
-    "tia|2",
-    "tia|10",
-    "tia|12",
-    "tia|4"
-  ],
+  "allarmi_raw": [],
   "tipologia_raw": [
-    "tia|2",
-    "tia|1"
+    "tia|tsf",
+    "tia|bgy",
+    "tia|psa",
+    "tia|blq",
+    "tia|fco",
+    "tia|mxp",
+    "tia|vrn",
+    "tia|bri",
+    "tia|cta",
+    "tia|pmo",
+    "tia|cia",
+    "tia|vce",
+    "tia|cag",
+    "tia|goa",
+    "tia|trn",
+    "tia|peg",
+    "tia|suf",
+    "tia|nap",
+    "tia|aoi",
+    "tia|flr",
+    "tia|psr",
+    "tia|ciy",
+    "tia|trs",
+    "tia|bds",
+    "tia|rmi",
+    "tia|lin",
+    "tia|reg"
   ]
 }
