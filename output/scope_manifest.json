@@ -1,36 +1,46 @@
 {
-  "user_query": "flights with anomalies arriving at fiumicino",
-  "user_intent_summary": "Identify flights with anomalies that arrive at Rome Fiumicino Airport (FCO) for anomaly detection.",
+  "user_query": "flights with anomalies from istanbul",
+  "user_intent_summary": "Identify flights departing from Istanbul that have associated anomalies or alarms.",
   "datasets": [
     {
       "name": "allarmi_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/allarmi_clean.csv",
       "filters": {
-        "areoporto_arrivo": [
-          "fco"
+        "citta_partenza": [
+          "istanbul"
+        ],
+        "occorrenze": [
+          "voli con allarmi"
         ]
       },
       "group_key_hint": [
+        "areoporto_partenza",
         "areoporto_arrivo",
         "mese_partenza"
       ],
       "volume_column_hint": "tot",
-      "rationale": "Dataset contains alarm events with arrival airport codes. Filtered to FCO arrivals. Grouped by arrival airport and month to detect monthly anomaly patterns in alarm counts. Volume column 'tot' represents the count of alarm occurrences."
+      "rationale": "Filters for records where flights departed from Istanbul and had alarms. Groups by departure/arrival airports and month to detect anomalous volumes per route-month. Uses 'tot' as the anomaly metric (count of alarms)."
     },
     {
       "name": "tipologia_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
       "filters": {
-        "areoporto_arrivo": [
-          "fco"
+        "citta_partenza": [
+          "istanbul"
+        ],
+        "esito_controllo": [
+          "segnalato",
+          "respinto",
+          "fermato"
         ]
       },
       "group_key_hint": [
+        "areoporto_partenza",
         "areoporto_arrivo",
         "mese_partenza"
       ],
       "volume_column_hint": "allarmati",
-      "rationale": "Dataset contains flight event details including alarm counts. Filtered to FCO arrivals. Grouped by arrival airport and month to detect anomaly patterns in alarm counts. Volume column 'allarmati' represents the count of alarmed passengers."
+      "rationale": "Filters for flights departing Istanbul with non-normal outcomes (alarms/incidents). Groups by route and month to detect anomalous alarm counts. Uses 'allarmati' (flagged travelers) as the anomaly metric."
     }
   ]
 }
