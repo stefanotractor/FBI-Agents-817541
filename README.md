@@ -553,13 +553,9 @@ The agent:
 - maps the query to the value `fiumicino`;
 - filters records related to routes arriving at Fiumicino;
 - focuses on alarm-related records;
-- writes the result to `scoped_transit_data.csv`.
+- writes the result to `scope_manifest.json`.
 
-For the example query, the Data Agent selected the alarm dataset and produced:
-
-```text
-139 rows and 24 columns
-```
+For the example query, the Data Agent understood that it has to look for Fiumicino as arrival airport
 
 ---
 
@@ -569,27 +565,27 @@ The Baseline Agent builds a route-level baseline from the scoped data.
 
 It:
 
-- loads `scoped_transit_data.csv`;
+- loads `scope_manifest.json`;
 - identifies departure and arrival columns;
-- builds a route feature;
-- aggregates by route;
+- builds a route feature of the whole dataset;
+- aggregates by route, considering all the possible ones;
 - computes total alarms;
 - computes number of records;
 - computes alert rate;
 - computes baseline statistics;
-- writes `baseline_data.csv`.
+- writes `baseline_data.csv` for all the routes and `scoped_keys.json` only for those ones arriving at Fiumicino airport.
 
-For the Fiumicino query, the Baseline Agent produced:
+The Baseline Agent produced:
 
 ```text
-46 routes and 6 columns
+835 routes and 11 columns
 ```
 
 ---
 
 ### Outlier Detection Agent
 
-The Outlier Detection Agent loads the baseline data and computes anomaly signals.
+The Outlier Detection Agent loads the baseline data and the json file, and computes anomaly signals.
 
 It uses:
 
@@ -602,15 +598,14 @@ It then selects the top 5% most anomalous routes.
 For the Fiumicino query, it produced:
 
 ```text
-2 outliers
+1 outlier
 ```
 
-The detected routes were:
+The detected route was:
 
-| Route | Total alarms | Records | Alert rate | Z-score | Anomaly score |
+| Route | Records | Z-score | Anomaly score | Outlier |
 |---|---:|---:|---:|---:|---:|
-| LGW → FCO | 11 | 11 | 1.0 | 2.9617 | 27.9617 |
-| LHR → FCO | 11 | 11 | 1.0 | 2.9617 | 27.9617 |
+| TIA → FCO | 227 | 1.0 | 2.08993451125253 | 224.08993451125252 | Yes |
 
 ---
 
@@ -618,10 +613,10 @@ The detected routes were:
 
 The Risk Profiling Agent converts outliers into risk categories.
 
-For the Fiumicino query, it classified both detected outliers as:
+For the Fiumicino query, it classified the detected outlier as:
 
 ```text
-LOW risk
+HIGH risk
 ```
 
 This result is important because it shows that the Multi-Agent Pipeline separates **statistical anomaly detection** from **risk prioritization**.  
@@ -644,10 +639,10 @@ The report includes:
 
 For the example query, the report summarized:
 
-- 2 flagged routes;
-- 0 HIGH risk routes;
+- 1 flagged routes;
+- 1 HIGH risk routes;
 - 0 MEDIUM risk routes;
-- 2 LOW risk routes.
+- 0 LOW risk routes.
 
 ---
 
@@ -761,10 +756,7 @@ The Multi-Agent Pipeline is evaluated in terms of:
 
 ## [Section 4] Results
 
-This section reports and compares the results obtained from the two anomaly detection approaches developed in the project:
-
-1. the **Classical Pipeline**, based on manually engineered features and multiple unsupervised anomaly detection methods;
-2. the **Multi-Agent Pipeline**, based on automated data processing, route-level aggregation, baseline construction, anomaly scoring, risk profiling, and report generation.
+This section reports and compares the results obtained from the two anomaly detection approaches developed in the project.
 
 The comparison is performed on the full dataset. This is important because earlier agentic experiments were query-driven and focused on a narrower operational scope. The current Multi-Agent results are instead based on the complete available data, making the comparison with the Classical Pipeline more meaningful.
 
@@ -1090,7 +1082,7 @@ The workflow includes:
 The updated Multi-Agent Pipeline identified:
 
 ```text
-11 anomalous route-level groups
+14 anomalous route-level groups
 ```
 
 The risk distribution was:
@@ -1098,88 +1090,93 @@ The risk distribution was:
 | Risk level | Routes |
 |---|---:|
 | HIGH | 2 |
-| MEDIUM | 2 |
-| LOW | 7 |
+| MEDIUM | 4 |
+| LOW | 8 |
 
 ```mermaid
 pie title Multi-Agent Risk Distribution
     "HIGH" : 2
-    "MEDIUM" : 2
-    "LOW" : 7
+    "MEDIUM" : 4
+    "LOW" : 8
 ```
 
-The 11 anomalies were selected using a population-level baseline, z-score normalization, ratio-to-baseline comparison, and hybrid filtering logic combining top-ranked deviations with a confidence floor.
+The 14 anomalies were selected using a population-level baseline, z-score normalization, ratio-to-baseline comparison, and hybrid filtering logic combining top-ranked deviations with a confidence floor.
 
 ---
 
 ### Multi-Agent High-Risk Routes
 
-The Multi-Agent Pipeline identified 2 high-risk routes.
+The Multi-Agent Pipeline identified **2 high-risk routes**.
 
-| Route | Events | Baseline mean | Z-score | Ratio to baseline | Anomaly score | Risk score |
-|---|---:|---:|---:|---:|---:|---:|
-| TIA → BGY | 25,936 | 88 | 9.51 | 294.00x | 302.51 | 100.0 |
-| TIA → BLQ | 30,750 | 134 | 11.31 | 228.00x | 238.31 | 71.8 |
+| Route      | Z-score | Ratio to baseline | Anomaly score | Risk score |
+|------------|--------|------------------|---------------|------------|
+| TIA → BGY  | 9.05   | 293.0x           | 301.05        | 100.0      |
+| TIA → BLQ  | 7.79   | 228.0x           | 234.79        | 73.1       |
 
 These routes show the strongest deviations from the population baseline.
 
-The route **TIA → BGY** shows an extremely high ratio to baseline, with 25,936 events compared with an average baseline of 88. This corresponds to a 294-fold increase over the baseline and receives the highest risk score.
+The route **TIA → BGY** shows an extremely high ratio to baseline (**293.0x**) and a very high z-score (**9.05**), indicating a massive deviation from expected behaviour. It receives the maximum risk score and represents the most critical anomaly.
 
-The route **TIA → BLQ** records 30,750 events against a baseline mean of 134. Although its ratio is lower than TIA → BGY, its z-score is higher, confirming a very strong statistical deviation.
+The route **TIA → BLQ** also shows a strong deviation, with a ratio of **228.0x** and a z-score of **7.79**, confirming a highly significant statistical anomaly.
 
-These two routes should be prioritized for operational review because they combine high event volume, high ratio-to-baseline values, and strong z-score signals.
+These routes should be prioritized for immediate operational review.
 
 ---
 
 ### Multi-Agent Medium-Risk Routes
 
-The Multi-Agent Pipeline identified 2 medium-risk routes.
+The Multi-Agent Pipeline identified **4 medium-risk routes**.
 
-| Route | Events | Baseline mean | Z-score | Ratio to baseline | Anomaly score | Risk score |
-|---|---:|---:|---:|---:|---:|---:|
-| TIA → FCO | 14,655 | 66 | 5.30 | 222.00x | 226.30 | 66.5 |
-| TIA → TSF | 12,993 | 76 | 4.68 | 170.00x | 173.68 | 43.4 |
+| Route      | Z-score | Ratio to baseline | Anomaly score | Risk score |
+|------------|--------|------------------|---------------|------------|
+| TIA → FCO  | 2.09   | 223.0x           | 224.09        | 68.8       |
+| TIA → MXP  | 6.15   | 216.0x           | 221.15        | 67.6       |
+| TIA → PSA  | 7.07   | 193.0x           | 199.07        | 58.6       |
+| TIA → TSF  | 4.14   | 174.0x           | 177.14        | 49.7       |
 
 These routes show strong deviations from baseline but are ranked below the high-risk routes.
 
-The route **TIA → FCO** is especially relevant because it combines a high ratio-to-baseline value with a strong z-score. It does not reach the highest risk category but remains operationally important.
+The route **TIA → MXP** is particularly notable due to its high z-score (**6.15**) combined with a strong ratio (**216.0x**), indicating a significant statistical deviation.
 
-The route **TIA → TSF** also presents a significant deviation, with 12,993 events against a baseline mean of 76. Its risk score is lower, but the route still deserves monitoring and potential follow-up.
+The route **TIA → FCO** has a lower z-score but an extremely high ratio to baseline (**223.0x**), suggesting unusual relative behaviour despite more moderate statistical significance.
+
+The routes **TIA → PSA** and **TIA → TSF** also present clear anomalies and should be monitored and potentially investigated depending on operational priorities.
 
 ---
 
 ### Multi-Agent Low-Risk Routes
 
-The Multi-Agent Pipeline identified 7 low-risk routes.
+The Multi-Agent Pipeline identified **8 low-risk routes**.
 
-| Route | Events | Baseline mean | Z-score | Ratio to baseline | Anomaly score | Risk score |
-|---|---:|---:|---:|---:|---:|---:|
-| TIA → CTA | 4,577 | 34 | 1.54 | 132.00x | 132.54 | 25.3 |
-| TIA → BRI | 5,725 | 47 | 1.97 | 120.00x | 120.97 | 20.2 |
-| STN → BGY | 10,160 | 97 | 3.62 | 104.00x | 106.62 | 13.9 |
-| LHR → LIN | 13,131 | 135 | 1.59 | 97.00x | 97.59 | 10.0 |
-| LGW → MXP | 103,254 | 1,214 | 13.52 | 85.00x | 97.52 | 9.9 |
-| TIA → TRN | 8,599 | 107 | 3.04 | 80.00x | 82.04 | 3.1 |
-| TIA → GOA | 5,515 | 74 | 1.89 | 74.00x | 74.89 | 0.0 |
+| Route      | Z-score | Ratio to baseline | Anomaly score | Risk score |
+|------------|--------|------------------|---------------|------------|
+| TIA → BRI  | 1.54   | 121.0x           | 121.54        | 27.1       |
+| TIA → VRN  | 13.22  | 89.0x            | 101.22        | 18.9       |
+| LHR → LIN  | 1.61   | 98.0x            | 98.61         | 17.8       |
+| LGW → MXP  | 13.54  | 86.0x            | 98.54         | 17.8       |
+| TIA → TRN  | 2.91   | 80.0x            | 81.91         | 11.0       |
+| TIA → CIA  | 1.92   | 79.0x            | 79.92         | 10.2       |
+| TIA → GOA  | 2.41   | 75.0x            | 76.41         | 8.8        |
+| TIA → AOI  | 1.74   | 54.0x            | 54.74         | 0.0        |
 
 These routes are not ignored, but they are not assigned immediate high-priority status.
 
-Some low-risk routes show large absolute volumes or high ratios, but their final risk scores are lower because the risk profiling logic considers multiple factors, including relative ranking and severity thresholds.
+Some low-risk routes still show notable statistical signals. For example:
 
-For example, **LGW → MXP** has the largest absolute event count among the low-risk routes and a very high z-score. However, its ratio-to-baseline and final risk score place it below the more critical TIA-related deviations.
+- **LGW → MXP** has a very high z-score (**13.54**) and large volume, but a lower ratio-to-baseline and risk score.  
+- **TIA → VRN** also shows a high z-score, but its relative deviation is less critical.
 
-This illustrates how the Multi-Agent Pipeline separates statistical anomaly strength from operational prioritization.
-
+This illustrates how the Multi-Agent Pipeline separates **statistical anomaly strength from operational prioritization**, balancing multiple factors rather than relying on a single metric.
 ---
 
 ### Multi-Agent Pipeline Summary
 
 | Result | Value |
 |---|---:|
-| Total anomalies detected | 11 |
+| Total anomalies detected | 14 |
 | High-risk routes | 2 |
-| Medium-risk routes | 2 |
-| Low-risk routes | 7 |
+| Medium-risk routes | 4 |
+| Low-risk routes | 8 |
 | Main detection signals | Z-score, ratio-to-baseline, anomaly score |
 | Main selection logic | Hybrid top-K ranking and confidence floor |
 
@@ -1215,11 +1212,11 @@ The two pipelines are now compared on the same overall dataset scope.
 | Metric | Classical Pipeline | Multi-Agent Pipeline |
 |---|---:|---:|
 | Total routes analyzed | 366 | Full dataset |
-| Raw statistical anomalies | 137 | 11 |
-| Final anomalies | 24 | 11 |
+| Raw statistical anomalies | 137 | 14 |
+| Final anomalies | 24 | 14 |
 | High / Critical risk routes | 11 | 2 |
-| Medium risk routes | 7 | 2 |
-| Low risk routes | 6 | 7 |
+| Medium risk routes | 7 | 4 |
+| Low risk routes | 6 | 8 |
 
 The Classical Pipeline identifies more anomalies overall. This is expected because it uses multiple detection methods and a richer feature space.
 
@@ -1233,9 +1230,9 @@ The Multi-Agent Pipeline identifies fewer anomalies because it applies stricter 
 |---|---:|---:|
 | CRITICAL | 1 | 0 |
 | HIGH | 10 | 2 |
-| MEDIUM | 7 | 2 |
-| LOW | 6 | 7 |
-| Total | 24 | 11 |
+| MEDIUM | 7 | 4 |
+| LOW | 6 | 8 |
+| Total | 24 | 14 |
 
 ```mermaid
 xychart-beta
@@ -1250,7 +1247,7 @@ xychart-beta
     title "Multi-Agent Anomalies by Risk Level"
     x-axis ["High", "Medium", "Low"]
     y-axis "Routes" 0 --> 8
-    bar [2, 2, 7]
+    bar [2, 4, 8]
 ```
 
 The Classical Pipeline has a broader distribution across the higher risk classes, while the Multi-Agent Pipeline concentrates most detected routes in the low-risk category.
@@ -1316,7 +1313,7 @@ The Classical Pipeline detected:
 The Multi-Agent Pipeline detected:
 
 ```text
-11 anomalous route-level groups
+14 anomalous route-level groups
 ```
 
 This difference should not be interpreted as a contradiction. It reflects a methodological difference.
@@ -1581,3 +1578,18 @@ We confirm that:
 - the work complies with academic integrity guidelines.
 
 AI tools were used to assist development, not to replace our reasoning or contribution.
+
+### Multi-Agent Demo UI (Gradio)
+
+To make the Multi-Agent pipeline easily explorable, we developed a **demo user interface using Gradio**.
+
+This UI allows users to interact with the system in a simple and intuitive way by:
+- entering a **natural language query** (e.g., selecting specific routes or contexts)
+- automatically triggering the **end-to-end multi-agent pipeline**
+
+Once the query is submitted, the interface provides:
+-  **Structured results** (detected anomalies and risk scores)
+-  A **full narrative report** generated by the agents
+-  An interactive **3D globe animation** that visually highlights the selected routes
+
+This demo showcases how the pipeline can be used in a **query-driven, interactive, and user-friendly way**, bridging the gap between advanced analytics and operational usability.
