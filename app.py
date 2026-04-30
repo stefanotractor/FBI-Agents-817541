@@ -30,9 +30,7 @@ import gradio as gr
 import plotly.graph_objects as go
 
 
-# ──────────────────────────────────────────────────────────────────────
-# Airport reference (lat, lon, full name) — IATA codes seen in the dataset
-# ──────────────────────────────────────────────────────────────────────
+# Airport reference (lat, lon, full name) — IATA codes
 AIRPORTS = {
     # Italy
     "FCO": {"lat": 41.8003, "lon": 12.2389, "name": "Roma Fiumicino"},
@@ -112,9 +110,7 @@ RISK_WIDTHS = {
 }
 
 
-# ──────────────────────────────────────────────────────────────────────
 # Risk report parsing
-# ──────────────────────────────────────────────────────────────────────
 def _split_group_key(group_key: str):
     """
     group_key format: 'departure|arrival' (lowercase IATA-like codes).
@@ -184,15 +180,13 @@ def load_risk_report(output_dir: str) -> pd.DataFrame:
         f"{d} → {a}" if d and a else "?" for d, a in zip(deps, arrs)
     ]
 
-    # Normalize risk_level just in case
     if "risk_level" in df.columns:
         df["risk_level"] = df["risk_level"].astype(str).str.upper().str.strip()
 
     return df
 
-# ──────────────────────────────────────────────────────────────────────
+
 # World map (orthographic globe with route arcs)
-# ──────────────────────────────────────────────────────────────────────
 def build_world_map(df_risk: pd.DataFrame) -> go.Figure:
     """
     Build an orthographic world map showing all mappable routes from the
@@ -213,7 +207,6 @@ def build_world_map(df_risk: pd.DataFrame) -> go.Figure:
 
     df_map = df_risk[df_risk["mappable"]].copy()
 
-    # One trace per risk level so the legend is clean and toggleable
     risk_order = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
 
     for level in risk_order:
@@ -224,8 +217,6 @@ def build_world_map(df_risk: pd.DataFrame) -> go.Figure:
         color = RISK_COLORS.get(level, "#888888")
         width = RISK_WIDTHS.get(level, 1.5)
 
-        # Route lines (one segment per row, drawn as a single trace
-        # using None separators between routes to keep legend compact)
         line_lats, line_lons, line_hover = [], [], []
         for _, row in sub.iterrows():
             line_lats += [row["dep_lat"], row["arr_lat"], None]
@@ -249,7 +240,6 @@ def build_world_map(df_risk: pd.DataFrame) -> go.Figure:
             text=line_hover,
         ))
 
-        # Endpoint markers (departure + arrival) for this level
         marker_lats = list(sub["dep_lat"]) + list(sub["arr_lat"])
         marker_lons = list(sub["dep_lon"]) + list(sub["arr_lon"])
         marker_text = (
@@ -290,12 +280,8 @@ def build_world_map(df_risk: pd.DataFrame) -> go.Figure:
     )
     return fig
 
-# ──────────────────────────────────────────────────────────────────────
+
 # Partial pipeline runner (skips Profiling + Cleaning, reuses cached files)
-# ──────────────────────────────────────────────────────────────────────
-# ──────────────────────────────────────────────────────────────────────
-# Partial pipeline runner (skips Profiling + Cleaning, reuses cached files)
-# ──────────────────────────────────────────────────────────────────────
 def run_pipeline_partial(
     user_query: str,
     *,
@@ -334,13 +320,9 @@ def run_pipeline_partial(
     print(f"  GRADIO PIPELINE  |  query = {user_query!r}")
     print("=" * 60)
 
-    # Push the query into the notebook's global USER_QUERY so the
-    # prompt builders pick it up.
+
     set_user_query(user_query)
 
-    # Each stage tuple: (task_name, prompt_builder, validator_key, output_path)
-    # task_name MUST match the names used inside run_agent_with_supervisor
-    # in the notebook.
     stages = [
         ("data_agent",        build_data_agent_prompt, "data_agent",
          scope_manifest_json),
@@ -372,7 +354,6 @@ def run_pipeline_partial(
                 "df_risk": pd.DataFrame(),
             }
 
-    # Read final outputs
     report_md = ""
     if os.path.exists(report_md_path):
         with open(report_md_path, "r", encoding="utf-8") as f:
@@ -389,9 +370,7 @@ def run_pipeline_partial(
     }
 
 
-# ──────────────────────────────────────────────────────────────────────
 # Gradio UI
-# ──────────────────────────────────────────────────────────────────────
 def launch_app(
     *,
     run_agent_with_supervisor,
@@ -419,8 +398,6 @@ def launch_app(
     routes table, and the world map.
     """
 
-    # Columns to display in the risky routes table (only the ones that
-    # exist in the dataframe — the rest are silently skipped).
     PREFERRED_TABLE_COLS = [
         "route_label", "dataset", "risk_level", "risk_score",
         "rate", "z_score", "ratio_to_baseline",
@@ -475,7 +452,6 @@ def launch_app(
                     pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
                     build_world_map(pd.DataFrame()))
 
-        # ── NEW: handle the "no anomalies found" case gracefully ──────────
         df_risk = result["df_risk"]
         if df_risk is None or df_risk.empty:
             msg = (
@@ -487,14 +463,12 @@ def launch_app(
                 f"Try a broader query (e.g. *show me all anomaly routes*) to explore "
                 f"the full dataset."
             )
-            # If the report agent still wrote something, prepend it
             if result["report_md"]:
                 msg = result["report_md"] + "\n\n---\n\n" + msg
             return (msg,
                     pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
                     build_world_map(pd.DataFrame()))
 
-        # Normal path: anomalies present
         report_md = result["report_md"] or "*(empty report)*"
         table = _render_table(df_risk)
         fig = build_world_map(df_risk)
