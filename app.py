@@ -31,64 +31,70 @@ import plotly.graph_objects as go
 
 
 # ──────────────────────────────────────────────────────────────────────
-# Airport coordinates (lat, lon) — IATA codes seen in the dataset
+# Airport reference (lat, lon, full name) — IATA codes seen in the dataset
 # ──────────────────────────────────────────────────────────────────────
-AIRPORT_COORDS = {
+AIRPORTS = {
     # Italy
-    "FCO": (41.8003, 12.2389),  # Roma Fiumicino
-    "CIA": (41.7994, 12.5949),  # Roma Ciampino
-    "MXP": (45.6306, 8.7281),   # Milano Malpensa
-    "LIN": (45.4451, 9.2767),   # Milano Linate
-    "BGY": (45.6739, 9.7042),   # Bergamo Orio al Serio
-    "VCE": (45.5053, 12.3519),  # Venezia
-    "TSF": (45.6484, 12.1944),  # Treviso
-    "BLQ": (44.5354, 11.2887),  # Bologna
-    "FLR": (43.8100, 11.2051),  # Firenze Peretola
-    "PSA": (43.6839, 10.3927),  # Pisa
-    "PEG": (43.0959, 12.5132),  # Perugia
-    "NAP": (40.8860, 14.2908),  # Napoli
-    "BRI": (41.1389, 16.7606),  # Bari
-    "CTA": (37.4668, 15.0664),  # Catania Fontanarossa
-    "PMO": (38.1759, 13.0910),  # Palermo
-    "TRN": (45.2008, 7.6496),   # Torino
-    "VRN": (45.3957, 10.8885),  # Verona
+    "FCO": {"lat": 41.8003, "lon": 12.2389, "name": "Roma Fiumicino"},
+    "CIA": {"lat": 41.7994, "lon": 12.5949, "name": "Roma Ciampino"},
+    "MXP": {"lat": 45.6306, "lon": 8.7281,  "name": "Milano Malpensa"},
+    "LIN": {"lat": 45.4451, "lon": 9.2767,  "name": "Milano Linate"},
+    "BGY": {"lat": 45.6739, "lon": 9.7042,  "name": "Bergamo Orio al Serio"},
+    "VCE": {"lat": 45.5053, "lon": 12.3519, "name": "Venezia"},
+    "TSF": {"lat": 45.6484, "lon": 12.1944, "name": "Treviso"},
+    "BLQ": {"lat": 44.5354, "lon": 11.2887, "name": "Bologna"},
+    "FLR": {"lat": 43.8100, "lon": 11.2051, "name": "Firenze Peretola"},
+    "PSA": {"lat": 43.6839, "lon": 10.3927, "name": "Pisa"},
+    "PEG": {"lat": 43.0959, "lon": 12.5132, "name": "Perugia"},
+    "NAP": {"lat": 40.8860, "lon": 14.2908, "name": "Napoli"},
+    "BRI": {"lat": 41.1389, "lon": 16.7606, "name": "Bari"},
+    "CTA": {"lat": 37.4668, "lon": 15.0664, "name": "Catania Fontanarossa"},
+    "PMO": {"lat": 38.1759, "lon": 13.0910, "name": "Palermo"},
+    "TRN": {"lat": 45.2008, "lon": 7.6496,  "name": "Torino"},
+    "VRN": {"lat": 45.3957, "lon": 10.8885, "name": "Verona"},
 
     # United Kingdom
-    "LHR": (51.4700, -0.4543),  # London Heathrow
-    "LGW": (51.1537, -0.1821),  # London Gatwick
-    "STN": (51.8860, 0.2389),   # London Stansted
-    "LCY": (51.5053, 0.0553),   # London City
-    "LTN": (51.8747, -0.3683),  # London Luton
-    "MAN": (53.3537, -2.2750),  # Manchester
-    "EDI": (55.9500, -3.3725),  # Edinburgh
-    "BRS": (51.3827, -2.7191),  # Bristol
+    "LHR": {"lat": 51.4700, "lon": -0.4543, "name": "London Heathrow"},
+    "LGW": {"lat": 51.1537, "lon": -0.1821, "name": "London Gatwick"},
+    "STN": {"lat": 51.8860, "lon": 0.2389,  "name": "London Stansted"},
+    "LCY": {"lat": 51.5053, "lon": 0.0553,  "name": "London City"},
+    "LTN": {"lat": 51.8747, "lon": -0.3683, "name": "London Luton"},
+    "MAN": {"lat": 53.3537, "lon": -2.2750, "name": "Manchester"},
+    "EDI": {"lat": 55.9500, "lon": -3.3725, "name": "Edinburgh"},
+    "BRS": {"lat": 51.3827, "lon": -2.7191, "name": "Bristol"},
 
     # Europe & Mediterranean
-    "IST": (41.2753, 28.7519),  # Istanbul
-    "SAW": (40.8986, 29.3092),  # Istanbul Sabiha Gokcen
-    "TIA": (41.4147, 19.7206),  # Tirana
-    "EVN": (40.1473, 44.3959),  # Yerevan
+    "IST": {"lat": 41.2753, "lon": 28.7519, "name": "Istanbul Airport"},
+    "SAW": {"lat": 40.8986, "lon": 29.3092, "name": "Istanbul Sabiha Gokcen"},
+    "TIA": {"lat": 41.4147, "lon": 19.7206, "name": "Tirana"},
+    "EVN": {"lat": 40.1473, "lon": 44.3959, "name": "Yerevan"},
 
     # Middle East / Africa
-    "TUN": (36.8510, 10.2272),  # Tunis
-    "CMN": (33.3675, -7.5898),  # Casablanca
-    "RAK": (31.6069, -8.0363),  # Marrakech
-    "SSH": (27.9773, 34.3950),  # Sharm el-Sheikh
-    "AMM": (31.7226, 35.9933),  # Amman
-    "DOH": (25.2731, 51.6080),  # Doha
-    "DSS": (14.6701, -17.0731), # Dakar Blaise Diagne
+    "TUN": {"lat": 36.8510, "lon": 10.2272, "name": "Tunis"},
+    "CMN": {"lat": 33.3675, "lon": -7.5898, "name": "Casablanca"},
+    "RAK": {"lat": 31.6069, "lon": -8.0363, "name": "Marrakech"},
+    "SSH": {"lat": 27.9773, "lon": 34.3950, "name": "Sharm el-Sheikh"},
+    "AMM": {"lat": 31.7226, "lon": 35.9933, "name": "Amman"},
+    "DOH": {"lat": 25.2731, "lon": 51.6080, "name": "Doha"},
+    "DSS": {"lat": 14.6701, "lon": -17.0731, "name": "Dakar Blaise Diagne"},
 
     # Asia
-    "DEL": (28.5562, 77.1000),  # Delhi
-    "PEK": (40.0801, 116.5846), # Beijing
-    "SZX": (22.6393, 113.8108), # Shenzhen
-    "MLE": (4.1918, 73.5290),   # Male
+    "DEL": {"lat": 28.5562, "lon": 77.1000,  "name": "Delhi"},
+    "PEK": {"lat": 40.0801, "lon": 116.5846, "name": "Beijing"},
+    "SZX": {"lat": 22.6393, "lon": 113.8108, "name": "Shenzhen"},
+    "MLE": {"lat": 4.1918,  "lon": 73.5290,  "name": "Male"},
 
     # Americas
-    "JFK": (40.6413, -73.7781), # New York JFK
-    "DFW": (32.8998, -97.0403), # Dallas Fort Worth
-    "GRU": (-23.4356, -46.4731),# Sao Paulo Guarulhos
+    "JFK": {"lat": 40.6413, "lon": -73.7781, "name": "New York JFK"},
+    "DFW": {"lat": 32.8998, "lon": -97.0403, "name": "Dallas Fort Worth"},
+    "GRU": {"lat": -23.4356, "lon": -46.4731, "name": "Sao Paulo Guarulhos"},
 }
+
+# Backward-compatible coordinate lookup (used by load_risk_report and build_world_map)
+AIRPORT_COORDS = {code: (info["lat"], info["lon"]) for code, info in AIRPORTS.items()}
+
+# Name lookup (used by build_iata_block_for_prompt in the notebook)
+AIRPORT_NAMES = {code: info["name"] for code, info in AIRPORTS.items()}
 
 
 RISK_COLORS = {
@@ -499,8 +505,8 @@ def launch_app(
         gr.Markdown(
             "# ✈️ Transit Anomaly Detection\n"
             "Multi-agent pipeline for identifying risky transit routes.\n\n"
-            "Enter a natural-language query (e.g. *flights with anomalies from istanbul*, "
-            "*viaggiatori da fiumicino*, *voli verso londra*) and run the pipeline."
+            "Enter a natural-language query (e.g. *show me anomaly routes departing from Albania*, "
+            "*anomaly flights arriving in Rome*."
         )
 
         with gr.Row():
