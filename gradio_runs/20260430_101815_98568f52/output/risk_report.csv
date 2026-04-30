@@ -1,0 +1,3 @@
+dataset,group_key,group_volume,n_records,rate,baseline_mean,baseline_std,z_score,ratio_to_baseline,anomaly_score,is_outlier,risk_score,risk_level,risk_reason
+allarmi_raw,lhr|lin,13131.0,101,130.009900990099,135.37113402061857,1013.732843253788,1.5882612599925436,97.0,97.58826125999254,True,100.0,HIGH,"This group has 97.0x the expected baseline volume, with 101 records observed."
+allarmi_raw,lgw|mxp,103254.0,86,1200.6279069767445,1214.7529411764706,10842.38062607176,13.52125510990012,85.0,97.52125510990012,True,0.0,LOW,Minor deviation from baseline; monitor for trend changes.

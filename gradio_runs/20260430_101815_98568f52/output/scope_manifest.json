@@ -1,0 +1,42 @@
+{
+  "user_query": "show me anomaly routes departing from england in january",
+  "user_intent_summary": "Identify anomalous routes originating from England during January.",
+  "datasets": [
+    {
+      "name": "allarmi_raw",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/gradio_runs/20260430_101815_98568f52/output/allarmi_clean.csv",
+      "filters": {
+        "paese_partenza": [
+          "regno unito"
+        ],
+        "mese_partenza": [
+          "01"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "areoporto_arrivo"
+      ],
+      "volume_column_hint": "tot",
+      "rationale": "Dataset contains alarm events with departure country and month. Filtered for England (regno unito) departures in January (01). Grouped by route (departure and arrival airports) to detect anomalous routes. Volume metric is 'tot' (alarms count)."
+    },
+    {
+      "name": "tipologia_raw",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/gradio_runs/20260430_101815_98568f52/output/tipologia_clean.csv",
+      "filters": {
+        "paese_part": [
+          "regno unito"
+        ],
+        "mese_partenza": [
+          "01"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "areoporto_arrivo"
+      ],
+      "volume_column_hint": "allarmati",
+      "rationale": "Dataset contains transit events with departure country and month. Filtered for England (regno unito) departures in January (01). Grouped by route (departure and arrival airports) to detect anomalous routes. Volume metric is 'allarmati' (flagged travelers count)."
+    }
+  ]
+}

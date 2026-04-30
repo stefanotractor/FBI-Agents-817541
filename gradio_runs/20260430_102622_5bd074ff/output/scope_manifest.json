@@ -1,0 +1,42 @@
+{
+  "user_query": "show me anomaly routes departing from albania in january",
+  "user_intent_summary": "Identify anomalous flight routes departing from Albania during January.",
+  "datasets": [
+    {
+      "name": "allarmi_raw",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/gradio_runs/20260430_102622_5bd074ff/output/allarmi_clean.csv",
+      "filters": {
+        "codice_paese_part": [
+          "alb"
+        ],
+        "mese_partenza": [
+          "01"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "areoporto_arrivo"
+      ],
+      "volume_column_hint": "tot",
+      "rationale": "Filters for departures from Albania (alb) in January (01). Groups by route (departure and arrival airports) to compute per-route anomaly metrics using tot (count of alarms/events)."
+    },
+    {
+      "name": "tipologia_raw",
+      "path": "/Users/matteo/Desktop/FBI-Agents-817541/gradio_runs/20260430_102622_5bd074ff/output/tipologia_clean.csv",
+      "filters": {
+        "codice_paese_part": [
+          "alb"
+        ],
+        "mese_partenza": [
+          "01"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "areoporto_arrivo"
+      ],
+      "volume_column_hint": "allarmati",
+      "rationale": "Filters for departures from Albania (alb) in January (01). Groups by route to compute per-route anomaly metrics using allarmati (count of alarmed passengers)."
+    }
+  ]
+}
