@@ -757,7 +757,18 @@ The Multi-Agent Pipeline is evaluated in terms of:
 
 ---
 
+# Results Section
+
 ## [Section 4] Results
+
+This section reports and compares the results obtained from the two anomaly detection approaches developed in the project:
+
+1. the **Classical Pipeline**, based on manually engineered features and multiple unsupervised anomaly detection methods;
+2. the **Multi-Agent Pipeline**, based on automated data processing, route-level aggregation, baseline construction, anomaly scoring, risk profiling, and report generation.
+
+The comparison is performed on the full dataset. This is important because earlier agentic experiments were query-driven and focused on a narrower operational scope. The current Multi-Agent results are instead based on the complete available data, making the comparison with the Classical Pipeline more meaningful.
+
+---
 
 ## 4.1 Classical Pipeline Results
 
@@ -770,8 +781,16 @@ The Classical Pipeline analyzed:
 with:
 
 ```text
-30 engineered features
+30 engineered numerical features
 ```
+
+Each route represents a departure-arrival airport pair. The feature matrix was built through manual cleaning, aggregation, feature engineering, logarithmic transformation, and standard scaling.
+
+The main goal of the Classical Pipeline was to identify route-level anomalies using multiple complementary detection methods. Three anomaly signals were computed:
+
+- **Isolation Forest**, to identify routes that are globally isolated in the feature space;
+- **Local Outlier Factor**, to identify routes that are unusual compared with their local neighborhood;
+- **Z-score**, to identify feature-level extreme deviations.
 
 The individual anomaly detectors produced the following results:
 
@@ -781,7 +800,11 @@ The individual anomaly detectors produced the following results:
 | Local Outlier Factor | 19 / 366 | 5.2% |
 | Z-score | 137 / 366 | 37.4% |
 
-The main finding is that Isolation Forest and LOF are conservative and aligned with the selected contamination rate, while Z-score is much more sensitive.
+The results show a clear difference in sensitivity between model-based detectors and the statistical Z-score rule.
+
+Isolation Forest and Local Outlier Factor both detected 19 anomalous routes, which corresponds to approximately 5.2% of the dataset. This is consistent with the contamination parameter used during modeling and indicates that both methods behave conservatively.
+
+The Z-score method, instead, detected 137 anomalous routes, corresponding to 37.4% of the dataset. This confirms that Z-score is much more sensitive, especially in a dataset where several features are sparse, skewed, and affected by low-volume route behavior.
 
 ```mermaid
 xychart-beta
@@ -791,14 +814,41 @@ xychart-beta
     bar [19, 19, 137]
 ```
 
+### Interpretation of Individual Detectors
+
+The three detectors provide different perspectives on anomaly detection.
+
+| Detector | Main behavior | Interpretation |
+|---|---|---|
+| Isolation Forest | Conservative | Captures routes that are globally isolated from the rest of the dataset |
+| Local Outlier Factor | Conservative | Captures routes that are locally unusual compared with similar routes |
+| Z-score | Highly sensitive | Captures individual feature deviations, including many weak or noisy signals |
+
+The strong difference between Z-score and the other two methods indicates that many routes contain at least one extreme feature value, but not all of them are strong multivariate anomalies.
+
+For this reason, the Classical Pipeline does not rely on a single detector. Instead, it combines the outputs through a consensus mechanism.
+
+---
+
+### Consensus Voting
+
+Each detector assigns a binary anomaly flag to each route:
+
+```text
+1 = anomalous
+0 = normal
+```
+
+The final anomaly score is based on the number of anomaly votes received by each route.
+
 The vote distribution was:
 
-| Number of votes | Routes |
-|---:|---:|
-| 0 | 216 |
-| 1 | 126 |
-| 2 | 23 |
-| 3 | 1 |
+| Number of votes | Routes | Interpretation |
+|---:|---:|---|
+| 0 | 216 | No anomaly signal |
+| 1 | 126 | Weak anomaly signal |
+| 2 | 23 | Probable anomaly |
+| 3 | 1 | Strong anomaly signal |
 
 ```mermaid
 xychart-beta
@@ -808,23 +858,60 @@ xychart-beta
     bar [216, 126, 23, 1]
 ```
 
-The consensus approach produced:
+The consensus rule was defined as:
 
 ```text
-24 final anomalies
+A route is considered a final anomaly if it receives at least 2 votes out of 3.
 ```
 
-This represents a strong reduction compared with Z-score alone:
+This produced:
+
+```text
+24 final consensus anomalies
+```
+
+The consensus approach reduced the anomaly set from:
 
 ```text
 137 Z-score flags → 24 consensus anomalies
 ```
 
-This reduction is important because it makes the final output more suitable for operational review.
+This reduction is one of the most important outcomes of the Classical Pipeline. It shows that combining multiple detectors helps reduce noise and avoids treating every feature-level deviation as an operationally relevant anomaly.
+
+---
+
+### Classical Pipeline Summary
+
+| Result | Value |
+|---|---:|
+| Total routes analyzed | 366 |
+| Engineered features | 30 |
+| Isolation Forest anomalies | 19 |
+| LOF anomalies | 19 |
+| Z-score anomalies | 137 |
+| Consensus anomalies | 24 |
+| Consensus threshold | At least 2 out of 3 votes |
+
+The Classical Pipeline therefore provides a broad but controlled anomaly detection framework. It captures many possible abnormal behaviors while using consensus voting to filter out weaker signals.
 
 ---
 
 ## 4.2 Risk Classification Results
+
+The 24 consensus anomalies were further analyzed through a post-processing and risk classification step.
+
+The objective of this phase was to transform raw anomaly flags into operationally interpretable risk levels. This is necessary because an anomaly detection model can identify statistically unusual routes, but statistical unusualness is not always equivalent to operational risk.
+
+The post-processing step considered several factors:
+
+- number of anomaly votes;
+- alert rate;
+- absolute number of alarms;
+- number of investigated travellers;
+- data completeness;
+- confidence and reliability of the signal;
+- possible low-volume effects;
+- interpretability of the anomaly drivers.
 
 The 24 consensus anomalies were classified as follows:
 
@@ -843,6 +930,14 @@ pie title Risk Level Distribution among Consensus Anomalies
     "LOW" : 6
 ```
 
+The risk distribution shows that most consensus anomalies are not simply low-level statistical deviations. A large portion of the final anomaly set falls into the CRITICAL or HIGH categories, meaning that the consensus mechanism successfully preserves relevant routes while reducing the noise introduced by Z-score alone.
+
+---
+
+### Data-Quality Filtering
+
+After assigning risk levels, the Classical Pipeline applied an additional reliability filter.
+
 After data-quality filtering:
 
 ```text
@@ -851,7 +946,7 @@ After data-quality filtering:
 
 were retained for the final operational report.
 
-The post-processing step excluded or marked with caution:
+The post-processing step excluded or marked with caution the following cases:
 
 | Issue type | Routes |
 |---|---:|
@@ -859,95 +954,450 @@ The post-processing step excluded or marked with caution:
 | Incomplete data | 2 |
 | High rate but very low volume | 5 |
 
-This distinction is crucial because an anomaly detector can identify statistically unusual routes, but not all statistically unusual routes are equally useful or reliable from an operational perspective.
+These categories are important because anomaly detection on operational data is sensitive to both volume and data quality.
+
+A route may appear anomalous because it has a very high alert rate, but if the number of observations is very small, the estimate may be unstable. Similarly, routes with incomplete supporting information may be statistically interesting but less reliable for operational decision-making.
+
+---
+
+### Risk Classification Interpretation
+
+The risk classification adds an operational layer on top of the statistical anomaly detection layer.
+
+| Risk level | Meaning |
+|---|---|
+| CRITICAL | Strongest anomaly signal, usually supported by all detectors or extreme operational indicators |
+| HIGH | Strong anomaly signal with relevant operational evidence |
+| MEDIUM | Meaningful deviation, often linked to volume or partial anomaly evidence |
+| LOW | Weak or lower-priority signal, useful mainly for monitoring |
+
+This step makes the final output more usable because it separates routes that require immediate attention from routes that should simply be monitored.
 
 ---
 
 ## 4.3 Main Classical Pipeline Findings
 
-The Classical Pipeline shows that:
+The Classical Pipeline produced several important findings.
 
-1. **Z-score is highly sensitive**  
-   It detects 137 routes, which is too many for direct operational use.
+### 1. Z-score is highly sensitive
 
-2. **Isolation Forest and LOF are more selective**  
-   Both detect 19 routes, consistent with the 5% contamination assumption.
+The Z-score method detected:
 
-3. **Consensus voting improves reliability**  
-   The final consensus set contains 24 routes, reducing noise while preserving strong signals.
+```text
+137 anomalous routes
+```
 
-4. **Risk post-processing is necessary**  
-   Raw anomaly flags must be interpreted using alert rate, volume, and data quality.
+This is much higher than the number of anomalies detected by Isolation Forest and Local Outlier Factor.
 
-5. **High alert rate does not always mean high reliability**  
-   Some routes have very high rates but very low investigated volume, resulting in wide confidence intervals.
+This behavior is expected because Z-score flags a route when at least one feature exceeds a statistical threshold. In a dataset with 30 features, sparse values, and skewed route distributions, many routes may exceed the threshold for at least one variable.
 
-6. **High-volume routes can be operationally important even with moderate rates**  
-   Medium-risk routes may be important because they generate many absolute alarms.
+As a result, Z-score is useful for identifying feature-level deviations, but it is too sensitive to be used alone for final operational decisions.
+
+---
+
+### 2. Isolation Forest and LOF are more selective
+
+Both Isolation Forest and Local Outlier Factor detected:
+
+```text
+19 anomalous routes
+```
+
+This indicates that the two model-based methods are more conservative.
+
+Isolation Forest focuses on global isolation, while LOF focuses on local density differences. Their similar anomaly counts suggest that both methods identify a small set of routes that are structurally different from the majority of the dataset.
+
+---
+
+### 3. Consensus voting improves reliability
+
+The consensus strategy produced:
+
+```text
+24 final anomalies
+```
+
+This final set is much smaller than the Z-score output and more interpretable than any single-detector result.
+
+Consensus voting improves reliability because a route must be confirmed by at least two independent anomaly signals before being selected as a final anomaly.
+
+---
+
+### 4. Risk post-processing is necessary
+
+The Classical Pipeline shows that raw anomaly flags are not sufficient.
+
+A route may be statistically anomalous for several reasons:
+
+- high alert rate;
+- high absolute alarm volume;
+- rare feature pattern;
+- low data volume;
+- incomplete supporting records;
+- isolated but operationally weak signal.
+
+For this reason, post-processing is essential to distinguish between statistical anomalies and operationally relevant anomalies.
+
+---
+
+### 5. High alert rate does not always mean high reliability
+
+Some routes have very high alert rates but very low investigated volume.
+
+In these cases, the alert rate may be unstable because it is calculated on a small number of observations. These routes should not automatically be treated as high-risk without further validation.
+
+---
+
+### 6. High-volume routes can be operationally important even with moderate rates
+
+Some medium-risk routes may not have the highest alert rate, but they may generate a large number of absolute alarms.
+
+From an operational perspective, these routes can be important because they may consume more resources or indicate repeated patterns across many observations.
+
+---
+
+### Classical Pipeline Final Assessment
+
+Overall, the Classical Pipeline is strong in terms of:
+
+- methodological rigor;
+- feature richness;
+- transparency;
+- interpretability;
+- robustness through consensus;
+- ability to detect both strong and subtle anomalies.
+
+Its main limitation is that it requires significant manual effort and careful post-processing.
 
 ---
 
 ## 4.4 Multi-Agent Pipeline Results
 
-The Multi-Agent Pipeline was tested using the query:
+The Multi-Agent Pipeline was executed on the **full dataset**, ensuring that its results can be compared with the Classical Pipeline on the same overall scope.
+
+The objective of the Multi-Agent Pipeline is different from the Classical Pipeline. Instead of manually defining every step of the workflow, the Multi-Agent system automates the main phases of the anomaly detection process through specialized agents.
+
+The workflow includes:
+
+| Step | Description |
+|---|---|
+| Data Agent | Selects, filters, and structures relevant alarm-related and traveller-related records |
+| Baseline Agent | Builds route-level aggregates and computes population-level baseline statistics |
+| Outlier Detection Agent | Computes anomaly signals such as z-score, ratio-to-baseline, and anomaly score |
+| Risk Profiling Agent | Assigns risk levels based on anomaly severity and ranking |
+| Report Agent | Generates the final anomaly detection report in markdown format |
+
+The updated Multi-Agent Pipeline identified:
 
 ```text
-mostrami le anomalie per i voli diretti a fiumicino
+11 anomalous route-level groups
 ```
 
-The agentic workflow produced the following artifacts:
+The risk distribution was:
 
-| Step | Output | Result |
-|---|---|---:|
-| Data Agent | `scoped_transit_data.csv` | 139 rows |
-| Baseline Agent | `baseline_data.csv` | 46 routes |
-| Outlier Detection Agent | `outliers.csv` | 2 outliers |
-| Risk Profiling Agent | `risk_report.csv` | 2 LOW-risk routes |
-| Report Agent | `transit_anomaly_report.md` | narrative report |
+| Risk level | Routes |
+|---|---:|
+| HIGH | 2 |
+| MEDIUM | 2 |
+| LOW | 7 |
 
-The detected routes were:
+```mermaid
+pie title Multi-Agent Risk Distribution
+    "HIGH" : 2
+    "MEDIUM" : 2
+    "LOW" : 7
+```
 
-| Route | Alert rate | Total alarms | Risk level |
-|---|---:|---:|---|
-| LGW → FCO | 1.0 | 11 | LOW |
-| LHR → FCO | 1.0 | 11 | LOW |
+The 11 anomalies were selected using a population-level baseline, z-score normalization, ratio-to-baseline comparison, and hybrid filtering logic combining top-ranked deviations with a confidence floor.
 
-The Multi-Agent Pipeline successfully executed all steps and generated valid artifacts at each stage.
+---
+
+### Multi-Agent High-Risk Routes
+
+The Multi-Agent Pipeline identified 2 high-risk routes.
+
+| Route | Events | Baseline mean | Z-score | Ratio to baseline | Anomaly score | Risk score |
+|---|---:|---:|---:|---:|---:|---:|
+| TIA → BGY | 25,936 | 88 | 9.51 | 294.00x | 302.51 | 100.0 |
+| TIA → BLQ | 30,750 | 134 | 11.31 | 228.00x | 238.31 | 71.8 |
+
+These routes show the strongest deviations from the population baseline.
+
+The route **TIA → BGY** shows an extremely high ratio to baseline, with 25,936 events compared with an average baseline of 88. This corresponds to a 294-fold increase over the baseline and receives the highest risk score.
+
+The route **TIA → BLQ** records 30,750 events against a baseline mean of 134. Although its ratio is lower than TIA → BGY, its z-score is higher, confirming a very strong statistical deviation.
+
+These two routes should be prioritized for operational review because they combine high event volume, high ratio-to-baseline values, and strong z-score signals.
+
+---
+
+### Multi-Agent Medium-Risk Routes
+
+The Multi-Agent Pipeline identified 2 medium-risk routes.
+
+| Route | Events | Baseline mean | Z-score | Ratio to baseline | Anomaly score | Risk score |
+|---|---:|---:|---:|---:|---:|---:|
+| TIA → FCO | 14,655 | 66 | 5.30 | 222.00x | 226.30 | 66.5 |
+| TIA → TSF | 12,993 | 76 | 4.68 | 170.00x | 173.68 | 43.4 |
+
+These routes show strong deviations from baseline but are ranked below the high-risk routes.
+
+The route **TIA → FCO** is especially relevant because it combines a high ratio-to-baseline value with a strong z-score. It does not reach the highest risk category but remains operationally important.
+
+The route **TIA → TSF** also presents a significant deviation, with 12,993 events against a baseline mean of 76. Its risk score is lower, but the route still deserves monitoring and potential follow-up.
+
+---
+
+### Multi-Agent Low-Risk Routes
+
+The Multi-Agent Pipeline identified 7 low-risk routes.
+
+| Route | Events | Baseline mean | Z-score | Ratio to baseline | Anomaly score | Risk score |
+|---|---:|---:|---:|---:|---:|---:|
+| TIA → CTA | 4,577 | 34 | 1.54 | 132.00x | 132.54 | 25.3 |
+| TIA → BRI | 5,725 | 47 | 1.97 | 120.00x | 120.97 | 20.2 |
+| STN → BGY | 10,160 | 97 | 3.62 | 104.00x | 106.62 | 13.9 |
+| LHR → LIN | 13,131 | 135 | 1.59 | 97.00x | 97.59 | 10.0 |
+| LGW → MXP | 103,254 | 1,214 | 13.52 | 85.00x | 97.52 | 9.9 |
+| TIA → TRN | 8,599 | 107 | 3.04 | 80.00x | 82.04 | 3.1 |
+| TIA → GOA | 5,515 | 74 | 1.89 | 74.00x | 74.89 | 0.0 |
+
+These routes are not ignored, but they are not assigned immediate high-priority status.
+
+Some low-risk routes show large absolute volumes or high ratios, but their final risk scores are lower because the risk profiling logic considers multiple factors, including relative ranking and severity thresholds.
+
+For example, **LGW → MXP** has the largest absolute event count among the low-risk routes and a very high z-score. However, its ratio-to-baseline and final risk score place it below the more critical TIA-related deviations.
+
+This illustrates how the Multi-Agent Pipeline separates statistical anomaly strength from operational prioritization.
+
+---
+
+### Multi-Agent Pipeline Summary
+
+| Result | Value |
+|---|---:|
+| Total anomalies detected | 11 |
+| High-risk routes | 2 |
+| Medium-risk routes | 2 |
+| Low-risk routes | 7 |
+| Main detection signals | Z-score, ratio-to-baseline, anomaly score |
+| Main selection logic | Hybrid top-K ranking and confidence floor |
+
+The Multi-Agent Pipeline is more selective than the Classical Pipeline. It focuses on the most extreme baseline deviations and produces a compact set of routes for review.
 
 ---
 
 ## 4.5 Classical vs Multi-Agent Comparison
 
+The two pipelines are now compared on the same overall dataset scope.
+
 | Dimension | Classical Pipeline | Multi-Agent Pipeline |
 |---|---|---|
-| Scope | Full dataset | Query-driven scoped dataset |
-| Main input | Cleaned and engineered route-level data | Natural language query + cleaned datasets |
-| Human effort | High | Lower once agents are configured |
-| Control | Very high | Medium, mediated by prompts and validators |
-| Transparency | High | Medium-high if generated code and logs are inspected |
-| Robustness | Depends on manual code quality | Depends on validators and supervisor |
-| Output | Ranked anomaly report | Query-specific risk report |
-| Best use case | Full analytical study | Interactive or repeatable operational querying |
-| Main weakness | Time-consuming and less reusable | Sensitive to prompt design and validation quality |
+| Scope | Full dataset | Full dataset |
+| Total routes / groups analyzed | 366 routes | Full route-level groups |
+| Feature representation | 30 engineered numerical features | Aggregated volume-based route metrics |
+| Detection methods | Isolation Forest, LOF, Z-score | Z-score, ratio-to-baseline, anomaly score |
+| Selection strategy | Consensus voting | Hybrid filtering and ranking |
+| Raw anomaly sensitivity | High due to Z-score | Lower due to filtering |
+| Final anomaly set | 24 consensus anomalies | 11 selected anomalies |
+| Risk profiling | Detailed post-processing | Automated risk assignment |
+| Interpretability | High | High |
+| Automation | Lower | Higher |
+| Manual effort | High | Lower once configured |
+| Robustness | Strong due to consensus | Stronger if validators and thresholds are well designed |
+| Main strength | Broad and robust anomaly discovery | Selective and operationally focused detection |
+| Main weakness | Time-consuming and manually designed | Lower coverage of subtle multivariate anomalies |
+
+---
+
+### Quantitative Comparison
+
+| Metric | Classical Pipeline | Multi-Agent Pipeline |
+|---|---:|---:|
+| Total routes analyzed | 366 | Full dataset |
+| Raw statistical anomalies | 137 | 11 |
+| Final anomalies | 24 | 11 |
+| High / Critical risk routes | 11 | 2 |
+| Medium risk routes | 7 | 2 |
+| Low risk routes | 6 | 7 |
+
+The Classical Pipeline identifies more anomalies overall. This is expected because it uses multiple detection methods and a richer feature space.
+
+The Multi-Agent Pipeline identifies fewer anomalies because it applies stricter filtering and focuses on the most extreme deviations from baseline.
+
+---
+
+### Risk Distribution Comparison
+
+| Risk level | Classical Pipeline | Multi-Agent Pipeline |
+|---|---:|---:|
+| CRITICAL | 1 | 0 |
+| HIGH | 10 | 2 |
+| MEDIUM | 7 | 2 |
+| LOW | 6 | 7 |
+| Total | 24 | 11 |
+
+```mermaid
+xychart-beta
+    title "Final Anomalies by Risk Level"
+    x-axis ["Critical", "High", "Medium", "Low"]
+    y-axis "Routes" 0 --> 12
+    bar [1, 10, 7, 6]
+```
+
+```mermaid
+xychart-beta
+    title "Multi-Agent Anomalies by Risk Level"
+    x-axis ["High", "Medium", "Low"]
+    y-axis "Routes" 0 --> 8
+    bar [2, 2, 7]
+```
+
+The Classical Pipeline has a broader distribution across the higher risk classes, while the Multi-Agent Pipeline concentrates most detected routes in the low-risk category.
+
+This suggests that the Multi-Agent system is not simply replicating the Classical Pipeline. It is applying a different selection strategy that emphasizes extreme deviations but then prioritizes only a small subset as high or medium risk.
+
+---
+
+### Detection Behavior Comparison
+
+The Classical Pipeline captures several types of anomalies:
+
+- routes that are globally isolated in the full feature space;
+- routes that are locally unusual compared with similar routes;
+- routes with extreme feature-level values;
+- routes supported by multiple independent anomaly signals.
+
+The Multi-Agent Pipeline mainly captures:
+
+- extreme deviations from a population-level baseline;
+- unusually high event volumes;
+- high ratio-to-baseline values;
+- strongly ranked route-level outliers.
+
+This means that the Classical Pipeline is more suitable for discovering a wide anomaly space, while the Multi-Agent Pipeline is more suitable for producing a concise operational alert list.
+
+---
+
+### Coverage vs Selectivity
+
+The two approaches reflect a trade-off between coverage and selectivity.
+
+| Objective | Better suited pipeline | Reason |
+|---|---|---|
+| Discover many possible anomalies | Classical Pipeline | Uses multiple detectors and richer features |
+| Reduce alert fatigue | Multi-Agent Pipeline | Produces a smaller anomaly set |
+| Capture multivariate patterns | Classical Pipeline | Uses 30 engineered features |
+| Automate repeated analysis | Multi-Agent Pipeline | Agentic workflow can generate outputs automatically |
+| Explain final risk levels | Both | Both include risk interpretation, but with different logic |
+| Operational triage | Multi-Agent Pipeline | Focuses on fewer, ranked deviations |
+| Methodological validation | Classical Pipeline | More controlled and transparent |
 
 ---
 
 ## 4.6 Interpretation of the Comparison
 
-The Classical Pipeline is stronger when the goal is to perform a complete, rigorous, and fully controlled analysis.  
-It provides more detailed feature engineering, more explicit modeling choices, and a richer post-processing logic.
+The comparison shows that the Classical Pipeline and the Multi-Agent Pipeline are not interchangeable. They are complementary tools designed around different priorities.
 
-The Multi-Agent Pipeline is stronger when the goal is to create a reusable system that can respond to different user queries and generate outputs automatically.  
-Its main advantage is modularity: each agent has a specific responsibility, and the Supervisor ensures that invalid artifacts are rejected.
+The Classical Pipeline is designed for analytical completeness. It builds a rich feature matrix, applies multiple anomaly detectors, and uses consensus voting to identify robust final anomalies. This makes it strong for methodological validation and for discovering subtle patterns that may not be visible through simple aggregate metrics.
 
-However, the Multi-Agent Pipeline currently produces a more limited analysis than the Classical Pipeline. In the tested example, it focuses on routes arriving at Fiumicino and detects only two outliers. This makes the output useful for a scoped operational question, but not directly comparable to the full 366-route analysis unless the same scope and features are used.
-
-The most important conclusion is that the two approaches are complementary:
-
-- the **Classical Pipeline** is better for controlled experimentation and methodological validation;
-- the **Multi-Agent Pipeline** is better for automation, reusability, and interactive querying.
+The Multi-Agent Pipeline is designed for automation and operational usability. It processes the data through specialized agents, computes baseline deviations, ranks anomalous route groups, assigns risk levels, and generates a structured report. This makes it strong for repeatable monitoring and rapid anomaly review.
 
 ---
+
+### Main Interpretation
+
+The Classical Pipeline detected:
+
+```text
+24 final consensus anomalies
+```
+
+The Multi-Agent Pipeline detected:
+
+```text
+11 anomalous route-level groups
+```
+
+This difference should not be interpreted as a contradiction. It reflects a methodological difference.
+
+The Classical Pipeline has broader coverage because it combines different types of anomaly detection signals.
+
+The Multi-Agent Pipeline is more selective because it focuses on the most extreme deviations according to its baseline and ranking logic.
+
+---
+
+### Practical Meaning
+
+From a practical perspective:
+
+- the Classical Pipeline is better when the goal is to understand the full anomaly landscape;
+- the Multi-Agent Pipeline is better when the goal is to produce a short and actionable list of suspicious routes;
+- the Classical Pipeline is more suitable for research and validation;
+- the Multi-Agent Pipeline is more suitable for automation and operational monitoring.
+
+---
+
+### Strengths of the Classical Pipeline
+
+The main strengths of the Classical Pipeline are:
+
+- rich feature engineering;
+- multiple anomaly detection perspectives;
+- consensus-based robustness;
+- transparent manual design;
+- detailed post-processing;
+- better coverage of subtle anomaly patterns.
+
+Its main weakness is that it requires more manual effort and is less immediately reusable for interactive analysis.
+
+---
+
+### Strengths of the Multi-Agent Pipeline
+
+The main strengths of the Multi-Agent Pipeline are:
+
+- automated execution;
+- modular agent-based structure;
+- compact anomaly output;
+- strong interpretability of baseline deviations;
+- lower manual effort once configured;
+- suitability for repeated operational use.
+
+Its main weakness is that it may miss subtle multivariate anomalies that are not expressed as extreme aggregate deviations.
+
+---
+
+### Final Interpretation
+
+The most important conclusion is that the two approaches should be combined rather than treated as alternatives.
+
+A strong future version of the system would use:
+
+- the feature richness of the Classical Pipeline;
+- the consensus voting logic of the Classical Pipeline;
+- the automation and modularity of the Multi-Agent Pipeline;
+- the reporting capabilities of the Multi-Agent Pipeline.
+
+This would allow the system to preserve methodological rigor while becoming more scalable, automated, and operationally useful.
+
+---
+
+### Final Takeaway
+
+The final takeaway is:
+
+```text
+Classical Pipeline = coverage, rigor, and robustness
+Multi-Agent Pipeline = selectivity, automation, and operational usability
+```
+
+The Classical Pipeline is the stronger tool for discovering and validating anomalies.
+
+The Multi-Agent Pipeline is the stronger tool for automating anomaly detection and generating concise operational reports.
+
+Together, they provide a complete framework for route-level anomaly detection on airport transit data.
+
 
 
 ## [Section 5] Conclusions
