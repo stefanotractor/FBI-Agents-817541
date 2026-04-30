@@ -1505,3 +1505,79 @@ Main Python libraries used:
 ---
 
 ## Notes on Academic Integrity
+
+This project was developed collaboratively by us and reflects our understanding of anomaly detection, data processing, and machine learning workflows.
+
+### Use of AI Tools
+
+During the development of this project, AI tools (including Large Language Models) were used as **support tools for coding and implementation**.
+
+In particular, we:
+
+- had a clear conceptual understanding of the pipeline design and methodology;
+- defined the structure of both the Classical and Multi-Agent pipelines independently;
+- used AI tools to assist in writing specific parts of the code when implementation details were unclear;
+- relied on step-by-step guidance to translate ideas into working code.
+
+AI assistance was therefore used mainly to:
+
+- accelerate coding;
+- clarify implementation patterns;
+- debug or refine specific components.
+
+---
+
+### Human Contribution and Understanding
+
+All key decisions in the project were made by us, including:
+
+- problem formulation and anomaly detection strategy;
+- choice of models and statistical methods;
+- design of feature engineering and aggregation logic;
+- definition of the consensus mechanism;
+- interpretation of results and conclusions.
+
+Every part of the generated code was:
+
+- reviewed and understood by us;
+- adapted when necessary;
+- integrated into a coherent pipeline.
+
+We did not blindly copy outputs, but used AI as a **learning and implementation support tool**.
+
+---
+
+### Validation and Responsibility
+
+All results presented in this report were:
+
+- validated through execution and consistency checks;
+- compared across different methods (Classical vs Multi-Agent);
+- interpreted critically by us.
+
+The final responsibility for the correctness of the code, the analysis, and the conclusions lies entirely with us.
+
+---
+
+### External Libraries
+
+The project uses standard open-source Python libraries such as:
+
+- `pandas`, `numpy` for data processing;
+- `scikit-learn` for anomaly detection models;
+- `scipy`, `matplotlib`, `seaborn` for analysis and visualization.
+
+These are used in a standard and appropriate way.
+
+---
+
+### Final Statement
+
+We confirm that:
+
+- the project reflects our own ideas and understanding;
+- AI tools were used transparently as support for implementation;
+- all outputs were reviewed, validated, and interpreted independently;
+- the work complies with academic integrity guidelines.
+
+AI tools were used to assist development, not to replace our reasoning or contribution.
