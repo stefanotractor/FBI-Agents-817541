@@ -7,3 +7,4 @@ seaborn
 gradio
 python-dotenv
 openai
+plotly
