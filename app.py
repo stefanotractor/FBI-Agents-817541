@@ -438,7 +438,7 @@ def launch_app(
             if c in df_sorted.columns:
                 df_sorted[c] = pd.to_numeric(df_sorted[c], errors="coerce").round(3)
         return df_sorted[cols]
-
+    
     def _on_submit(query: str):
         query = (query or "").strip()
         if not query:
@@ -464,14 +464,34 @@ def launch_app(
 
         if not result["succeeded"]:
             err = (f"❌ Pipeline failed at stage: **{result['failed_at']}**.\n\n"
-                   f"Check the terminal output for details.")
+                f"Check the terminal output for details.")
             return (err,
                     pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
                     build_world_map(pd.DataFrame()))
 
+        # ── NEW: handle the "no anomalies found" case gracefully ──────────
+        df_risk = result["df_risk"]
+        if df_risk is None or df_risk.empty:
+            msg = (
+                "## ✅ No anomalies found\n\n"
+                f"The pipeline ran successfully for your query, but **no risky routes** "
+                f"were detected in the selected scope.\n\n"
+                f"This is a valid result — it means the data in scope behaves within "
+                f"the expected baseline.\n\n"
+                f"Try a broader query (e.g. *show me all anomaly routes*) to explore "
+                f"the full dataset."
+            )
+            # If the report agent still wrote something, prepend it
+            if result["report_md"]:
+                msg = result["report_md"] + "\n\n---\n\n" + msg
+            return (msg,
+                    pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
+                    build_world_map(pd.DataFrame()))
+
+        # Normal path: anomalies present
         report_md = result["report_md"] or "*(empty report)*"
-        table = _render_table(result["df_risk"])
-        fig = build_world_map(result["df_risk"])
+        table = _render_table(df_risk)
+        fig = build_world_map(df_risk)
         return report_md, table, fig
 
     with gr.Blocks(title="Transit Anomaly Detection — Multi-Agent",
@@ -517,5 +537,21 @@ def launch_app(
             outputs=[report_out, table_out, map_out],
         )
 
-    demo.launch(server_name=server_name, server_port=server_port, share=share)
+    import socket
+
+    def _find_free_port(start: int, attempts: int = 20) -> int:
+        """Try ports start, start+1, ..., start+attempts-1 and return the first free one."""
+        for p in range(start, start + attempts):
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                try:
+                    s.bind((server_name, p))
+                    return p
+                except OSError:
+                    continue
+        raise RuntimeError(f"No free port found in range {start}-{start + attempts - 1}")
+
+    actual_port = _find_free_port(server_port)
+    if actual_port != server_port:
+        print(f"[gradio] port {server_port} busy, using {actual_port} instead")
+    demo.launch(server_name=server_name, server_port=actual_port, share=share)
     return demo

@@ -1,99 +1,194 @@
 # Anomaly Report
 
 ## Executive Summary
-The user requested to identify routes with unusually high or low anomaly-related metrics for anomaly detection.. Across the monitored datasets and applied filters, 11 route-level groups were flagged as anomalous.
-Of these, 2 present **high risk**, 2 **medium risk**, and 7 **low-priority deviations**.
+The user requested identification of routes with anomalous event counts to support monitoring and investigative activities. The analysis covered route-level groupings derived from the datasets `allarmi_raw` and `tipologia_raw` under the specified filters.
 
-The analysis covered the following datasets and scope:
-- **allarmi_raw**: filtered for 'voli con allarmi' and 'viaggiatori con allarmi'; grouped by departure and arrival airports using the 'tot' volume metric.
-- **tipologia_raw**: filtered for 'allarmati'=1; grouped by departure and arrival airports using the 'entrati' traveler count metric.
-
-Anomalies were detected using a population-level baseline per group, z-score normalization, and hybrid flagging combining top-K ranking with a confidence floor.
+Across 14 monitored route groups, 2 presented high risk, 4 moderate risk, and 8 lower-priority deviations. The overall distribution indicates that the majority of routes operated within expected parameters, with only a small subset requiring attention.
 
 ## Risk Distribution
-Of the 11 flagged groups, 2 present **high risk**, 2 **medium risk**, and 7 **lower-priority deviations**.
-
-| Risk Level | Count |
-|------------|-------|
-| HIGH       | 2     |
-| MEDIUM     | 2     |
-| LOW        | 7     |
+Of the 14 flagged route groups, 2 present high risk, 4 moderate risk, and 8 lower-priority deviations. High-risk groups represent the most urgent cases for review, while medium-risk entities may benefit from enhanced monitoring. Low-risk deviations are noted for situational awareness but do not require immediate escalation.
 
 ## Detailed Findings
-### High-Risk Routes
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, Bergamo Orio al Serio Airport (bgy) → Bergamo**
-  - **Events**: 25936 (baseline mean: 88); z-score: 9.51
-  - **Ratio to baseline**: 294.00x; anomaly score: 302.51
-  - **Risk score**: 100.0; reason: This group shows a z-score of 9.5, indicating volume 25936.0 times above the population average for dataset tipologia_raw.
-  - Analytical interpretation: This route recorded 25936 events against a population average of 88, representing a 294.0-fold deviation. The z-score of 9.51 confirms a statistically significant anomaly. Given the risk reason 'This group shows a z-score of 9.5, indicating volume 25936.0 times above the population average for dataset tipologia_raw.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
 
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, blq (unknown airport)**
-  - **Events**: 30750 (baseline mean: 134); z-score: 11.31
-  - **Ratio to baseline**: 228.00x; anomaly score: 238.31
-  - **Risk score**: 71.8; reason: This group shows a z-score of 11.3, indicating volume 30750.0 times above the population average for dataset tipologia_raw.
-  - Analytical interpretation: This route recorded 30750 events against a population average of 134, representing a 228.0-fold deviation. The z-score of 11.31 confirms a statistically significant anomaly. Given the risk reason 'This group shows a z-score of 11.3, indicating volume 30750.0 times above the population average for dataset tipologia_raw.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+### HIGH Risk Entities
 
-### Medium-Risk Routes
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, Roma Fiumicino Leonardo da Vinci (fco) → Rome**
-  - **Events**: 14655 (baseline mean: 66); z-score: 5.30
-  - **Ratio to baseline**: 222.00x; anomaly score: 226.30
-  - **Risk score**: 66.5; reason: Moderate deviation detected: z-score=5.3, ratio=222.0x baseline.
-  - Analytical interpretation: This route recorded 14655 events against a population average of 66, representing a 222.0-fold deviation. The z-score of 5.30 confirms a statistically significant anomaly. Given the risk reason 'Moderate deviation detected: z-score=5.3, ratio=222.0x baseline.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+#### Tirana (TIA) → Bergamo Orio al Serio (BGY)
 
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, Treviso-Sant’Angelo Airport (tsf) → Treviso**
-  - **Events**: 12993 (baseline mean: 76); z-score: 4.68
-  - **Ratio to baseline**: 170.00x; anomaly score: 173.68
-  - **Risk score**: 43.4; reason: Moderate deviation detected: z-score=4.7, ratio=170.0x baseline.
-  - Analytical interpretation: This route recorded 12993 events against a population average of 76, representing a 170.0-fold deviation. The z-score of 4.68 confirms a statistically significant anomaly. Given the risk reason 'Moderate deviation detected: z-score=4.7, ratio=170.0x baseline.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+- **Events Observed**: 4793 (baseline mean: 16)
+- **Z-Score**: 9.05
+- **Ratio to Baseline**: 293.00x
+- **Anomaly Score**: 301.05
+- **Risk Score**: 100.00
+- **Risk Reason**: This group shows a z-score of 9.0, indicating volume 9.0 times above the population average for dataset tipologia_raw.
 
-### Low-Risk Routes
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, cta (unknown airport)**
-  - **Events**: 4577 (baseline mean: 34); z-score: 1.54
-  - **Ratio to baseline**: 132.00x; anomaly score: 132.54
-  - **Risk score**: 25.3; reason: Minor deviation from baseline; monitor for trend changes.
-  - Analytical interpretation: This route recorded 4577 events against a population average of 34, representing a 132.0-fold deviation. The z-score of 1.54 confirms a statistically significant anomaly. Given the risk reason 'Minor deviation from baseline; monitor for trend changes.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+**Analytical Interpretation:**
+This route recorded 4793 events, significantly exceeding the population average of 16. The 9.0-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
 
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, bri (unknown airport)**
-  - **Events**: 5725 (baseline mean: 47); z-score: 1.97
-  - **Ratio to baseline**: 120.00x; anomaly score: 120.97
-  - **Risk score**: 20.2; reason: Minor deviation from baseline; monitor for trend changes.
-  - Analytical interpretation: This route recorded 5725 events against a population average of 47, representing a 120.0-fold deviation. The z-score of 1.97 confirms a statistically significant anomaly. Given the risk reason 'Minor deviation from baseline; monitor for trend changes.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+#### Tirana (TIA) → blq
 
-- **London Stansted Airport (stn) → London, Bergamo Orio al Serio Airport (bgy) → Bergamo**
-  - **Events**: 10160 (baseline mean: 97); z-score: 3.62
-  - **Ratio to baseline**: 104.00x; anomaly score: 106.62
-  - **Risk score**: 13.9; reason: Minor deviation from baseline; monitor for trend changes.
-  - Analytical interpretation: This route recorded 10160 events against a population average of 97, representing a 104.0-fold deviation. The z-score of 3.62 confirms a statistically significant anomaly. Given the risk reason 'Minor deviation from baseline; monitor for trend changes.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+- **Events Observed**: 4138 (baseline mean: 18)
+- **Z-Score**: 7.79
+- **Ratio to Baseline**: 228.00x
+- **Anomaly Score**: 234.79
+- **Risk Score**: 73.10
+- **Risk Reason**: This group shows a z-score of 7.8, indicating volume 7.8 times above the population average for dataset tipologia_raw.
 
-- **London Heathrow Airport (lhr) → London, lin (unknown airport)**
-  - **Events**: 13131 (baseline mean: 135); z-score: 1.59
-  - **Ratio to baseline**: 97.00x; anomaly score: 97.59
-  - **Risk score**: 10.0; reason: Minor deviation from baseline; monitor for trend changes.
-  - Analytical interpretation: This route recorded 13131 events against a population average of 135, representing a 97.0-fold deviation. The z-score of 1.59 confirms a statistically significant anomaly. Given the risk reason 'Minor deviation from baseline; monitor for trend changes.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+**Analytical Interpretation:**
+This route recorded 4138 events, significantly exceeding the population average of 18. The 7.8-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
 
-- **lgw (unknown airport), Milano Malpensa (mxp) → Milan**
-  - **Events**: 103254 (baseline mean: 1214); z-score: 13.52
-  - **Ratio to baseline**: 85.00x; anomaly score: 97.52
-  - **Risk score**: 9.9; reason: Minor deviation from baseline; monitor for trend changes.
-  - Analytical interpretation: This route recorded 103254 events against a population average of 1214, representing a 85.0-fold deviation. The z-score of 13.52 confirms a statistically significant anomaly. Given the risk reason 'Minor deviation from baseline; monitor for trend changes.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+### MEDIUM Risk Entities
 
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, trn (unknown airport)**
-  - **Events**: 8599 (baseline mean: 107); z-score: 3.04
-  - **Ratio to baseline**: 80.00x; anomaly score: 82.04
-  - **Risk score**: 3.1; reason: Minor deviation from baseline; monitor for trend changes.
-  - Analytical interpretation: This route recorded 8599 events against a population average of 107, representing a 80.0-fold deviation. The z-score of 3.04 confirms a statistically significant anomaly. Given the risk reason 'Minor deviation from baseline; monitor for trend changes.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+#### Tirana (TIA) → Roma Fiumicino (FCO)
 
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, goa (unknown airport)**
-  - **Events**: 5515 (baseline mean: 74); z-score: 1.89
-  - **Ratio to baseline**: 74.00x; anomaly score: 74.89
-  - **Risk score**: 0.0; reason: Minor deviation from baseline; monitor for trend changes.
-  - Analytical interpretation: This route recorded 5515 events against a population average of 74, representing a 74.0-fold deviation. The z-score of 1.89 confirms a statistically significant anomaly. Given the risk reason 'Minor deviation from baseline; monitor for trend changes.', this deviation likely reflects a localized spike in alarms or travelers rather than a seasonal effect.
+- **Events Observed**: 1169 (baseline mean: 5)
+- **Z-Score**: 2.09
+- **Ratio to Baseline**: 223.00x
+- **Anomaly Score**: 224.09
+- **Risk Score**: 68.76
+- **Risk Reason**: Moderate deviation detected: z-score=2.1, ratio=223.0x baseline.
 
+**Analytical Interpretation:**
+This route recorded 1169 events, significantly exceeding the population average of 5. The 2.1-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → Milano Malpensa (MXP)
+
+- **Events Observed**: 3282 (baseline mean: 15)
+- **Z-Score**: 6.15
+- **Ratio to Baseline**: 216.00x
+- **Anomaly Score**: 221.15
+- **Risk Score**: 67.56
+- **Risk Reason**: Moderate deviation detected: z-score=6.1, ratio=216.0x baseline.
+
+**Analytical Interpretation:**
+This route recorded 3282 events, significantly exceeding the population average of 15. The 6.1-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → Pisa Galileo Galilei (PSA)
+
+- **Events Observed**: 3762 (baseline mean: 19)
+- **Z-Score**: 7.07
+- **Ratio to Baseline**: 193.00x
+- **Anomaly Score**: 199.07
+- **Risk Score**: 58.60
+- **Risk Reason**: Moderate deviation detected: z-score=7.1, ratio=193.0x baseline.
+
+**Analytical Interpretation:**
+This route recorded 3762 events, significantly exceeding the population average of 19. The 7.1-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → Treviso-Sant’Angelo (TSF)
+
+- **Events Observed**: 2239 (baseline mean: 12)
+- **Z-Score**: 4.14
+- **Ratio to Baseline**: 174.00x
+- **Anomaly Score**: 177.14
+- **Risk Score**: 49.70
+- **Risk Reason**: Moderate deviation detected: z-score=4.1, ratio=174.0x baseline.
+
+**Analytical Interpretation:**
+This route recorded 2239 events, significantly exceeding the population average of 12. The 4.1-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+### LOW Risk Entities
+
+#### Tirana (TIA) → bri
+
+- **Events Observed**: 884 (baseline mean: 7)
+- **Z-Score**: 1.54
+- **Ratio to Baseline**: 121.00x
+- **Anomaly Score**: 121.54
+- **Risk Score**: 27.12
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 884 events, significantly exceeding the population average of 7. The 1.5-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → vrn
+
+- **Events Observed**: 6966 (baseline mean: 78)
+- **Z-Score**: 13.22
+- **Ratio to Baseline**: 89.00x
+- **Anomaly Score**: 101.22
+- **Risk Score**: 18.87
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 6966 events, significantly exceeding the population average of 78. The 13.2-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### London Heathrow (LHR) → lin
+
+- **Events Observed**: 13451 (baseline mean: 137)
+- **Z-Score**: 1.63
+- **Ratio to Baseline**: 98.00x
+- **Anomaly Score**: 98.63
+- **Risk Score**: 17.82
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 13451 events, significantly exceeding the population average of 137. The 1.6-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### lgw → Milano Malpensa (MXP)
+
+- **Events Observed**: 103255 (baseline mean: 1200)
+- **Z-Score**: 13.54
+- **Ratio to Baseline**: 86.00x
+- **Anomaly Score**: 98.54
+- **Risk Score**: 17.78
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 103255 events, significantly exceeding the population average of 1200. The 13.5-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → trn
+
+- **Events Observed**: 1597 (baseline mean: 19)
+- **Z-Score**: 2.91
+- **Ratio to Baseline**: 80.00x
+- **Anomaly Score**: 81.91
+- **Risk Score**: 11.03
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 1597 events, significantly exceeding the population average of 19. The 2.9-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → Roma Ciampino (CIA)
+
+- **Events Observed**: 1079 (baseline mean: 13)
+- **Z-Score**: 1.92
+- **Ratio to Baseline**: 79.00x
+- **Anomaly Score**: 79.92
+- **Risk Score**: 10.22
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 1079 events, significantly exceeding the population average of 13. The 1.9-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → goa
+
+- **Events Observed**: 1338 (baseline mean: 17)
+- **Z-Score**: 2.41
+- **Ratio to Baseline**: 75.00x
+- **Anomaly Score**: 76.41
+- **Risk Score**: 8.80
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 1338 events, significantly exceeding the population average of 17. The 2.4-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
+
+#### Tirana (TIA) → aoi
+
+- **Events Observed**: 985 (baseline mean: 18)
+- **Z-Score**: 1.74
+- **Ratio to Baseline**: 54.00x
+- **Anomaly Score**: 54.74
+- **Risk Score**: 0.00
+- **Risk Reason**: Minor deviation from baseline; monitor for trend changes.
+
+**Analytical Interpretation:**
+This route recorded 985 events, significantly exceeding the population average of 18. The 1.7-sigma deviation suggests a substantial volume spike that may reflect seasonal travel patterns, operational changes, or emerging risk factors.
 
 ## Methodology
-Anomalies were identified by computing a population-level baseline mean and standard deviation for each route-level group across the two datasets. Z-scores were derived per group, and a hybrid flagging strategy combined top-K ranking with a minimum confidence floor to isolate statistically and operationally significant deviations. Scope filters ensured only relevant alarm occurrences and alarmed travelers were considered. This approach emphasizes precision and minimizes false positives while surfacing meaningful deviations for review.
+Anomaly detection was performed by computing population-level baselines for each route group, then applying z-score normalization to identify statistically significant deviations. Hybrid flagging combined top-K ranking with a minimum confidence floor to reduce false positives. Scope filtering ensured only relevant route groups from the specified datasets were evaluated. This approach emphasizes precision and minimizes unnecessary escalations while surfacing the most material anomalies.
 
 ## Recommended Actions
-Immediate review is recommended for the following high-risk routes:
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, Bergamo Orio al Serio Airport (bgy) → Bergamo**: risk score 100.0 due to 'This group shows a z-score of 9.5, indicating volume 25936.0 times above the population average for dataset tipologia_raw.'. Escalate to operations for triage and mitigation planning.
-- **Tirana International Airport Nënë Tereza (tia) → Tirana, blq (unknown airport)**: risk score 71.8 due to 'This group shows a z-score of 11.3, indicating volume 30750.0 times above the population average for dataset tipologia_raw.'. Escalate to operations for triage and mitigation planning.
+Immediate review is recommended for the 2 high-risk route groups, particularly:
+- Tirana (TIA) → Bergamo Orio al Serio (BGY) (risk score: 100.0)
+- Tirana (TIA) → blq (risk score: 73.1)
+Conduct operational debriefs and data validation for these routes to determine whether observed anomalies reflect true risk or data artifacts.
