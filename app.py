@@ -8,13 +8,13 @@ Usage from main.ipynb:
         run_agent_with_supervisor=run_agent_with_supervisor,
         build_data_agent_prompt=_build_data_agent_prompt,
         build_baseline_prompt=_build_baseline_prompt,
-        build_anomaly_prompt=_build_anomaly_prompt,
+        build_outlier_prompt=_build_outlier_prompt,
         build_risk_prompt=_build_risk_prompt,
         build_report_prompt=_build_report_prompt,
         validators={
             "data_agent": validate_data_agent_output,
             "baseline":   validate_baseline_output,
-            "anomaly":    validate_anomaly_output,
+            "outlier":    validate_outlier_output,
             "risk":       validate_risk_output,
             "report":     validate_report_output,
         },
@@ -287,34 +287,42 @@ def build_world_map(df_risk: pd.DataFrame) -> go.Figure:
 # ──────────────────────────────────────────────────────────────────────
 # Partial pipeline runner (skips Profiling + Cleaning, reuses cached files)
 # ──────────────────────────────────────────────────────────────────────
+# ──────────────────────────────────────────────────────────────────────
+# Partial pipeline runner (skips Profiling + Cleaning, reuses cached files)
+# ──────────────────────────────────────────────────────────────────────
 def run_pipeline_partial(
     user_query: str,
     *,
     run_agent_with_supervisor,
     build_data_agent_prompt,
     build_baseline_prompt,
-    build_anomaly_prompt,
+    build_outlier_prompt,
     build_risk_prompt,
     build_report_prompt,
     validators: dict,
     output_dir: str,
+    scope_manifest_json: str,
+    report_md_path: str,
     set_user_query,
 ):
     """
     Executes the agent pipeline starting from cleaned data:
-      Data Agent → Baseline → Anomaly → Risk → Report
+      Data Agent (writes scope_manifest.json)
+        → Baseline           (baseline_data.csv)
+        → Outlier Detection  (outliers.csv)
+        → Risk Profiling     (risk_report.csv)
+        → Report             (anomaly_report.md)
 
     Assumes column_profiles.json, allarmi_clean.csv and tipologia_clean.csv
     already exist in `output_dir` (produced by a previous full run).
 
-    All progress logs are printed to stdout (terminal / cell output),
-    not to the Gradio UI.
+    All progress logs go to stdout (terminal / cell output), not the UI.
 
     Returns a dict with keys:
-      - succeeded        (bool)
-      - failed_at        (None or stage name)
-      - report_md        (str, content of transit_anomaly_report.md or "")
-      - df_risk          (pd.DataFrame, parsed + enriched risk_report or empty)
+      - succeeded   (bool)
+      - failed_at   (None or stage task_name)
+      - report_md   (str, content of anomaly_report.md or "")
+      - df_risk     (pd.DataFrame, parsed + enriched risk_report or empty)
     """
     print("\n" + "=" * 60)
     print(f"  GRADIO PIPELINE  |  query = {user_query!r}")
@@ -324,42 +332,44 @@ def run_pipeline_partial(
     # prompt builders pick it up.
     set_user_query(user_query)
 
+    # Each stage tuple: (task_name, prompt_builder, validator_key, output_path)
+    # task_name MUST match the names used inside run_agent_with_supervisor
+    # in the notebook.
     stages = [
-        ("data_agent", build_data_agent_prompt, validators["data_agent"],
-         os.path.join(output_dir, "scoped_transit_data.csv")),
-        ("baseline",   build_baseline_prompt,   validators["baseline"],
+        ("data_agent",        build_data_agent_prompt, "data_agent",
+         scope_manifest_json),
+        ("baseline",          build_baseline_prompt,   "baseline",
          os.path.join(output_dir, "baseline_data.csv")),
-        ("anomaly",    build_anomaly_prompt,    validators["anomaly"],
-         os.path.join(output_dir, "anomalies.csv")),
-        ("risk",       build_risk_prompt,       validators["risk"],
+        ("outlier_detection", build_outlier_prompt,    "outlier",
+         os.path.join(output_dir, "outliers.csv")),
+        ("risk_profiling",    build_risk_prompt,       "risk",
          os.path.join(output_dir, "risk_report.csv")),
-        ("report",     build_report_prompt,     validators["report"],
-         os.path.join(output_dir, "transit_anomaly_report.md")),
+        ("report",            build_report_prompt,     "report",
+         report_md_path),
     ]
 
-    for stage_name, prompt_builder, validator_fn, out_path in stages:
-        print(f"\n──  stage: {stage_name}  ──")
+    for task_name, prompt_builder, validator_key, out_path in stages:
+        print(f"\n──  stage: {task_name}  ──")
         result = run_agent_with_supervisor(
-            task_name=stage_name,
+            task_name=task_name,
             prompt=prompt_builder(),
-            validator_fn=validator_fn,
+            validator_fn=validators[validator_key],
             output_path=out_path,
             max_retries=3,
         )
         if not result.get("succeeded"):
-            print(f"[pipeline] FAILED at stage: {stage_name}")
+            print(f"[pipeline] FAILED at stage: {task_name}")
             return {
                 "succeeded": False,
-                "failed_at": stage_name,
+                "failed_at": task_name,
                 "report_md": "",
                 "df_risk": pd.DataFrame(),
             }
 
     # Read final outputs
-    report_path = os.path.join(output_dir, "transit_anomaly_report.md")
     report_md = ""
-    if os.path.exists(report_path):
-        with open(report_path, "r", encoding="utf-8") as f:
+    if os.path.exists(report_md_path):
+        with open(report_md_path, "r", encoding="utf-8") as f:
             report_md = f.read()
 
     df_risk = load_risk_report(output_dir)
@@ -372,6 +382,7 @@ def run_pipeline_partial(
         "df_risk": df_risk,
     }
 
+
 # ──────────────────────────────────────────────────────────────────────
 # Gradio UI
 # ──────────────────────────────────────────────────────────────────────
@@ -380,11 +391,13 @@ def launch_app(
     run_agent_with_supervisor,
     build_data_agent_prompt,
     build_baseline_prompt,
-    build_anomaly_prompt,
+    build_outlier_prompt,
     build_risk_prompt,
     build_report_prompt,
     validators: dict,
     output_dir: str,
+    scope_manifest_json: str,
+    report_md_path: str,
     set_user_query,
     server_name: str = "127.0.0.1",
     server_port: int = 7864,
@@ -439,19 +452,22 @@ def launch_app(
             run_agent_with_supervisor=run_agent_with_supervisor,
             build_data_agent_prompt=build_data_agent_prompt,
             build_baseline_prompt=build_baseline_prompt,
-            build_anomaly_prompt=build_anomaly_prompt,
+            build_outlier_prompt=build_outlier_prompt,
             build_risk_prompt=build_risk_prompt,
             build_report_prompt=build_report_prompt,
             validators=validators,
             output_dir=output_dir,
+            scope_manifest_json=scope_manifest_json,
+            report_md_path=report_md_path,
             set_user_query=set_user_query,
         )
 
         if not result["succeeded"]:
             err = (f"❌ Pipeline failed at stage: **{result['failed_at']}**.\n\n"
                    f"Check the terminal output for details.")
-            return err, pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]), \
-                   build_world_map(pd.DataFrame())
+            return (err,
+                    pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
+                    build_world_map(pd.DataFrame()))
 
         report_md = result["report_md"] or "*(empty report)*"
         table = _render_table(result["df_risk"])
@@ -479,7 +495,7 @@ def launch_app(
         with gr.Tabs():
             with gr.Tab("📋 Report"):
                 report_out = gr.Markdown(
-                    "*Submit a query to generate the Transit Anomaly Report.*"
+                    "*Submit a query to generate the Anomaly Report.*"
                 )
             with gr.Tab("⚠️ Risky routes"):
                 table_out = gr.Dataframe(
