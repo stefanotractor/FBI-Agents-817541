@@ -1,28 +1,39 @@
 {
   "user_query": "show me anomaly routes",
-  "user_intent_summary": "Identify routes with anomalous event counts for monitoring and investigation.",
+  "user_intent_summary": "Identify routes with unusually high or low anomaly-related events for monitoring.",
   "datasets": [
     {
       "name": "allarmi_raw",
       "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
-      "filters": {},
+      "filters": {
+        "occorrenze": [
+          "voli con allarmi",
+          "viaggiatori con allarmi"
+        ]
+      },
       "group_key_hint": [
         "areoporto_partenza",
         "areoporto_arrivo"
       ],
       "volume_column_hint": "tot",
-      "rationale": "Includes route-level columns (departure/arrival airports) and a numeric metric (tot) representing event counts per route. Grouping by route produces multi-record groups for anomaly detection."
+      "rationale": "Dataset contains alarm occurrences and route endpoints. Grouping by departure and arrival airports yields route-level aggregates for anomaly detection on alarm counts."
     },
     {
       "name": "tipologia_raw",
       "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
-      "filters": {},
+      "filters": {
+        "esito_controllo": [
+          "segnalato",
+          "respinto",
+          "fermato"
+        ]
+      },
       "group_key_hint": [
         "areoporto_partenza",
         "areoporto_arrivo"
       ],
       "volume_column_hint": "allarmati",
-      "rationale": "Contains route-level columns and a count of alarmed individuals (allarmati), the metric most aligned with anomaly detection for routes."
+      "rationale": "Dataset includes control outcomes and route endpoints. Grouping by airports captures route-level anomaly metrics for flagged travelers."
     }
   ]
 }
