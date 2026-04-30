@@ -1,13 +1,14 @@
 {
-  "user_query": "voglio vedere le anomalie per i voli che partono da istanbul",
-  "user_intent_summary": "Identificare anomalie nei voli in partenza da Istanbul",
+  "user_query": "show me anomaly routes",
+  "user_intent_summary": "Identify routes with unusually high or low anomaly-related metrics for anomaly detection.",
   "datasets": [
     {
       "name": "allarmi_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/allarmi_clean.csv",
       "filters": {
-        "citta_partenza": [
-          "istanbul"
+        "occorrenze": [
+          "voli con allarmi",
+          "viaggiatori con allarmi"
         ]
       },
       "group_key_hint": [
@@ -15,22 +16,22 @@
         "areoporto_arrivo"
       ],
       "volume_column_hint": "tot",
-      "rationale": "Filtra i voli in partenza da Istanbul. Raggruppa per rotta (partenza/arrivo) per analizzare il volume di allarmi per tratta. La colonna 'tot' rappresenta il conteggio di eventi di interesse (allarmi) da monitorare per anomalie."
+      "rationale": "Dataset contains alarm occurrences and route-level airport codes. Grouping by departure and arrival airports yields route-level aggregates. 'tot' is the count of alarms/events of interest to monitor for anomalies."
     },
     {
       "name": "tipologia_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
       "filters": {
-        "citta_partenza": [
-          "istanbul"
+        "allarmati": [
+          "1"
         ]
       },
       "group_key_hint": [
         "areoporto_partenza",
         "areoporto_arrivo"
       ],
-      "volume_column_hint": "allarmati",
-      "rationale": "Filtra i voli in partenza da Istanbul. Raggruppa per rotta per analizzare il numero di passeggeri allarmati per tratta. La colonna 'allarmati' rappresenta il conteggio di eventi di interesse da monitorare per anomalie."
+      "volume_column_hint": "entrati",
+      "rationale": "Dataset includes alarm flags and route-level airport codes. Filtering for 'allarmati'=1 selects alarmed travelers. Grouping by airports and using 'entrati' (count of travelers) as the metric aligns with anomaly detection on alarmed routes."
     }
   ]
 }
