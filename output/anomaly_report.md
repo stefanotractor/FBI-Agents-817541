@@ -1,166 +1,140 @@
 # Anomaly Report
 
 ## Executive Summary
-The user requested identification of routes with unusually high or low anomaly-related metrics across two datasets: **allarmi_raw** and **tipologia_raw**. Both datasets were filtered to focus on alarm-related occurrences and control outcomes indicating anomalies, respectively. Groups were defined by departure and arrival airports.
-Across 9 groups analyzed, 9 were flagged as anomalous by the detection pipeline.
-
-The analysis applied a robust, multi-method anomaly detection pipeline: Isolation Forest, Local Outlier Factor, and Z-score. A group was flagged only when at least two of the three methods agreed. The combined anomaly_score aggregates the three methods' normalized outputs into a continuous severity measure. This report provides a narrative assessment of the findings, with detailed interpretations of every data point and operational recommendations proportional to the actual risk distribution.
+The user requested identification of routes with unusually high or low anomaly-related metrics for monitoring. The analysis covered route-level aggregates derived from alarm occurrences and flagged travelers across two datasets: allarmi_raw, tipologia_raw. In total, 9 groups were analyzed, of which 9 were flagged as anomalous. The overall risk distribution shows 3 high-risk routes, 1 medium-risk routes, and 5 lower-priority deviations.
 
 ## Risk Distribution
-Of the 9 flagged groups, 3 present **high risk**, 2 present **moderate risk**, and 4 present **lower-priority deviations**.
+Of the 9 flagged groups, 3 present high risk, 1 moderate risk, and 5 lower-priority deviations.
 
 ## Detailed Findings
 
-### HIGH RISK: Tirana (TIA) → Verona (VRN)
+### London City (LCY) → Firenze Peretola (FLR)
 
-- **Dataset**: tipologia_raw
-- **Group Volume**: 6966 events
-- **Baseline Mean**: 78.27 events
-- **Z-Score**: 13.22
-- **Ratio to Baseline**: 89x
-- **Anomaly Score**: 2.00
-- **Risk Score**: 100
-- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score
-- **Risk Reason**: Flagged by 2 of 3 methods (Isolation Forest, Z-score) with a z-score of 13.2; deviation of 89.0x from baseline volume.
+This group recorded 100605.0 events against a population average of 3726.1, representing a 27.0 deviation.
+Detection consensus: flagged by 3 of 3 methods (Isolation Forest, Local Outlier Factor, Z-score).
+Combined anomaly severity score: 1.97 out of 3.00. Risk score: 100.0 out of 100.
 
-**Analytical Commentary**:
-This group recorded 6966 events against a population average of 78.27, representing a 89-fold deviation with a Z-score of 13.22. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+Risk reason: Flagged unanimously by all three methods (Isolation Forest, LOF, Z-score). Volume is approximately 27.0x the baseline mean. Strong consensus signal.
 
-### HIGH RISK: London City (LCY) → Firenze Peretola (FLR)
+Analytical commentary:
+- The observed volume (100605.0) significantly exceeds the baseline (3726.1), indicating a true volume anomaly rather than a rate anomaly.
+- The 27.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
 
-- **Dataset**: allarmi_raw
-- **Group Volume**: 100605 events
-- **Baseline Mean**: 3726.11 events
-- **Z-Score**: 13.19
-- **Ratio to Baseline**: 27x
-- **Anomaly Score**: 1.97
-- **Risk Score**: 97.51
-- **Detection Consensus**: flagged by all 3 methods
-- **Risk Reason**: Flagged by all three methods (Isolation Forest, LOF, Z-score) with a z-score of 13.2 and 27.0x the expected baseline volume. Strong consensus on this anomaly.
+### London Gatwick (LGW) → Milano Malpensa (MXP)
 
-**Analytical Commentary**:
-This group recorded 100605 events against a population average of 3726.11, representing a 27-fold deviation with a Z-score of 13.19. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+This group recorded 103255.0 events against a population average of 1200.6, representing a 86.0 deviation.
+Detection consensus: flagged by 3 of 3 methods (Isolation Forest, Local Outlier Factor, Z-score).
+Combined anomaly severity score: 1.94 out of 3.00. Risk score: 96.4 out of 100.
 
-### HIGH RISK: London Gatwick (LGW) → Milano Malpensa (MXP)
+Risk reason: Flagged unanimously by all three methods (Isolation Forest, LOF, Z-score). Volume is approximately 86.0x the baseline mean. Strong consensus signal.
 
-- **Dataset**: allarmi_raw
-- **Group Volume**: 103255 events
-- **Baseline Mean**: 1200.64 events
-- **Z-Score**: 13.54
-- **Ratio to Baseline**: 86x
-- **Anomaly Score**: 1.94
-- **Risk Score**: 94.01
-- **Detection Consensus**: flagged by all 3 methods
-- **Risk Reason**: Flagged by all three methods (Isolation Forest, LOF, Z-score) with a z-score of 13.5 and 86.0x the expected baseline volume. Strong consensus on this anomaly.
+Analytical commentary:
+- The observed volume (103255.0) significantly exceeds the baseline (1200.6), indicating a true volume anomaly rather than a rate anomaly.
+- The 86.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
 
-**Analytical Commentary**:
-This group recorded 103255 events against a population average of 1200.64, representing a 86-fold deviation with a Z-score of 13.54. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+### Tirana (TIA) → Bologna (BLQ)
 
-### MEDIUM RISK: Tirana (TIA) → Bergamo Orio al Serio (BGY)
+This group recorded 30750.0 events against a population average of 134.9, representing a 227.99999999999997 deviation.
+Detection consensus: flagged by 2 of 3 methods (Isolation Forest, Z-score).
+Combined anomaly severity score: 1.94 out of 3.00. Risk score: 96.2 out of 100.
 
-- **Dataset**: tipologia_raw
-- **Group Volume**: 4793 events
-- **Baseline Mean**: 16.36 events
-- **Z-Score**: 9.05
-- **Ratio to Baseline**: 293x
-- **Anomaly Score**: 1.39
-- **Risk Score**: 41.90
-- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score
-- **Risk Reason**: Moderate anomaly confirmed by 2 of 3 methods (Isolation Forest, Z-score). Z-score=9.0, ratio=293.0x baseline.
+Risk reason: Flagged by 2 of 3 methods (Isolation Forest, Z-score) with volume approximately 228.0x the baseline mean.
 
-**Analytical Commentary**:
-This group recorded 4793 events against a population average of 16.36, representing a 293-fold deviation with a Z-score of 9.05. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+Analytical commentary:
+- The observed volume (30750.0) significantly exceeds the baseline (134.9), indicating a true volume anomaly rather than a rate anomaly.
+- The 227.99999999999997 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
 
-### MEDIUM RISK: Tirana (TIA) → Bologna (BLQ)
+### Tirana (TIA) → Bergamo Orio al Serio (BGY)
 
-- **Dataset**: tipologia_raw
-- **Group Volume**: 4138 events
-- **Baseline Mean**: 18.15 events
-- **Z-Score**: 7.79
-- **Ratio to Baseline**: 228x
-- **Anomaly Score**: 1.28
-- **Risk Score**: 31.26
-- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score
-- **Risk Reason**: Moderate anomaly confirmed by 2 of 3 methods (Isolation Forest, Z-score). Z-score=7.8, ratio=228.0x baseline.
+This group recorded 25936.0 events against a population average of 88.2, representing a 294.0 deviation.
+Detection consensus: flagged by 2 of 3 methods (Isolation Forest, Z-score).
+Combined anomaly severity score: 1.59 out of 3.00. Risk score: 62.4 out of 100.
 
-**Analytical Commentary**:
-This group recorded 4138 events against a population average of 18.15, representing a 228-fold deviation with a Z-score of 7.79. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+Risk reason: Moderate anomaly confirmed by 2 of 3 methods (Isolation Forest, Z-score). Volume is roughly 294.0x the baseline mean.
 
-### LOW RISK: Tirana (TIA) → Pisa (PSA)
+Analytical commentary:
+- The observed volume (25936.0) significantly exceeds the baseline (88.2), indicating a true volume anomaly rather than a rate anomaly.
+- The 294.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
 
-- **Dataset**: tipologia_raw
-- **Group Volume**: 3762 events
-- **Baseline Mean**: 19.49 events
-- **Z-Score**: 7.07
-- **Ratio to Baseline**: 193.00x
-- **Anomaly Score**: 1.24
-- **Risk Score**: 27.04
-- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score
-- **Risk Reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
+### Tirana (TIA) → Roma Fiumicino (FCO)
 
-**Analytical Commentary**:
-This group recorded 3762 events against a population average of 19.49, representing a 193.00-fold deviation with a Z-score of 7.07. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+This group recorded 14655.0 events against a population average of 66.0, representing a 222.0 deviation.
+Detection consensus: flagged by 2 of 3 methods (Isolation Forest, Z-score).
+Combined anomaly severity score: 1.18 out of 3.00. Risk score: 22.2 out of 100.
 
-### LOW RISK: Tirana (TIA) → Milano Malpensa (MXP)
+Risk reason: Borderline anomaly with limited consensus (2/3 methods). Volume deviation around 222.0x the baseline. Monitor for trend changes.
 
-- **Dataset**: tipologia_raw
-- **Group Volume**: 3282 events
-- **Baseline Mean**: 15.19 events
-- **Z-Score**: 6.15
-- **Ratio to Baseline**: 216x
-- **Anomaly Score**: 1.13
-- **Risk Score**: 16.21
-- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score
-- **Risk Reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
+Analytical commentary:
+- The observed volume (14655.0) significantly exceeds the baseline (66.0), indicating a true volume anomaly rather than a rate anomaly.
+- The 222.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
 
-**Analytical Commentary**:
-This group recorded 3282 events against a population average of 15.19, representing a 216-fold deviation with a Z-score of 6.15. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+### London Stansted (STN) → Bergamo Orio al Serio (BGY)
 
-### LOW RISK: Tirana (TIA) → Treviso (TSF)
+This group recorded 10160.0 events against a population average of 97.7, representing a 104.0 deviation.
+Detection consensus: flagged by 2 of 3 methods (Isolation Forest, Z-score).
+Combined anomaly severity score: 1.16 out of 3.00. Risk score: 20.2 out of 100.
 
-- **Dataset**: tipologia_raw
-- **Group Volume**: 2239 events
-- **Baseline Mean**: 12.87 events
-- **Z-Score**: 4.14
-- **Ratio to Baseline**: 174.00x
-- **Anomaly Score**: 0.96
-- **Risk Score**: 0.66
-- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score
-- **Risk Reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
+Risk reason: Borderline anomaly with limited consensus (2/3 methods). Volume deviation around 104.0x the baseline. Monitor for trend changes.
 
-**Analytical Commentary**:
-This group recorded 2239 events against a population average of 12.87, representing a 174.00-fold deviation with a Z-score of 4.14. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+Analytical commentary:
+- The observed volume (10160.0) significantly exceeds the baseline (97.7), indicating a true volume anomaly rather than a rate anomaly.
+- The 104.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
 
-### LOW RISK: Tunis (TUN) → Bologna (BLQ)
+### Tirana (TIA) → Treviso (TSF)
 
-- **Dataset**: allarmi_raw
-- **Group Volume**: 10534 events
-- **Baseline Mean**: 877.83 events
-- **Z-Score**: 1.25
-- **Ratio to Baseline**: 12x
-- **Anomaly Score**: 0.96
-- **Risk Score**: 0
-- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Local Outlier Factor
-- **Risk Reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
+This group recorded 11991.0 events against a population average of 70.5, representing a 170.0 deviation.
+Detection consensus: flagged by 2 of 3 methods (Isolation Forest, Z-score).
+Combined anomaly severity score: 1.09 out of 3.00. Risk score: 13.0 out of 100.
 
-**Analytical Commentary**:
-This group recorded 10534 events against a population average of 877.83, representing a 12-fold deviation with a Z-score of 1.25. 
-The anomaly reflects a plausible operational deviation warranting attention proportional to the risk level assigned.
+Risk reason: Borderline anomaly with limited consensus (2/3 methods). Volume deviation around 170.0x the baseline. Monitor for trend changes.
+
+Analytical commentary:
+- The observed volume (11991.0) significantly exceeds the baseline (70.5), indicating a true volume anomaly rather than a rate anomaly.
+- The 170.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
+
+### Tunis (TUN) → Bologna (BLQ)
+
+This group recorded 10534.0 events against a population average of 877.8, representing a 12.0 deviation.
+Detection consensus: flagged by 2 of 3 methods (Isolation Forest, Local Outlier Factor, ).
+Combined anomaly severity score: 0.96 out of 3.00. Risk score: 0.2 out of 100.
+
+Risk reason: Borderline anomaly with limited consensus (2/3 methods). Volume deviation around 12.0x the baseline. Monitor for trend changes.
+
+Analytical commentary:
+- The observed volume (10534.0) significantly exceeds the baseline (877.8), indicating a true volume anomaly rather than a rate anomaly.
+- The 12.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
+
+### Tirana (TIA) → Torino (TRN)
+
+This group recorded 8599.0 events against a population average of 107.5, representing a 80.0 deviation.
+Detection consensus: flagged by 2 of 3 methods (Isolation Forest, Z-score).
+Combined anomaly severity score: 0.96 out of 3.00. Risk score: 0.0 out of 100.
+
+Risk reason: Borderline anomaly with limited consensus (2/3 methods). Volume deviation around 80.0x the baseline. Monitor for trend changes.
+
+Analytical commentary:
+- The observed volume (8599.0) significantly exceeds the baseline (107.5), indicating a true volume anomaly rather than a rate anomaly.
+- The 80.0 multiplier suggests a sustained shift in activity for this route, not a transient spike.
+- Given the consensus among multiple detection methods, this deviation is unlikely to be a false positive.
+
 
 ## Methodology
-Anomaly detection was performed using a population-level baseline computed per group. Three independent methods were applied: Isolation Forest (multivariate, tree-based), Local Outlier Factor (multivariate, density-based), and Z-score (univariate, distribution-based). A group was flagged only when at least 2 of the 3 methods agreed (majority voting). The combined anomaly_score is the sum of the three methods' normalized scores, providing a continuous severity measure on top of the binary consensus. Finally, the analysis was restricted to the user's scope: routes defined by departure and arrival airports, filtered for alarm-related events and control outcomes. The voting mechanism is what gives confidence in the findings: a 3/3 consensus is much stronger evidence than a 2/3 split.
+A population-level baseline was computed per route. Three independent anomaly detection methods—Isolation Forest (multivariate, tree-based), Local Outlier Factor (multivariate, density-based), and Z-score (univariate, distribution-based)—were applied. Each method produced a boolean flag and a continuous score normalized to [0, 1] per dataset. A route was flagged as an anomaly only when at least 2 of the 3 methods agreed (majority voting). The combined anomaly_score is the sum of the three normalized scores (range 0–3), giving a continuous severity measure on top of the binary consensus. The risk_score (0–100) is a min-max normalization of anomaly_score across the flagged groups, used to assign the HIGH/MEDIUM/LOW levels. Finally, the analysis was restricted to the user's scope: route-level aggregates from alarm occurrences and flagged travelers, filtered to relevant event types and travelers.
+
+The voting mechanism is what gives confidence in the findings: a 3/3 consensus is stronger evidence than a 2/3 split.
 
 ## Recommended Actions
 Immediate review is recommended for the following high-risk routes:
-- **Tirana (TIA) → Verona (VRN)**: Flagged by 2 of 3 methods (Isolation Forest, Z-score) with a z-score of 13.2; deviation of 89.0x from baseline volume.
-- **London City (LCY) → Firenze Peretola (FLR)**: Flagged by all three methods (Isolation Forest, LOF, Z-score) with a z-score of 13.2 and 27.0x the expected baseline volume. Strong consensus on this anomaly.
-- **London Gatwick (LGW) → Milano Malpensa (MXP)**: Flagged by all three methods (Isolation Forest, LOF, Z-score) with a z-score of 13.5 and 86.0x the expected baseline volume. Strong consensus on this anomaly.
-Schedule operational reviews and consider enhanced monitoring for these entities.
+- London City (LCY) → Firenze Peretola (FLR): Flagged unanimously by all three methods (Isolation Forest, LOF, Z-score). Volume is approximately 27.0x the baseline mean. Strong consensus signal.
+- London Gatwick (LGW) → Milano Malpensa (MXP): Flagged unanimously by all three methods (Isolation Forest, LOF, Z-score). Volume is approximately 86.0x the baseline mean. Strong consensus signal.
+- Tirana (TIA) → Bologna (BLQ): Flagged by 2 of 3 methods (Isolation Forest, Z-score) with volume approximately 228.0x the baseline mean.
+
+Schedule a joint analysis with operations and security teams to determine the root cause and implement mitigations.

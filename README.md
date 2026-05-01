@@ -543,15 +543,15 @@ The Data Agent filters the cleaned transit datasets based on a natural language 
 In the notebook, the example query is:
 
 ```text
-mostrami le anomalie per i voli diretti a fiumicino
+show me anomaly routes departing from Albania
 ```
 
 The agent:
 
 - selects the most appropriate dataset;
-- identifies the correct arrival-airport column;
-- maps the query to the value `fiumicino`;
-- filters records related to routes arriving at Fiumicino;
+- identifies the correct departing country column;
+- maps the query to the value `Albania`;
+- filters records related to routes departing from Albania;
 - focuses on alarm-related records;
 - writes the result to `scope_manifest.json`.
 
@@ -590,37 +590,40 @@ The Outlier Detection Agent loads the baseline data and the json file, and compu
 It uses:
 
 - `z_score`;
-- `ratio_to_baseline`;
-- a combined `anomaly_score`.
+- `local_outlier_factor`;
+- `isolation_forest`.
 
 It then selects the top 5% most anomalous routes.
 
-For the Fiumicino query, it produced:
+For the Albania query, it produced:
 
 ```text
-1 outlier
+6 outliers
 ```
 
-The detected route was:
+The detected routes were:
 
-| Route | Records | Z-score | Anomaly score | Outlier |
-|---|---:|---:|---:|---:|---:|
-| TIA → FCO | 227 | 1.0 | 2.08993451125253 | 224.08993451125252 | Yes |
+| Route      | IF Anomaly | LOF Anomaly | Z-score Anomaly |
+|------------|-----------|-------------|-----------------|
+| TIA → VRN  | True      | False       | True            |
+| TIA → BGY  | True      | False       | True            |
+| TIA → BLQ  | True      | False       | True            |
+| TIA → PSA  | True      | False       | True            |
+| TIA → MXP  | True      | False       | True            |
+| TIA → TSF  | True      | False       | True            |
 
 ---
 
 ### Risk Profiling Agent
 
-The Risk Profiling Agent converts outliers into risk categories.
+The Risk Profiling Agent converts statistical outliers into operational risk categories.
 
-For the Fiumicino query, it classified the detected outlier as:
+For the Albania query, all detected routes were classified as HIGH risk.
 
-```text
-HIGH risk
-```
+This indicates that the identified anomalies are both statistically significant and operationally relevant.
 
-This result is important because it shows that the Multi-Agent Pipeline separates **statistical anomaly detection** from **risk prioritization**.  
-A route may be statistically unusual but still receive a low operational priority if the scoring logic does not identify it as severe.
+This highlights a key design principle of the Multi-Agent Pipeline: separating anomaly detection from risk prioritization.  
+While many routes may show statistical deviations, only those with strong and consistent signals are elevated to high-risk status.
 
 ---
 
@@ -639,8 +642,8 @@ The report includes:
 
 For the example query, the report summarized:
 
-- 1 flagged routes;
-- 1 HIGH risk routes;
+- 6 flagged routes;
+- 6 HIGH risk routes;
 - 0 MEDIUM risk routes;
 - 0 LOW risk routes.
 
@@ -1065,9 +1068,9 @@ Its main limitation is that it requires significant manual effort and careful po
 
 ## 4.4 Multi-Agent Pipeline Results
 
-The Multi-Agent Pipeline was executed on the **full dataset**, ensuring that its results can be compared with the Classical Pipeline on the same overall scope.
+The Multi-Agent Pipeline was executed in a query-driven setting (“show me anomaly routes in general”), focusing on a scoped subset of the data rather than the full dataset.
 
-The objective of the Multi-Agent Pipeline is different from the Classical Pipeline. Instead of manually defining every step of the workflow, the Multi-Agent system automates the main phases of the anomaly detection process through specialized agents.
+The objective of the Multi-Agent Pipeline differs from the Classical Pipeline. Instead of manually defining each step, the system automates the anomaly detection workflow through specialized agents.
 
 The workflow includes:
 
@@ -1079,131 +1082,132 @@ The workflow includes:
 | Risk Profiling Agent | Assigns risk levels based on anomaly severity and ranking |
 | Report Agent | Generates the final anomaly detection report in markdown format |
 
-The updated Multi-Agent Pipeline identified:
+The Multi-Agent Pipeline identified:
 
-```text
-14 anomalous route-level groups
+```
+13 anomalous route-level groups
 ```
 
 The risk distribution was:
 
 | Risk level | Routes |
 |---|---:|
-| HIGH | 2 |
-| MEDIUM | 4 |
-| LOW | 8 |
+| HIGH | 4 |
+| MEDIUM | 3 |
+| LOW | 6 |
 
 ```mermaid
-pie title Multi-Agent Risk Distribution
-    "HIGH" : 2
-    "MEDIUM" : 4
-    "LOW" : 8
+pie title Multi-Agent Risk Distribution (Query-Based)
+    "HIGH" : 4
+    "MEDIUM" : 3
+    "LOW" : 6
 ```
 
-The 14 anomalies were selected using a population-level baseline, z-score normalization, ratio-to-baseline comparison, and hybrid filtering logic combining top-ranked deviations with a confidence floor.
+The anomalies were selected using a population-level baseline, z-score normalization, ratio-to-baseline comparison, and hybrid filtering logic combining top-ranked deviations with a confidence threshold.
+
+Compared to the full-dataset analysis, this query-driven approach produces a smaller and more focused set of anomalies, highlighting its suitability for operational monitoring and rapid decision-making.
 
 ---
 
 ### Multi-Agent High-Risk Routes
 
-The Multi-Agent Pipeline identified **2 high-risk routes**.
+The Multi-Agent Pipeline identified **4 high-risk routes**.
 
-| Route      | Z-score | Ratio to baseline | Anomaly score | Risk score |
-|------------|--------|------------------|---------------|------------|
-| TIA → BGY  | 9.05   | 293.0x           | 301.05        | 100.0      |
-| TIA → BLQ  | 7.79   | 228.0x           | 234.79        | 73.1       |
+| Route      | Z-score | Ratio to baseline |
+|------------|--------|------------------|
+| TIA → BGY  | 9.05   | 293.0x           |
+| TIA → BLQ  | 7.79   | 228.0x           |
+| TIA → PSA  | 7.07   | 193.0x           |
+| TIA → MXP  | 6.15   | 216.0x           |
 
-These routes show the strongest deviations from the population baseline.
+These routes show the strongest and most consistent deviations from the population baseline.
 
-The route **TIA → BGY** shows an extremely high ratio to baseline (**293.0x**) and a very high z-score (**9.05**), indicating a massive deviation from expected behaviour. It receives the maximum risk score and represents the most critical anomaly.
+They combine:
+- high statistical deviation (z-score)
+- very large relative magnitude (ratio to baseline)
 
-The route **TIA → BLQ** also shows a strong deviation, with a ratio of **228.0x** and a z-score of **7.79**, confirming a highly significant statistical anomaly.
+This makes them both statistically significant and operationally relevant.
 
-These routes should be prioritized for immediate operational review.
+These routes should be prioritized for immediate investigation.
 
 ---
 
 ### Multi-Agent Medium-Risk Routes
 
-The Multi-Agent Pipeline identified **4 medium-risk routes**.
+The Multi-Agent Pipeline identified **3 medium-risk routes**.
 
-| Route      | Z-score | Ratio to baseline | Anomaly score | Risk score |
-|------------|--------|------------------|---------------|------------|
-| TIA → FCO  | 2.09   | 223.0x           | 224.09        | 68.8       |
-| TIA → MXP  | 6.15   | 216.0x           | 221.15        | 67.6       |
-| TIA → PSA  | 7.07   | 193.0x           | 199.07        | 58.6       |
-| TIA → TSF  | 4.14   | 174.0x           | 177.14        | 49.7       |
+| Route      | Z-score | Ratio to baseline |
+|------------|--------|------------------|
+| TIA → FCO  | 2.09   | 223.0x           |
+| TIA → TSF  | 4.14   | 174.0x           |
+| TIA → GOA  | 2.41   | 75.0x            |
 
-These routes show strong deviations from baseline but are ranked below the high-risk routes.
+These routes present clear deviations from the baseline but are ranked below the high-risk group.
 
-The route **TIA → MXP** is particularly notable due to its high z-score (**6.15**) combined with a strong ratio (**216.0x**), indicating a significant statistical deviation.
+They typically show:
+- strong relative deviations  
+- but lower statistical confidence or consistency  
 
-The route **TIA → FCO** has a lower z-score but an extremely high ratio to baseline (**223.0x**), suggesting unusual relative behaviour despite more moderate statistical significance.
-
-The routes **TIA → PSA** and **TIA → TSF** also present clear anomalies and should be monitored and potentially investigated depending on operational priorities.
+These routes should be monitored and evaluated depending on operational priorities.
 
 ---
 
 ### Multi-Agent Low-Risk Routes
 
-The Multi-Agent Pipeline identified **8 low-risk routes**.
+The Multi-Agent Pipeline identified **6 low-risk routes**.
 
-| Route      | Z-score | Ratio to baseline | Anomaly score | Risk score |
-|------------|--------|------------------|---------------|------------|
-| TIA → BRI  | 1.54   | 121.0x           | 121.54        | 27.1       |
-| TIA → VRN  | 13.22  | 89.0x            | 101.22        | 18.9       |
-| LHR → LIN  | 1.61   | 98.0x            | 98.61         | 17.8       |
-| LGW → MXP  | 13.54  | 86.0x            | 98.54         | 17.8       |
-| TIA → TRN  | 2.91   | 80.0x            | 81.91         | 11.0       |
-| TIA → CIA  | 1.92   | 79.0x            | 79.92         | 10.2       |
-| TIA → GOA  | 2.41   | 75.0x            | 76.41         | 8.8        |
-| TIA → AOI  | 1.74   | 54.0x            | 54.74         | 0.0        |
+| Route      | Z-score | Ratio to baseline |
+|------------|--------|------------------|
+| TIA → BRI  | 1.54   | 121.0x           |
+| TIA → VRN  | 13.22  | 89.0x            |
+| LHR → LIN  | 1.61   | 98.0x            |
+| LGW → MXP  | 13.54  | 86.0x            |
+| TIA → TRN  | 2.91   | 80.0x            |
+| TIA → CIA  | 1.92   | 79.0x            |
 
-These routes are not ignored, but they are not assigned immediate high-priority status.
+These routes are not ignored, but they are not assigned immediate priority.
 
-Some low-risk routes still show notable statistical signals. For example:
+Some of them still show strong statistical signals (e.g., high z-score), but are ranked lower due to:
+- weaker consistency across signals  
+- lower relative impact  
+- or reduced operational relevance  
 
-- **LGW → MXP** has a very high z-score (**13.54**) and large volume, but a lower ratio-to-baseline and risk score.  
-- **TIA → VRN** also shows a high z-score, but its relative deviation is less critical.
-
-This illustrates how the Multi-Agent Pipeline separates **statistical anomaly strength from operational prioritization**, balancing multiple factors rather than relying on a single metric.
----
+This illustrates a key feature of the Multi-Agent Pipeline: it separates **statistical anomaly strength** from **operational prioritization**, focusing attention on the most actionable cases.
 
 ### Multi-Agent Pipeline Summary
 
 | Result | Value |
 |---|---:|
-| Total anomalies detected | 14 |
-| High-risk routes | 2 |
-| Medium-risk routes | 4 |
-| Low-risk routes | 8 |
+| Total anomalies detected | 13 |
+| High-risk routes | 4 |
+| Medium-risk routes | 3 |
+| Low-risk routes | 6 |
 | Main detection signals | Z-score, ratio-to-baseline, anomaly score |
-| Main selection logic | Hybrid top-K ranking and confidence floor |
+| Main selection logic | Hybrid ranking and confidence threshold |
 
-The Multi-Agent Pipeline is more selective than the Classical Pipeline. It focuses on the most extreme baseline deviations and produces a compact set of routes for review.
+The Multi-Agent Pipeline is highly selective and focuses on the most relevant baseline deviations, producing a compact and actionable set of routes for analysis.
 
 ---
 
 ## 4.5 Classical vs Multi-Agent Comparison
 
-The two pipelines are now compared on the same overall dataset scope.
+The two pipelines are compared considering their different operational roles.
 
 | Dimension | Classical Pipeline | Multi-Agent Pipeline |
 |---|---|---|
-| Scope | Full dataset | Full dataset |
-| Total routes / groups analyzed | 366 routes | Full route-level groups |
-| Feature representation | 30 engineered numerical features | Aggregated volume-based route metrics |
+| Scope | Full dataset | Query-driven subset |
+| Total routes analyzed | 366 routes | Filtered route-level groups |
+| Feature representation | 30 engineered numerical features | Aggregated volume-based metrics |
 | Detection methods | Isolation Forest, LOF, Z-score | Z-score, ratio-to-baseline, anomaly score |
-| Selection strategy | Consensus voting | Hybrid filtering and ranking |
-| Raw anomaly sensitivity | High due to Z-score | Lower due to filtering |
-| Final anomaly set | 24 consensus anomalies | 11 selected anomalies |
-| Risk profiling | Detailed post-processing | Automated risk assignment |
+| Selection strategy | Consensus voting | Ranking and prioritization |
+| Raw anomaly sensitivity | High (captures many signals) | Lower (focus on strongest signals) |
+| Final anomaly set | 24 consensus anomalies | 13 selected anomalies |
+| Risk profiling | Detailed post-processing | Automated prioritization |
 | Interpretability | High | High |
 | Automation | Lower | Higher |
 | Manual effort | High | Lower once configured |
-| Robustness | Strong due to consensus | Stronger if validators and thresholds are well designed |
-| Main strength | Broad and robust anomaly discovery | Selective and operationally focused detection |
-| Main weakness | Time-consuming and manually designed | Lower coverage of subtle multivariate anomalies |
+| Main strength | Broad anomaly discovery | Focused and actionable detection |
+| Main weakness | Time-consuming | Lower coverage of subtle patterns |
 
 ---
 
@@ -1211,16 +1215,21 @@ The two pipelines are now compared on the same overall dataset scope.
 
 | Metric | Classical Pipeline | Multi-Agent Pipeline |
 |---|---:|---:|
-| Total routes analyzed | 366 | Full dataset |
-| Raw statistical anomalies | 137 | 14 |
-| Final anomalies | 24 | 14 |
-| High / Critical risk routes | 11 | 2 |
-| Medium risk routes | 7 | 4 |
-| Low risk routes | 6 | 8 |
+| Total routes analyzed | 366 | Query-based subset |
+| Raw statistical anomalies | 137 | 13 |
+| Final anomalies | 24 | 13 |
+| High / Critical risk routes | 11 | 4 |
+| Medium risk routes | 7 | 3 |
+| Low risk routes | 6 | 6 |
 
-The Classical Pipeline identifies more anomalies overall. This is expected because it uses multiple detection methods and a richer feature space.
+The Classical Pipeline identifies a larger set of anomalies due to its multi-model approach and rich feature space.
 
-The Multi-Agent Pipeline identifies fewer anomalies because it applies stricter filtering and focuses on the most extreme deviations from baseline.
+The Multi-Agent Pipeline produces a smaller and more focused set of anomalies, prioritizing only the most significant deviations from the baseline.
+
+This reflects a fundamental trade-off:
+
+- Classical Pipeline → coverage and robustness  
+- Multi-Agent Pipeline → selectivity and operational usability
 
 ---
 
@@ -1229,14 +1238,14 @@ The Multi-Agent Pipeline identifies fewer anomalies because it applies stricter 
 | Risk level | Classical Pipeline | Multi-Agent Pipeline |
 |---|---:|---:|
 | CRITICAL | 1 | 0 |
-| HIGH | 10 | 2 |
-| MEDIUM | 7 | 4 |
-| LOW | 6 | 8 |
-| Total | 24 | 14 |
+| HIGH | 10 | 4 |
+| MEDIUM | 7 | 3 |
+| LOW | 6 | 6 |
+| Total | 24 | 13 |
 
 ```mermaid
 xychart-beta
-    title "Final Anomalies by Risk Level"
+    title "Classical Pipeline: Anomalies by Risk Level"
     x-axis ["Critical", "High", "Medium", "Low"]
     y-axis "Routes" 0 --> 12
     bar [1, 10, 7, 6]
@@ -1244,15 +1253,17 @@ xychart-beta
 
 ```mermaid
 xychart-beta
-    title "Multi-Agent Anomalies by Risk Level"
+    title "Multi-Agent Pipeline: Anomalies by Risk Level"
     x-axis ["High", "Medium", "Low"]
-    y-axis "Routes" 0 --> 8
-    bar [2, 4, 8]
+    y-axis "Routes" 0 --> 6
+    bar [4, 3, 6]
 ```
 
-The Classical Pipeline has a broader distribution across the higher risk classes, while the Multi-Agent Pipeline concentrates most detected routes in the low-risk category.
+The Classical Pipeline shows a broader distribution across all risk levels, including critical cases, reflecting its higher coverage and sensitivity to a wide range of anomaly patterns.
 
-This suggests that the Multi-Agent system is not simply replicating the Classical Pipeline. It is applying a different selection strategy that emphasizes extreme deviations but then prioritizes only a small subset as high or medium risk.
+The Multi-Agent Pipeline produces a more compact and balanced distribution. While it identifies fewer anomalies overall, a larger proportion is classified as high or medium risk compared to the total.
+
+This indicates that the Multi-Agent system is not simply replicating the Classical Pipeline, but applying a different prioritization logic: it filters the anomaly space more aggressively and focuses on the most operationally relevant cases.
 
 ---
 
@@ -1306,21 +1317,23 @@ The Multi-Agent Pipeline is designed for automation and operational usability. I
 
 The Classical Pipeline detected:
 
-```text
+```
 24 final consensus anomalies
 ```
 
 The Multi-Agent Pipeline detected:
 
-```text
-14 anomalous route-level groups
+```
+13 anomalous route-level groups
 ```
 
-This difference should not be interpreted as a contradiction. It reflects a methodological difference.
+This difference should not be interpreted as a contradiction, but as a result of different methodological approaches.
 
-The Classical Pipeline has broader coverage because it combines different types of anomaly detection signals.
+The Classical Pipeline provides broader coverage by combining multiple detection methods and a rich feature space, capturing a wide range of anomaly patterns.
 
-The Multi-Agent Pipeline is more selective because it focuses on the most extreme deviations according to its baseline and ranking logic.
+The Multi-Agent Pipeline is more selective, focusing on the most extreme and operationally relevant deviations through baseline comparison and ranking logic.
+
+This highlights a key insight: the two pipelines are complementary rather than alternative, serving different analytical purposes.
 
 ---
 

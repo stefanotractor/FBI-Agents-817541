@@ -1,6 +1,6 @@
 {
   "user_query": "show me anomaly routes",
-  "user_intent_summary": "Identify routes with unusually high or low anomaly-related events for monitoring.",
+  "user_intent_summary": "Identify routes with unusually high or low anomaly-related metrics for monitoring.",
   "datasets": [
     {
       "name": "allarmi_raw",
@@ -22,18 +22,16 @@
       "name": "tipologia_raw",
       "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
       "filters": {
-        "esito_controllo": [
-          "segnalato",
-          "respinto",
-          "fermato"
+        "allarmati": [
+          1
         ]
       },
       "group_key_hint": [
         "areoporto_partenza",
         "areoporto_arrivo"
       ],
-      "volume_column_hint": "allarmati",
-      "rationale": "Dataset includes control outcomes and route endpoints. Grouping by airports captures route-level anomaly metrics for flagged travelers."
+      "volume_column_hint": "entrati",
+      "rationale": "Dataset includes flagged travelers and route endpoints. Filtering for allarmati=1 focuses on anomaly-related travelers. Grouping by airports provides route-level metrics for anomaly analysis."
     }
   ]
 }

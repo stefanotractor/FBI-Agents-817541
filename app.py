@@ -423,12 +423,23 @@ def launch_app(
         return df_sorted[cols]
     
     def _on_submit(query: str):
+        import time
+
         query = (query or "").strip()
         if not query:
             empty_fig = build_world_map(pd.DataFrame())
-            return ("⚠️ Please enter a query first.",
-                    pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
-                    empty_fig)
+            yield ("⚠️ Please enter a query first.",
+                   pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
+                   empty_fig)
+            return
+
+        # Step 1: reset all outputs so the UI clearly shows the previous
+        # run is gone and the processing overlay appears on empty content.
+        # This also prevents the Gradio Markdown component from "sticking"
+        # to the previous report when the new content is structurally similar.
+        yield ("⏳ Running pipeline…",
+               pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
+               build_world_map(pd.DataFrame()))
 
         result = run_pipeline_partial(
             user_query=query,
@@ -445,12 +456,18 @@ def launch_app(
             set_user_query=set_user_query,
         )
 
+        # Invisible marker that changes every run — guarantees the Markdown
+        # diff is non-empty so the frontend always re-renders, even if the
+        # visible content happens to match the previous report.
+        marker = f"<!-- run_id: {time.time_ns()} -->\n"
+
         if not result["succeeded"]:
-            err = (f"❌ Pipeline failed at stage: **{result['failed_at']}**.\n\n"
+            err = (f"{marker}❌ Pipeline failed at stage: **{result['failed_at']}**.\n\n"
                 f"Check the terminal output for details.")
-            return (err,
-                    pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
-                    build_world_map(pd.DataFrame()))
+            yield (err,
+                   pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
+                   build_world_map(pd.DataFrame()))
+            return
 
         df_risk = result["df_risk"]
         if df_risk is None or df_risk.empty:
@@ -465,14 +482,15 @@ def launch_app(
             )
             if result["report_md"]:
                 msg = result["report_md"] + "\n\n---\n\n" + msg
-            return (msg,
-                    pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
-                    build_world_map(pd.DataFrame()))
+            yield (marker + msg,
+                   pd.DataFrame(columns=["route_label", "risk_level", "risk_reason"]),
+                   build_world_map(pd.DataFrame()))
+            return
 
         report_md = result["report_md"] or "*(empty report)*"
         table = _render_table(df_risk)
         fig = build_world_map(df_risk)
-        return report_md, table, fig
+        yield marker + report_md, table, fig
 
     with gr.Blocks(title="Transit Anomaly Detection — Multi-Agent",
                    theme=gr.themes.Soft()) as demo:
@@ -480,13 +498,13 @@ def launch_app(
             "# ✈️ Transit Anomaly Detection\n"
             "Multi-agent pipeline for identifying risky transit routes.\n\n"
             "Enter a natural-language query (e.g. *show me anomaly routes departing from Albania*, "
-            "*anomaly flights arriving in Rome*."
+            "*anomaly flights arriving in Rome*)."
         )
 
         with gr.Row():
             query_box = gr.Textbox(
                 label="Query",
-                placeholder="flights with anomalies from istanbul",
+                placeholder="show me anomaly routes departing from Albania",
                 lines=1,
                 scale=5,
             )
@@ -495,7 +513,8 @@ def launch_app(
         with gr.Tabs():
             with gr.Tab("📋 Report"):
                 report_out = gr.Markdown(
-                    "*Submit a query to generate the Anomaly Report.*"
+                    "*Submit a query to generate the Anomaly Report.*",
+                    min_height=600,
                 )
             with gr.Tab("⚠️ Risky routes"):
                 table_out = gr.Dataframe(
