@@ -1,25 +1,10 @@
 {
   "user_query": "show me anomaly routes departing from albania",
-  "user_intent_summary": "Identify anomalous routes where flights depart from airports in Albania.",
+  "user_intent_summary": "Identify anomalous routes originating from Albania by analyzing alarm events and traveler counts.",
   "datasets": [
     {
-      "name": "tipologia_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/tipologia_clean.csv",
-      "filters": {
-        "codice_paese_part": [
-          "alb"
-        ]
-      },
-      "group_key_hint": [
-        "areoporto_partenza",
-        "areoporto_arrivo"
-      ],
-      "volume_column_hint": "allarmati",
-      "rationale": "tipologia_raw contains departure and arrival airport codes (IATA) and nationality codes. Filtering for 'alb' (Albania) in codice_paese_part restricts to Albanian departures. Grouping by [areoporto_partenza, areoporto_arrivo] yields route-level aggregates. allarmati is the count of alarmed passengers/events, the metric to monitor for anomalies."
-    },
-    {
       "name": "allarmi_raw",
-      "path": "/Users/matteo/Desktop/FBI-Agents-817541/output/allarmi_clean.csv",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/allarmi_clean.csv",
       "filters": {
         "codice_paese_part": [
           "alb"
@@ -30,7 +15,22 @@
         "areoporto_arrivo"
       ],
       "volume_column_hint": "tot",
-      "rationale": "allarmi_raw includes departure/arrival airport codes and country codes. Filtering for 'alb' restricts to Albanian-origin events. Grouping by [areoporto_partenza, areoporto_arrivo] provides route-level analysis. tot represents the total events/alarms per route, the metric to flag anomalies."
+      "rationale": "Filters for events departing from Albania (codice_paese_part='alb'). Groups by route (departure-arrival airports) to compute per-route alarm totals. tot is the count of alarms per route, the metric to monitor for anomalies."
+    },
+    {
+      "name": "tipologia_raw",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
+      "filters": {
+        "codice_paese_part": [
+          "alb"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "areoporto_arrivo"
+      ],
+      "volume_column_hint": "allarmati",
+      "rationale": "Filters for travelers departing from Albania (codice_paese_part='alb'). Groups by route to compute per-route alarm counts. allarmati is the count of alarmed travelers, the metric to monitor for anomalies."
     }
   ]
 }

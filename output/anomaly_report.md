@@ -1,103 +1,80 @@
 # Anomaly Report
 
 ## Executive Summary
-The user requested identification of anomalous routes where flights depart from airports in Albania. The analysis aggregated events by route (departure → arrival) across two datasets: tipologia_raw and allarmi_raw, both filtered to records where the departure country is Albania (codice_paese_part = 'alb'). A total of 6 route-level groups were analyzed. Of these, 6 groups were flagged as anomalous by the detection ensemble.
+The user requested an analysis of anomalous routes departing from Albania to identify unusual travel patterns or elevated risk indicators. The scope covered two datasets: allarmi_raw and tipologia_raw, both filtered to events originating from Albania (codice_paese_part='alb'). Groups were defined by route (departure and arrival airports) and month of departure.
 
-The anomaly detection pipeline combined three independent methods—Isolation Forest, Local Outlier Factor, and Z-score—to identify unusual deviations in event volumes and rates. A group was flagged only when at least two of the three methods agreed. This majority-voting mechanism ensures high confidence in the findings. The analysis did not rely on any single metric, but instead used a consensus-driven, ensemble approach to reduce false positives.
+Across 6 monitored groups, 6 were flagged as anomalous. Risk distribution: 1 high-risk, 2 medium-risk, and 3 lower-priority deviations. This assessment is based on consensus among three independent detection methods—Isolation Forest, Local Outlier Factor, and Z-score—each providing a multivariate or univariate signal of deviation from baseline behavior.
 
 ## Risk Distribution
-Of the 6 flagged groups, 1 present **high risk**, 2 present **medium risk**, and 3 present **low-priority deviations**.
-
-| Risk Level | Count |
-|------------|-------|
-| HIGH       | 1     |
-| MEDIUM     | 2     |
-| LOW        | 3     |
+Of the 6 flagged groups, 1 present high risk, 2 moderate risk, and 3 lower-priority deviations. High-risk entities require immediate attention, while medium-risk groups should be placed under enhanced monitoring. Lower-risk anomalies are suitable for routine review cycles.
 
 ## Detailed Findings
-### tia → vrn
 
-This group recorded **6966 events** against a population average of **78.27**, representing a **89.00-fold deviation**.
-The Z-score for this group is **13.22**, indicating a significant departure from the expected distribution.
-The anomaly score, combining all three detection methods, is **2.0** out of a possible 3.0, reflecting the severity of the deviation.
-The risk score assigned to this group is **100.0**, placing it in the **HIGH** tier.
-This entity was flagged by **2 of 3 methods**: Isolation Forest, Z-score.
+### Tirana (TIA)→Verona (VRN)
+- **Events**: 6,966 recorded against a baseline mean of 78.3.
+- **Rate**: 77.40 events per unit, with a z-score of 13.22.
+- **Deviation**: 89.00x the baseline volume.
+- **Anomaly Score**: 2.00 (sum of three normalized method scores).
+- **Risk Score**: 100.00 (HIGH risk).
+- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score.
+- **Risk Reason**: Flagged by 2 of 3 methods (Isolation Forest, Z-score) with a z-score of 13.2; deviation of 89.0x from baseline volume.
+- **Interpretation**: This group shows a substantial volume increase relative to baseline, suggesting either a seasonal surge, targeted activity, or data reporting anomaly. The high z-score and multi-method consensus strengthen confidence in the deviation.
 
-**Risk reason**: Flagged by 2 of 3 methods (Isolation Forest, Z-score) with a z-score of 13.2; deviation of 89.0x from baseline volume.
+### Tirana (TIA)→Bergamo Orio al Serio (BGY)
+- **Events**: 4,793 recorded against a baseline mean of 16.4.
+- **Rate**: 16.14 events per unit, with a z-score of 9.05.
+- **Deviation**: 293.00x the baseline volume.
+- **Anomaly Score**: 1.39 (sum of three normalized method scores).
+- **Risk Score**: 41.52 (MEDIUM risk).
+- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score.
+- **Risk Reason**: Moderate anomaly confirmed by 2 of 3 methods (Isolation Forest, Z-score). Z-score=9.0, ratio=293.0x baseline.
+- **Interpretation**: This group shows a substantial volume increase relative to baseline, suggesting either a seasonal surge, targeted activity, or data reporting anomaly. The high z-score and multi-method consensus strengthen confidence in the deviation.
 
-**Analytical commentary**: This represents a significant deviation that warrants immediate operational attention. The combination of volume spike, elevated rate, and strong consensus among detection methods suggests a real anomaly rather than noise. Reviewing the underlying events and operational context for this route is recommended to determine whether this reflects a security concern, data quality issue, or exceptional travel pattern.
+### Tirana (TIA)→Bologna (BLQ)
+- **Events**: 4,138 recorded against a baseline mean of 18.1.
+- **Rate**: 17.91 events per unit, with a z-score of 7.79.
+- **Deviation**: 228.00x the baseline volume.
+- **Anomaly Score**: 1.28 (sum of three normalized method scores).
+- **Risk Score**: 30.80 (MEDIUM risk).
+- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score.
+- **Risk Reason**: Moderate anomaly confirmed by 2 of 3 methods (Isolation Forest, Z-score). Z-score=7.8, ratio=228.0x baseline.
+- **Interpretation**: This group shows a substantial volume increase relative to baseline, suggesting either a seasonal surge, targeted activity, or data reporting anomaly. The high z-score and multi-method consensus strengthen confidence in the deviation.
 
----
-### tia → bgy
+### Tirana (TIA)→Pisa (PSA)
+- **Events**: 3,762 recorded against a baseline mean of 19.5.
+- **Rate**: 18.90 events per unit, with a z-score of 7.07.
+- **Deviation**: 193.00x the baseline volume.
+- **Anomaly Score**: 1.24 (sum of three normalized method scores).
+- **Risk Score**: 26.56 (LOW risk).
+- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score.
+- **Risk Reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
+- **Interpretation**: This group shows a substantial volume increase relative to baseline, suggesting either a seasonal surge, targeted activity, or data reporting anomaly. The high z-score and multi-method consensus strengthen confidence in the deviation.
 
-This group recorded **4793 events** against a population average of **16.36**, representing a **293.00-fold deviation**.
-The Z-score for this group is **9.05**, indicating a significant departure from the expected distribution.
-The anomaly score, combining all three detection methods, is **1.39** out of a possible 3.0, reflecting the severity of the deviation.
-The risk score assigned to this group is **41.52**, placing it in the **MEDIUM** tier.
-This entity was flagged by **2 of 3 methods**: Isolation Forest, Z-score.
+### Tirana (TIA)→Milano Malpensa (MXP)
+- **Events**: 3,282 recorded against a baseline mean of 15.2.
+- **Rate**: 14.92 events per unit, with a z-score of 6.15.
+- **Deviation**: 216.00x the baseline volume.
+- **Anomaly Score**: 1.13 (sum of three normalized method scores).
+- **Risk Score**: 15.65 (LOW risk).
+- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score.
+- **Risk Reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
+- **Interpretation**: This group shows a substantial volume increase relative to baseline, suggesting either a seasonal surge, targeted activity, or data reporting anomaly. The high z-score and multi-method consensus strengthen confidence in the deviation.
 
-**Risk reason**: Moderate anomaly confirmed by 2 of 3 methods (Isolation Forest, Z-score). Z-score=9.0, ratio=293.0x baseline.
+### Tirana (TIA)→Treviso (TSF)
+- **Events**: 2,239 recorded against a baseline mean of 12.9.
+- **Rate**: 12.72 events per unit, with a z-score of 4.14.
+- **Deviation**: 174.00x the baseline volume.
+- **Anomaly Score**: 0.96 (sum of three normalized method scores).
+- **Risk Score**: 0.00 (LOW risk).
+- **Detection Consensus**: flagged by 2 of 3 methods: Isolation Forest, Z-score.
+- **Risk Reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
+- **Interpretation**: This group shows a substantial volume increase relative to baseline, suggesting either a seasonal surge, targeted activity, or data reporting anomaly. The high z-score and multi-method consensus strengthen confidence in the deviation.
 
-**Analytical commentary**: This deviation is moderate but consistent across multiple signals. While not an immediate threat, it may indicate an emerging pattern or seasonal effect that could warrant enhanced monitoring. Trend analysis over the next few reporting periods is advised to assess whether this is a transient fluctuation or the start of a sustained shift.
-
----
-### tia → blq
-
-This group recorded **4138 events** against a population average of **18.15**, representing a **228.00-fold deviation**.
-The Z-score for this group is **7.79**, indicating a significant departure from the expected distribution.
-The anomaly score, combining all three detection methods, is **1.28** out of a possible 3.0, reflecting the severity of the deviation.
-The risk score assigned to this group is **30.8**, placing it in the **MEDIUM** tier.
-This entity was flagged by **2 of 3 methods**: Isolation Forest, Z-score.
-
-**Risk reason**: Moderate anomaly confirmed by 2 of 3 methods (Isolation Forest, Z-score). Z-score=7.8, ratio=228.0x baseline.
-
-**Analytical commentary**: This deviation is moderate but consistent across multiple signals. While not an immediate threat, it may indicate an emerging pattern or seasonal effect that could warrant enhanced monitoring. Trend analysis over the next few reporting periods is advised to assess whether this is a transient fluctuation or the start of a sustained shift.
-
----
-### tia → psa
-
-This group recorded **3762 events** against a population average of **19.49**, representing a **193.00-fold deviation**.
-The Z-score for this group is **7.07**, indicating a significant departure from the expected distribution.
-The anomaly score, combining all three detection methods, is **1.24** out of a possible 3.0, reflecting the severity of the deviation.
-The risk score assigned to this group is **26.56**, placing it in the **LOW** tier.
-This entity was flagged by **2 of 3 methods**: Isolation Forest, Z-score.
-
-**Risk reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
-
-**Analytical commentary**: This group shows a mild deviation from baseline, likely reflecting a routine fluctuation in travel patterns. The anomaly is subtle and detected by only two methods, suggesting lower confidence. Routine monitoring is sufficient; no escalation is required at this time.
-
----
-### tia → mxp
-
-This group recorded **3282 events** against a population average of **15.19**, representing a **216.00-fold deviation**.
-The Z-score for this group is **6.15**, indicating a significant departure from the expected distribution.
-The anomaly score, combining all three detection methods, is **1.13** out of a possible 3.0, reflecting the severity of the deviation.
-The risk score assigned to this group is **15.65**, placing it in the **LOW** tier.
-This entity was flagged by **2 of 3 methods**: Isolation Forest, Z-score.
-
-**Risk reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
-
-**Analytical commentary**: This group shows a mild deviation from baseline, likely reflecting a routine fluctuation in travel patterns. The anomaly is subtle and detected by only two methods, suggesting lower confidence. Routine monitoring is sufficient; no escalation is required at this time.
-
----
-### tia → tsf
-
-This group recorded **2239 events** against a population average of **12.87**, representing a **174.00-fold deviation**.
-The Z-score for this group is **4.14**, indicating a significant departure from the expected distribution.
-The anomaly score, combining all three detection methods, is **0.96** out of a possible 3.0, reflecting the severity of the deviation.
-The risk score assigned to this group is **0.0**, placing it in the **LOW** tier.
-This entity was flagged by **2 of 3 methods**: Isolation Forest, Z-score.
-
-**Risk reason**: Borderline anomaly with limited consensus (2/3 methods). Monitor for trend changes.
-
-**Analytical commentary**: This group shows a mild deviation from baseline, likely reflecting a routine fluctuation in travel patterns. The anomaly is subtle and detected by only two methods, suggesting lower confidence. Routine monitoring is sufficient; no escalation is required at this time.
-
----
 ## Methodology
-Anomalies were detected using an ensemble of three independent methods applied to each route-level group. First, a population-level baseline was computed for each group based on historical event volumes and rates. Isolation Forest, a tree-based multivariate method, identified points that are isolated in feature space, making them outliers relative to the majority of the data. Local Outlier Factor, a density-based method, compared local density around a point to that of its neighbors, flagging entities with significantly lower density as anomalies. Z-score, a univariate statistical method, measured how many standard deviations a group's event rate deviated from the mean, flagging values beyond a threshold as unusual. A group was flagged as an anomaly only when at least two of the three methods agreed (majority voting). The combined anomaly_score is the sum of the three methods' normalized scores, providing a continuous measure of severity. This voting mechanism ensures high confidence: a 3/3 consensus is stronger evidence than a 2/3 split.
+Anomaly detection was performed using a three-method ensemble: Isolation Forest (tree-based multivariate), Local Outlier Factor (density-based multivariate), and Z-score (univariate distribution-based). Each method independently evaluates whether a group’s behavior deviates from its historical baseline. A group is flagged as an anomaly only when at least two of the three methods agree (majority voting), ensuring high confidence in the findings. The combined anomaly_score aggregates normalized outputs from all methods to provide a continuous severity measure on top of the binary consensus.
+
+The analysis was restricted to the user’s scope: routes departing from Albania, grouped by departure and arrival airports and month of travel. Population-level baselines were computed per group, enabling fair comparison across entities of varying sizes and seasonal patterns.
 
 ## Recommended Actions
-**Immediate review required.** The following high-risk routes should be prioritized for investigation:
-- tia → vrn (Risk Score: 100.00)
-
-Operational teams should examine the underlying events, passenger manifests, and operational logs for these routes. Determine whether the anomalies reflect security concerns, data quality issues, or exceptional travel patterns. If a security issue is suspected, escalate to the appropriate investigative unit immediately.
+Immediate review is recommended for the following high-risk groups:
+- **Tirana (TIA)→Verona (VRN)**: Risk score 100.00. Investigate cause of elevated activity and validate data integrity.
