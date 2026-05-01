@@ -1,7 +1,22 @@
 {
-  "user_query": "show me anomaly routes departing from albania",
-  "user_intent_summary": "Identify anomalous routes originating from Albania by analyzing alarm events and traveler counts.",
+  "user_query": "show me anomaly with albanian passengers on",
+  "user_intent_summary": "Identify anomalies related to passengers with Albanian nationality across relevant datasets.",
   "datasets": [
+    {
+      "name": "tipologia_raw",
+      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
+      "filters": {
+        "col_3nazionalita": [
+          "alb"
+        ]
+      },
+      "group_key_hint": [
+        "areoporto_partenza",
+        "areoporto_arrivo"
+      ],
+      "volume_column_hint": "allarmati",
+      "rationale": "Dataset contains nationality codes and counts of alarmed passengers. Filtered to Albanian ('alb') passengers. Grouped by route (departure-arrival airports) to detect route-level anomalies in alarm counts."
+    },
     {
       "name": "allarmi_raw",
       "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/allarmi_clean.csv",
@@ -15,22 +30,7 @@
         "areoporto_arrivo"
       ],
       "volume_column_hint": "tot",
-      "rationale": "Filters for events departing from Albania (codice_paese_part='alb'). Groups by route (departure-arrival airports) to compute per-route alarm totals. tot is the count of alarms per route, the metric to monitor for anomalies."
-    },
-    {
-      "name": "tipologia_raw",
-      "path": "/Users/stefanolosurdo/Desktop/STUDIO/LUISS/MACHINELEARNING/FBI Agents/FBI-Agents-817541/output/tipologia_clean.csv",
-      "filters": {
-        "codice_paese_part": [
-          "alb"
-        ]
-      },
-      "group_key_hint": [
-        "areoporto_partenza",
-        "areoporto_arrivo"
-      ],
-      "volume_column_hint": "allarmati",
-      "rationale": "Filters for travelers departing from Albania (codice_paese_part='alb'). Groups by route to compute per-route alarm counts. allarmati is the count of alarmed travelers, the metric to monitor for anomalies."
+      "rationale": "Dataset includes country codes and alarm totals. Filtered to departures from Albania ('alb'). Grouped by route to find anomalous alarm volumes per route involving Albanian passengers."
     }
   ]
 }
